@@ -1,9 +1,9 @@
-import { ModeToggle } from "@/components/mode-toggle"
+import { ModeButton } from "@/components/mode-button"
 
 export default function Home() {
   return (
     <div>
-      <ModeToggle />
+      <ModeButton />
     </div>
   )
 }
