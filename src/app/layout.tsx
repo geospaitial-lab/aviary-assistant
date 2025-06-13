@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="de" suppressHydrationWarning>
       <body
-        className={`${notoSans.variable} ${notoSansMono.variable} antialiased`}
+        className={`${notoSans.variable} ${notoSansMono.variable} font-sans antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
