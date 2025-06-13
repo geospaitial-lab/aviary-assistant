@@ -1,4 +1,4 @@
-export type Language = "yaml" | "cli"
+export type Language = "yaml" | "cli" | string
 
 export function highlightCode(code: string, language: Language): string {
   if (language === "yaml") {
