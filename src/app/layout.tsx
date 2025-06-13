@@ -26,7 +26,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html
+      lang="de"
+      className="motion-safe:scroll-smooth"
+      suppressHydrationWarning
+    >
       <body
         className={`${notoSans.variable} ${notoSansMono.variable} font-sans antialiased`}
       >
