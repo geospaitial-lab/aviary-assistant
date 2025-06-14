@@ -173,7 +173,7 @@ const CollapsibleCodeBlock: React.FC<{
     <CollapsibleContent forceMount className="relative">
       {children}
       {!isOpen && shouldCollapse && (
-        <div className="absolute h-8 bottom-0 left-2 right-2 bg-gradient-to-t from-muted to-transparent rounded-b-lg z-10" />
+        <div className="absolute h-32 bottom-0 left-2 right-2 bg-gradient-to-t from-muted to-transparent rounded-b-lg z-10" />
       )}
     </CollapsibleContent>
     {shouldCollapse && (
