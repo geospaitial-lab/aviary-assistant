@@ -1,17 +1,17 @@
 import type { Metadata } from "next"
-import { Noto_Sans, Noto_Sans_Mono } from "next/font/google"
+import { Inter, JetBrains_Mono } from "next/font/google"
 
 import { ThemeProvider } from "@/components/theme-provider"
 
 import "./globals.css"
 
-const notoSans = Noto_Sans({
-  variable: "--font-noto-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 })
 
-const notoSansMono = Noto_Sans_Mono({
-  variable: "--font-noto-sans-mono",
+const jetBrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
   subsets: ["latin"],
 })
 
@@ -32,7 +32,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${notoSans.variable} ${notoSansMono.variable} font-sans antialiased`}
+        className={`${inter.variable} ${jetBrainsMono.variable} font-sans antialiased`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
