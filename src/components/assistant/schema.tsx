@@ -3,14 +3,36 @@
 import { z } from "zod"
 
 const ERROR_INT = "Muss eine ganze Zahl sein"
+const ERROR_NUMBER = "Muss eine Zahl sein"
 const ERROR_POSITIVE = "Muss eine positive Zahl sein"
+const ERROR_REQUIRED = "Dieses Feld ist erforderlich"
 
 export const boundingBoxFormSchema = z
   .object({
-    x_min: z.number().int(ERROR_INT),
-    x_max: z.number().int(ERROR_INT),
-    y_min: z.number().int(ERROR_INT),
-    y_max: z.number().int(ERROR_INT),
+    x_min: z.coerce
+      .number({
+        required_error: ERROR_REQUIRED,
+        invalid_type_error: ERROR_NUMBER,
+      })
+      .int(ERROR_INT),
+    y_min: z.coerce
+      .number({
+        required_error: ERROR_REQUIRED,
+        invalid_type_error: ERROR_NUMBER,
+      })
+      .int(ERROR_INT),
+    x_max: z.coerce
+      .number({
+        required_error: ERROR_REQUIRED,
+        invalid_type_error: ERROR_NUMBER,
+      })
+      .int(ERROR_INT),
+    y_max: z.coerce
+      .number({
+        required_error: ERROR_REQUIRED,
+        invalid_type_error: ERROR_NUMBER,
+      })
+      .int(ERROR_INT),
     epsg_code: z.enum(["3857", "25832", "25833"]),
   })
   .refine((data) => data.x_min < data.x_max, {
