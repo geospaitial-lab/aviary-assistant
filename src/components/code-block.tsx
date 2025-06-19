@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import DOMPurify from "isomorphic-dompurify"
 import { Check, ChevronDown, ChevronUp, Copy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -154,7 +155,7 @@ const CodeContent: React.FC<CodeContentProps> = ({
       >
         <code
           dangerouslySetInnerHTML={{
-            __html: highlightCode(displayCode, language),
+            __html: DOMPurify.sanitize(highlightCode(displayCode, language)),
           }}
         />
       </pre>
