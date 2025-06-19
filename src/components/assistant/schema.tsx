@@ -43,11 +43,11 @@ export const boundingBoxFormSchema = z
     epsgCode: z.enum(["3857", "25832", "25833"]),
   })
   .refine((data) => data.xMin < data.xMax, {
-    message: "Muss kleiner als x_max sein",
+    message: "Muss kleiner als x<sub>max</sub> sein",
     path: ["xMin"],
   })
   .refine((data) => data.yMin < data.yMax, {
-    message: "Muss kleiner als y_max sein",
+    message: "Muss kleiner als y<sub>max</sub> sein",
     path: ["yMin"],
   })
   .refine(

@@ -11,6 +11,8 @@ import {
   useFormState,
 } from "react-hook-form"
 
+import DOMPurify from "isomorphic-dompurify"
+
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
 import * as LabelPrimitive from "@radix-ui/react-label"
@@ -148,10 +150,11 @@ function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
       data-slot="form-message"
       id={formMessageId}
       className={cn("text-destructive text-sm", className)}
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(String(body)),
+      }}
       {...props}
-    >
-      {body}
-    </p>
+    />
   )
 }
 
