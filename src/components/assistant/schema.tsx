@@ -5,70 +5,77 @@ import { z } from "zod"
 const ERROR_INT = "Muss eine ganze Zahl sein"
 const ERROR_NUMBER = "Muss eine Zahl sein"
 const ERROR_POSITIVE = "Muss eine positive Zahl sein"
-const ERROR_REQUIRED = "Dieses Feld ist erforderlich"
 
 export const boundingBoxFormSchema = z
   .object({
-    x_min: z.coerce
-      .number({
-        required_error: ERROR_REQUIRED,
-        invalid_type_error: ERROR_NUMBER,
-      })
-      .int(ERROR_INT),
-    y_min: z.coerce
-      .number({
-        required_error: ERROR_REQUIRED,
-        invalid_type_error: ERROR_NUMBER,
-      })
-      .int(ERROR_INT),
-    x_max: z.coerce
-      .number({
-        required_error: ERROR_REQUIRED,
-        invalid_type_error: ERROR_NUMBER,
-      })
-      .int(ERROR_INT),
-    y_max: z.coerce
-      .number({
-        required_error: ERROR_REQUIRED,
-        invalid_type_error: ERROR_NUMBER,
-      })
-      .int(ERROR_INT),
-    epsg_code: z.enum(["3857", "25832", "25833"]),
+    xMin: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.coerce
+        .number({
+          invalid_type_error: ERROR_NUMBER,
+        })
+        .int(ERROR_INT),
+    ),
+    yMin: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.coerce
+        .number({
+          invalid_type_error: ERROR_NUMBER,
+        })
+        .int(ERROR_INT),
+    ),
+    xMax: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.coerce
+        .number({
+          invalid_type_error: ERROR_NUMBER,
+        })
+        .int(ERROR_INT),
+    ),
+    yMax: z.preprocess(
+      (value) => (value === "" ? undefined : value),
+      z.coerce
+        .number({
+          invalid_type_error: ERROR_NUMBER,
+        })
+        .int(ERROR_INT),
+    ),
+    epsgCode: z.enum(["3857", "25832", "25833"]),
   })
-  .refine((data) => data.x_min < data.x_max, {
-    message: "Muss kleiner als x<sub>max</sub> sein",
-    path: ["x_min"],
+  .refine((data) => data.xMin < data.xMax, {
+    message: "Muss kleiner als x_max sein",
+    path: ["xMin"],
   })
-  .refine((data) => data.y_min < data.y_max, {
-    message: "Muss kleiner als y<sub>max</sub> sein",
-    path: ["y_min"],
+  .refine((data) => data.yMin < data.yMax, {
+    message: "Muss kleiner als y_max sein",
+    path: ["yMin"],
   })
   .refine(
-    (data) => !["25832", "25833"].includes(data.epsg_code) || data.x_min > 0,
+    (data) => !["25832", "25833"].includes(data.epsgCode) || data.xMin > 0,
     {
       message: ERROR_POSITIVE,
-      path: ["x_min"],
+      path: ["xMin"],
     },
   )
   .refine(
-    (data) => !["25832", "25833"].includes(data.epsg_code) || data.x_max > 0,
+    (data) => !["25832", "25833"].includes(data.epsgCode) || data.xMax > 0,
     {
       message: ERROR_POSITIVE,
-      path: ["x_max"],
+      path: ["xMax"],
     },
   )
   .refine(
-    (data) => !["25832", "25833"].includes(data.epsg_code) || data.y_min > 0,
+    (data) => !["25832", "25833"].includes(data.epsgCode) || data.yMin > 0,
     {
       message: ERROR_POSITIVE,
-      path: ["y_min"],
+      path: ["yMin"],
     },
   )
   .refine(
-    (data) => !["25832", "25833"].includes(data.epsg_code) || data.y_max > 0,
+    (data) => !["25832", "25833"].includes(data.epsgCode) || data.yMax > 0,
     {
       message: ERROR_POSITIVE,
-      path: ["y_max"],
+      path: ["yMax"],
     },
   )
 
