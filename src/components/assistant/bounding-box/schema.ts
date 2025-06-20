@@ -1,5 +1,3 @@
-"use client"
-
 import { z } from "zod"
 
 const ERROR_INT = "Muss eine ganze Zahl sein"
