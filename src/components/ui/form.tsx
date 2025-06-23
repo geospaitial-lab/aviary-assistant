@@ -12,10 +12,10 @@ import {
 } from "react-hook-form"
 
 import DOMPurify from "isomorphic-dompurify"
+import { Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
 
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
-import { Label as LabelPrimitive, Slot as SlotPrimitive } from "radix-ui"
 
 const Form = FormProvider
 
@@ -105,7 +105,9 @@ function FormLabel({
   )
 }
 
-function FormControl({ ...props }: React.ComponentProps<typeof SlotPrimitive.Slot>) {
+function FormControl({
+  ...props
+}: React.ComponentProps<typeof SlotPrimitive.Slot>) {
   const { error, formItemId, formDescriptionId, formMessageId } = useFormField()
 
   return (
