@@ -13,7 +13,9 @@ const validateGeoJSON = ajv.compile(geoJSONSchema)
 
 export const fileFormSchema = z.object({
   file: z
-    .instanceof(File)
+    .instanceof(File, {
+      message: ERROR_TYPE,
+    })
     .refine((file) => file.name.endsWith(".geojson"), {
       message: ERROR_TYPE,
     })
