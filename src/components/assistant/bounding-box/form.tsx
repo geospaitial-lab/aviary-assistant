@@ -47,6 +47,7 @@ export function BoundingBoxForm() {
   return (
     <Form {...form}>
       <form
+        noValidate
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid gap-4 grid-cols-2"
       >
@@ -61,11 +62,7 @@ export function BoundingBoxForm() {
                 </span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  {...field}
-                />
+                <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
                 <FormMessage />
@@ -84,11 +81,7 @@ export function BoundingBoxForm() {
                 </span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  {...field}
-                />
+                <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
                 <FormMessage />
@@ -107,11 +100,7 @@ export function BoundingBoxForm() {
                 </span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  {...field}
-                />
+                <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
                 <FormMessage />
@@ -130,11 +119,7 @@ export function BoundingBoxForm() {
                 </span>
               </FormLabel>
               <FormControl>
-                <Input
-                  type="number"
-                  className="[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
-                  {...field}
-                />
+                <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
                 <FormMessage />
