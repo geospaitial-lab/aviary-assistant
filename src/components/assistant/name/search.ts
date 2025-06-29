@@ -65,6 +65,10 @@ export async function searchAdminEntries(query: string): Promise<AdminEntry[]> {
       const itemA = a.item
       const itemB = b.item
 
+      if (itemA.admin_level !== itemB.admin_level) {
+        return itemA.admin_level - itemB.admin_level
+      }
+
       if (itemA.rank != null && itemB.rank != null) {
         return itemA.rank - itemB.rank
       }
