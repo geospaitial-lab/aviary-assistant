@@ -35,6 +35,7 @@ export function FileForm() {
   return (
     <Form {...form}>
       <form
+        autoComplete="off"
         noValidate
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid gap-4"
