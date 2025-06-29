@@ -18,7 +18,9 @@ const createFuseManager = (() => {
   return async function (): Promise<Fuse<AdminEntry>> {
     if (fuseInstance) return fuseInstance
 
-    const response = await fetch("/data/admin_de.json")
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/admin_de.json`,
+    )
     const data: AdminEntry[] = await response.json()
 
     fuseInstance = new Fuse(data, {
