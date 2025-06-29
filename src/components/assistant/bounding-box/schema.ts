@@ -56,7 +56,7 @@ export const boundingBoxFormSchema = z
         invalid_type_error: ERROR_NUMBER,
       }),
     ),
-    epsgCode: z.enum(["3857", "4326", "25832", "25833"]),
+    epsgCode: z.enum(["4326", "25832", "25833", "3857"]),
   })
   .refine(
     (data) => {
