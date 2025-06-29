@@ -141,6 +141,7 @@ export function BoundingBoxForm() {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="3857">3857</SelectItem>
+                    <SelectItem value="4326">4326</SelectItem>
                     <SelectSeparator />
                     <SelectItem value="25832">25832</SelectItem>
                     <SelectItem value="25833">25833</SelectItem>
