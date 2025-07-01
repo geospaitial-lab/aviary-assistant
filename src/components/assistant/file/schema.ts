@@ -6,6 +6,7 @@ import { bbox } from "@turf/bbox"
 import { bboxPolygon } from "@turf/bbox-polygon"
 import { booleanContains } from "@turf/boolean-contains"
 import { buffer } from "@turf/buffer"
+import { AllGeoJSON } from "@turf/helpers"
 
 const ERROR_PARSE = "Muss eine gültige .geojson Datei sein"
 const ERROR_RANGE = "Muss innerhalb von Deutschland liegen"
@@ -25,13 +26,18 @@ const RANGE = {
 }
 
 const createRangeBoundingBox = () => {
-  const rangeCoordinates = [RANGE.xMin, RANGE.yMin, RANGE.xMax, RANGE.yMax]
+  const rangeCoordinates: [number, number, number, number] = [
+    RANGE.xMin,
+    RANGE.yMin,
+    RANGE.xMax,
+    RANGE.yMax,
+  ]
   const rangeBoundingBox = bboxPolygon(rangeCoordinates)
 
   return buffer(rangeBoundingBox, BUFFER, { units: "degrees" })
 }
 
-const isGeoJSONWithinRange = (geoJSON) => {
+const isGeoJSONWithinRange = (geoJSON: AllGeoJSON) => {
   try {
     const rangeBoundingBox = createRangeBoundingBox()
 
@@ -69,7 +75,7 @@ export const fileFormSchema = z.object({
           return
         }
 
-        const isWithinRange = isGeoJSONWithinRange(parsedJSON)
+        const isWithinRange = isGeoJSONWithinRange(parsedJSON as AllGeoJSON)
         if (!isWithinRange) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
