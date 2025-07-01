@@ -147,7 +147,7 @@ export function NameForm() {
                               <Check
                                 className={cn(
                                   "ml-auto text-success",
-                                  adminEntry.name === field.value
+                                  adminEntry.osm_id === selectedLocation?.osm_id
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}
