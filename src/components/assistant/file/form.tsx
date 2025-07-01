@@ -28,8 +28,10 @@ export function FileForm() {
     reValidateMode: "onSubmit",
   })
 
-  function onSubmit(values: FileFormSchema) {
-    console.log(values)
+  async function onSubmit(values: FileFormSchema) {
+    const text = await values.file.text()
+    const geoJSON = JSON.parse(text)
+    console.log(geoJSON)
   }
 
   return (
