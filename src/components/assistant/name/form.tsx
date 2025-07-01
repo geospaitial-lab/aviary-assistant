@@ -78,7 +78,7 @@ export function NameForm() {
 
   function onSubmit(values: NameFormSchema) {
     if (selectedLocation) {
-      console.log(selectedLocation.osm_id)
+      console.log(selectedLocation.osmId)
     }
   }
 
@@ -134,8 +134,8 @@ export function NameForm() {
                         <CommandGroup>
                           {searchResults.map((adminEntry) => (
                             <CommandItem
-                              key={adminEntry.osm_id}
-                              value={adminEntry.osm_id.toString()}
+                              key={adminEntry.osmId}
+                              value={adminEntry.osmId.toString()}
                               onSelect={() => {
                                 form.setValue("name", adminEntry.name)
                                 setSelectedLocation(adminEntry)
@@ -144,7 +144,7 @@ export function NameForm() {
                             >
                               <div className="flex flex-col">
                                 <span>{adminEntry.name}</span>
-                                {adminEntry.admin_level !== 4 && (
+                                {adminEntry.adminLevel !== 4 && (
                                   <span className="text-muted-foreground font-light">
                                     {adminEntry.state}
                                   </span>
@@ -153,7 +153,7 @@ export function NameForm() {
                               <Check
                                 className={cn(
                                   "ml-auto text-success",
-                                  adminEntry.osm_id === selectedLocation?.osm_id
+                                  adminEntry.osmId === selectedLocation?.osmId
                                     ? "opacity-100"
                                     : "opacity-0",
                                 )}

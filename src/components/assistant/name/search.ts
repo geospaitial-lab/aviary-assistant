@@ -1,13 +1,13 @@
 import Fuse from "fuse.js"
 
 export interface AdminEntry {
-  osm_id: number
+  osmId: number
   name: string
   center: {
     lat: number
     lon: number
   }
-  admin_level: number
+  adminLevel: number
   rank: number | null
   state: string | null
 }
@@ -21,7 +21,19 @@ const createFuseManager = (() => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/admin_de.json`,
     )
-    const data: AdminEntry[] = await response.json()
+    const json = await response.json()
+
+    const data: AdminEntry[] = json.map((entry: any) => ({
+      osmId: entry.osm_id,
+      name: entry.name,
+      center: {
+        lat: entry.center[0],
+        lon: entry.center[1],
+      },
+      adminLevel: entry.admin_level,
+      rank: entry.rank,
+      state: entry.state,
+    }))
 
     fuseInstance = new Fuse(data, {
       keys: ["name"],
@@ -65,8 +77,8 @@ export async function searchAdminEntries(query: string): Promise<AdminEntry[]> {
       const itemA = a.item
       const itemB = b.item
 
-      if (itemA.admin_level !== itemB.admin_level) {
-        return itemA.admin_level - itemB.admin_level
+      if (itemA.adminLevel !== itemB.adminLevel) {
+        return itemA.adminLevel - itemB.adminLevel
       }
 
       if (itemA.rank != null && itemB.rank != null) {
