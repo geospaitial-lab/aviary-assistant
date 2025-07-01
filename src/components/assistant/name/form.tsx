@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
-import { Check, ChevronsUpDown } from "lucide-react"
+import { Check, ChevronDownIcon } from "lucide-react"
 
 import {
   type NameFormSchema,
@@ -103,12 +103,12 @@ export function NameForm() {
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "justify-between",
+                        "justify-between hover:bg-background hover:text-muted-foreground",
                         !field.value && "text-muted-foreground",
                       )}
                     >
-                      <div>{field.value || ""}</div>
-                      <ChevronsUpDown className="opacity-50" />
+                      <div className="font-normal">{field.value || ""}</div>
+                      <ChevronDownIcon className="opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
@@ -123,7 +123,13 @@ export function NameForm() {
                       {isSearching ? (
                         <CommandEmpty>Suche läuft...</CommandEmpty>
                       ) : searchResults.length === 0 ? (
-                        <CommandEmpty>Nichts gefunden</CommandEmpty>
+                        <CommandEmpty>
+                          {searchQuery.length > 0 ? (
+                            "Nichts gefunden"
+                          ) : (
+                            <span className="invisible">Nichts gefunden</span>
+                          )}
+                        </CommandEmpty>
                       ) : (
                         <CommandGroup>
                           {searchResults.map((adminEntry) => (
