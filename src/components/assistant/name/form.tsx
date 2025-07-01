@@ -76,7 +76,7 @@ export function NameForm() {
     }
   }, [])
 
-  function onSubmit(data: NameFormSchema) {
+  function onSubmit(values: NameFormSchema) {
     if (selectedLocation) {
       console.log(selectedLocation.osm_id)
     }
