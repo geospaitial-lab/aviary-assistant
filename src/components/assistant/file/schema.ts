@@ -2,7 +2,10 @@ import Ajv from "ajv"
 import { z } from "zod"
 
 import { geoJSONSchema } from "@/lib/geojson-schema"
-import * as turf from "@turf/turf"
+import { bbox } from "@turf/bbox"
+import { bboxPolygon } from "@turf/bbox-polygon"
+import { booleanContains } from "@turf/boolean-contains"
+import { buffer } from "@turf/buffer"
 
 const ERROR_PARSE = "Muss eine gültige .geojson Datei sein"
 const ERROR_RANGE = "Muss innerhalb von Deutschland liegen"
@@ -23,19 +26,19 @@ const RANGE = {
 
 const createRangeBoundingBox = () => {
   const rangeCoordinates = [RANGE.xMin, RANGE.yMin, RANGE.xMax, RANGE.yMax]
-  const rangeBoundingBox = turf.bboxPolygon(rangeCoordinates)
+  const rangeBoundingBox = bboxPolygon(rangeCoordinates)
 
-  return turf.buffer(rangeBoundingBox, BUFFER, { units: "degrees" })
+  return buffer(rangeBoundingBox, BUFFER, { units: "degrees" })
 }
 
 const isGeoJSONWithinRange = (geoJSON) => {
   try {
     const rangeBoundingBox = createRangeBoundingBox()
 
-    const coordinates = turf.bbox(geoJSON)
-    const boundingBox = turf.bboxPolygon(coordinates)
+    const coordinates = bbox(geoJSON)
+    const boundingBox = bboxPolygon(coordinates)
 
-    return turf.booleanContains(rangeBoundingBox, boundingBox)
+    return booleanContains(rangeBoundingBox, boundingBox)
   } catch (error) {
     return false
   }
