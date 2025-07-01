@@ -249,7 +249,7 @@ export function CodeBlock({
 
           {codeVersions.map(([version, codeStr], index) => (
             <TabsContent key={version} value={version} className="mt-0">
-              <div className="rounded-lg border bg-muted">
+              <div className="rounded-lg bg-muted">
                 <CodeHeader
                   title={title}
                   titleClassName={titleClassName}
@@ -283,7 +283,7 @@ export function CodeBlock({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="rounded-lg border bg-muted">
+      <div className="rounded-lg bg-muted">
         <CodeHeader
           title={title}
           titleClassName={titleClassName}
