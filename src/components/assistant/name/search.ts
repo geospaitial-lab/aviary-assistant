@@ -37,13 +37,10 @@ const createFuseManager = (() => {
 
     fuseInstance = new Fuse(data, {
       keys: ["name"],
-      threshold: 0.2,
       includeScore: true,
-      useExtendedSearch: true,
-      findAllMatches: false,
-      location: 0,
-      distance: 100,
-      ignoreLocation: false,
+      shouldSort: false,
+      findAllMatches: true,
+      threshold: 0.4,
     })
 
     return fuseInstance
@@ -69,32 +66,41 @@ export async function searchAdminEntries(query: string): Promise<AdminEntry[]> {
     }
   })
 
-  const sortedResults = resultsWithMetadata
-    .sort((a, b) => {
-      if (a.startsWithQuery && !b.startsWithQuery) return -1
-      if (!a.startsWithQuery && b.startsWithQuery) return 1
+  if (query.length <= 3) {
+    const sortedResults = resultsWithMetadata
+      .sort((a, b) => {
+        if (a.startsWithQuery && !b.startsWithQuery) return -1
+        if (!a.startsWithQuery && b.startsWithQuery) return 1
 
-      const itemA = a.item
-      const itemB = b.item
+        const itemA = a.item
+        const itemB = b.item
 
-      if (itemA.adminLevel !== itemB.adminLevel) {
-        return itemA.adminLevel - itemB.adminLevel
-      }
+        if (itemA.adminLevel !== itemB.adminLevel) {
+          return itemA.adminLevel - itemB.adminLevel
+        }
 
-      if (itemA.rank != null && itemB.rank != null) {
-        return itemA.rank - itemB.rank
-      }
+        if (itemA.rank != null && itemB.rank != null) {
+          return itemA.rank - itemB.rank
+        }
 
-      if (itemA.rank != null) return -1
-      if (itemB.rank != null) return 1
+        if (itemA.rank != null) return -1
+        if (itemB.rank != null) return 1
 
-      if (itemA.name.length !== itemB.name.length) {
-        return itemA.name.length - itemB.name.length
-      }
+        return (a.score ?? 0) - (b.score ?? 0)
+      })
+      .map((res) => res.item)
 
-      return itemA.name.localeCompare(itemB.name)
-    })
-    .map((res) => res.item)
+    return sortedResults.slice(0, 5)
+  } else {
+    const sortedResults = resultsWithMetadata
+      .sort((a, b) => {
+        if (a.startsWithQuery && !b.startsWithQuery) return -1
+        if (!a.startsWithQuery && b.startsWithQuery) return 1
 
-  return sortedResults.slice(0, 5)
+        return (a.score ?? 0) - (b.score ?? 0)
+      })
+      .map((res) => res.item)
+
+    return sortedResults.slice(0, 5)
+  }
 }
