@@ -1,4 +1,4 @@
-export const geoJSONSchema = {
+export const geoJsonSchema = {
   $schema: "http://json-schema.org/draft-07/schema#",
   $id: "https://geojson.org/schema/GeoJSON.json",
   title: "GeoJSON",

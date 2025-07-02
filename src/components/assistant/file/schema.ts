@@ -1,7 +1,7 @@
 import Ajv from "ajv"
 import { z } from "zod"
 
-import { geoJSONSchema } from "@/lib/geojson-schema"
+import { geoJsonSchema } from "@/lib/geojson-schema"
 import { bbox } from "@turf/bbox"
 import { bboxPolygon } from "@turf/bbox-polygon"
 import { booleanContains } from "@turf/boolean-contains"
@@ -15,7 +15,7 @@ const ERROR_TYPE = "Muss eine .geojson Datei sein"
 const MAX_FILE_SIZE = 1024 * 1024
 
 const ajv = new Ajv()
-const isGeoJSONValid = ajv.compile(geoJSONSchema)
+const isGeoJsonValid = ajv.compile(geoJsonSchema)
 
 const BUFFER = 0.01
 const RANGE = {
@@ -37,11 +37,11 @@ const createRangeBoundingBox = () => {
   return buffer(rangeBoundingBox, BUFFER, { units: "degrees" })
 }
 
-const isGeoJSONWithinRange = (geoJSON: AllGeoJSON) => {
+const isGeoJsonWithinRange = (geoJson: AllGeoJSON) => {
   try {
     const rangeBoundingBox = createRangeBoundingBox()
 
-    const coordinates = bbox(geoJSON)
+    const coordinates = bbox(geoJson)
     const boundingBox = bboxPolygon(coordinates)
 
     return booleanContains(rangeBoundingBox, boundingBox)
@@ -64,10 +64,10 @@ export const fileFormSchema = z.object({
     .superRefine(async (file, ctx) => {
       try {
         const text = await file.text()
-        const parsedJSON = JSON.parse(text)
-        const isValidGeoJSON = isGeoJSONValid(parsedJSON)
+        const parsedJson = JSON.parse(text)
+        const isValidGeoJson = isGeoJsonValid(parsedJson)
 
-        if (!isValidGeoJSON) {
+        if (!isValidGeoJson) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             message: ERROR_PARSE,
@@ -75,7 +75,7 @@ export const fileFormSchema = z.object({
           return
         }
 
-        const isWithinRange = isGeoJSONWithinRange(parsedJSON as AllGeoJSON)
+        const isWithinRange = isGeoJsonWithinRange(parsedJson as AllGeoJSON)
         if (!isWithinRange) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,

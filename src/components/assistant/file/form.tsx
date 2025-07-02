@@ -30,8 +30,8 @@ export function FileForm() {
 
   async function onSubmit(values: FileFormSchema) {
     const text = await values.file.text()
-    const geoJSON = JSON.parse(text)
-    console.log(geoJSON)
+    const geoJson = JSON.parse(text)
+    console.log(geoJson)
   }
 
   return (
