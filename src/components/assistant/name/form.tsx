@@ -4,6 +4,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon } from "lucide-react"
+import osm2geojson from "osm2geojson-lite"
 
 import {
   type NameFormSchema,
@@ -41,6 +42,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 export function NameForm() {
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [searchResults, setSearchResults] = React.useState<AdminEntry[]>([])
   const [selectedLocation, setSelectedLocation] =
@@ -76,9 +78,40 @@ export function NameForm() {
     }
   }, [])
 
-  function onSubmit(values: NameFormSchema) {
+  const fetchOverpassData = async (osmId: number) => {
+    try {
+      const query = `[out:json];relation(${osmId});out geom;`
+      const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+
+      const response = await fetch(url)
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error("Error fetching data from Overpass API: ", error)
+      throw error
+    }
+  }
+
+  async function onSubmit(values: NameFormSchema) {
     if (selectedLocation) {
-      console.log(selectedLocation.osmId)
+      setIsSubmitting(true)
+
+      try {
+        const overpassData = await fetchOverpassData(selectedLocation.osmId)
+        const geoJson = osm2geojson(overpassData)
+        console.log(geoJson)
+      } catch (error) {
+        form.setError("name", {
+          type: "manual",
+          message: "Ein Fehler ist aufgetreten",
+        })
+      } finally {
+        setIsSubmitting(false)
+      }
     }
   }
 
@@ -172,7 +205,9 @@ export function NameForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Anzeigen</Button>
+        <Button type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+        </Button>
       </form>
     </Form>
   )
