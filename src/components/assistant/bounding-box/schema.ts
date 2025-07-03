@@ -1,7 +1,7 @@
 import { z } from "zod"
 
 const ERROR_NUMBER = "Muss eine Zahl sein"
-const ERROR_RANGE = "Muss innerhalb von Deutschland liegen"
+const ERROR_RANGE = "Muss in Deutschland liegen"
 
 const EPSG_CODE_RANGES = {
   "4326": {
