@@ -135,10 +135,12 @@ export const boundingBoxFormSchema = z
 
     const isWithinBoundary = await isGeoJsonWithinBoundary(geoJson)
     if (!isWithinBoundary) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: ERROR_BOUNDARY,
-        path: ["xMin", "yMin", "xMax", "yMax", "epsgCode"],
+      ;["xMin", "yMin", "xMax", "yMax"].forEach((field) => {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: ERROR_BOUNDARY,
+          path: [field],
+        })
       })
     }
   })
