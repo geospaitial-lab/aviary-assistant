@@ -12,6 +12,7 @@ import {
 } from "@/components/assistant/name/schema"
 import {
   type AdminEntry,
+  initFuse,
   searchAdminEntries,
 } from "@/components/assistant/name/search"
 import { Button } from "@/components/ui/button"
@@ -56,6 +57,10 @@ export function NameForm() {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
+
+  React.useEffect(() => {
+    void initFuse()
+  }, [])
 
   const handleSearch = React.useCallback(async (value: string) => {
     setSearchQuery(value)

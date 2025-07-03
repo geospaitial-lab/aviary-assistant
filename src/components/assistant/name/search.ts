@@ -47,7 +47,7 @@ const createFuseManager = (() => {
   }
 })()
 
-const initFuse = createFuseManager
+export const initFuse = createFuseManager
 
 export async function searchAdminEntries(query: string): Promise<AdminEntry[]> {
   const fuse = await initFuse()
