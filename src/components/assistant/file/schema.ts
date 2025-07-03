@@ -4,7 +4,7 @@ import { z } from "zod"
 import { geoJsonSchema } from "@/lib/geojson-schema"
 import { booleanContains } from "@turf/boolean-contains"
 import { buffer } from "@turf/buffer"
-import { AllGeoJSON } from "@turf/helpers"
+import { type AllGeoJSON } from "@turf/helpers"
 
 const ERROR_BOUNDARY = "Muss in Deutschland liegen"
 const ERROR_PARSE = "Muss eine gültige .geojson Datei sein"
