@@ -1,10 +1,12 @@
 "use client"
 
+import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import {
   type FileFormSchema,
   fileFormSchema,
+  initBoundary,
 } from "@/components/assistant/file/schema"
 import { Button } from "@/components/ui/button"
 import {
@@ -27,6 +29,10 @@ export function FileForm() {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
+
+  React.useEffect(() => {
+    void initBoundary()
+  }, [])
 
   async function onSubmit(values: FileFormSchema) {
     const text = await values.file.text()

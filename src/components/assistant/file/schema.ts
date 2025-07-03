@@ -2,14 +2,12 @@ import Ajv from "ajv"
 import { z } from "zod"
 
 import { geoJsonSchema } from "@/lib/geojson-schema"
-import { bbox } from "@turf/bbox"
-import { bboxPolygon } from "@turf/bbox-polygon"
 import { booleanContains } from "@turf/boolean-contains"
 import { buffer } from "@turf/buffer"
 import { AllGeoJSON } from "@turf/helpers"
 
+const ERROR_BOUNDARY = "Muss innerhalb von Deutschland liegen"
 const ERROR_PARSE = "Muss eine gültige .geojson Datei sein"
-const ERROR_RANGE = "Muss innerhalb von Deutschland liegen"
 const ERROR_SIZE = "Muss kleiner als 1 MB sein"
 const ERROR_TYPE = "Muss eine .geojson Datei sein"
 const MAX_FILE_SIZE = 1024 * 1024
@@ -18,33 +16,39 @@ const ajv = new Ajv()
 const isGeoJsonValid = ajv.compile(geoJsonSchema)
 
 const BUFFER = 0.01
-const RANGE = {
-  xMin: 5.8663153,
-  yMin: 47.2701114,
-  xMax: 15.0419309,
-  yMax: 55.099161,
-}
 
-const createRangeBoundingBox = () => {
-  const rangeCoordinates: [number, number, number, number] = [
-    RANGE.xMin,
-    RANGE.yMin,
-    RANGE.xMax,
-    RANGE.yMax,
-  ]
-  const rangeBoundingBox = bboxPolygon(rangeCoordinates)
+const createBoundaryManager = (() => {
+  let boundary: any = null
 
-  return buffer(rangeBoundingBox, BUFFER, { units: "degrees" })
-}
+  return async function (): Promise<any> {
+    if (boundary) return boundary
 
-const isGeoJsonWithinRange = (geoJson: AllGeoJSON) => {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/boundary_de.geojson`,
+    )
+    const geoJson = await response.json()
+
+    boundary = buffer(geoJson, BUFFER, { units: "degrees" })
+    return boundary
+  }
+})()
+
+export const initBoundary = createBoundaryManager
+
+const isGeoJsonWithinBoundary = async (geoJson: AllGeoJSON) => {
   try {
-    const rangeBoundingBox = createRangeBoundingBox()
+    const boundary = await initBoundary()
 
-    const coordinates = bbox(geoJson)
-    const boundingBox = bboxPolygon(coordinates)
+    if (geoJson.type === "FeatureCollection") {
+      for (const feature of geoJson.features) {
+        if (!booleanContains(boundary, feature)) {
+          return false
+        }
+      }
+      return true
+    }
 
-    return booleanContains(rangeBoundingBox, boundingBox)
+    return booleanContains(boundary, geoJson)
   } catch (error) {
     return false
   }
@@ -75,11 +79,13 @@ export const fileFormSchema = z.object({
           return
         }
 
-        const isWithinRange = isGeoJsonWithinRange(parsedJson as AllGeoJSON)
-        if (!isWithinRange) {
+        const isWithinBoundary = await isGeoJsonWithinBoundary(
+          parsedJson as AllGeoJSON,
+        )
+        if (!isWithinBoundary) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: ERROR_RANGE,
+            message: ERROR_BOUNDARY,
           })
         }
       } catch {
