@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -66,7 +67,11 @@ export function BoundingBoxForm() {
                 <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
-                <FormMessage />
+                {form.formState.errors.xMin ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>Westliche Koordinate</FormDescription>
+                )}
               </div>
             </FormItem>
           )}
@@ -85,7 +90,11 @@ export function BoundingBoxForm() {
                 <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
-                <FormMessage />
+                {form.formState.errors.yMin ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>Südliche Koordinate</FormDescription>
+                )}
               </div>
             </FormItem>
           )}
@@ -104,7 +113,11 @@ export function BoundingBoxForm() {
                 <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
-                <FormMessage />
+                {form.formState.errors.xMax ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>Östliche Koordinate</FormDescription>
+                )}
               </div>
             </FormItem>
           )}
@@ -123,7 +136,11 @@ export function BoundingBoxForm() {
                 <Input type="text" inputMode="numeric" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
-                <FormMessage />
+                {form.formState.errors.yMax ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>Nördliche Koordinate</FormDescription>
+                )}
               </div>
             </FormItem>
           )}
@@ -149,7 +166,11 @@ export function BoundingBoxForm() {
                 </Select>
               </FormControl>
               <div className="min-h-[1.25rem]">
-                <FormMessage />
+                {form.formState.errors.epsgCode ? (
+                  <FormMessage />
+                ) : (
+                  <FormDescription>Koordinatenreferenzssystem</FormDescription>
+                )}
               </div>
             </FormItem>
           )}
