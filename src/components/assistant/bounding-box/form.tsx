@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 import {
   type BoundingBoxFormSchema,
   boundingBoxFormSchema,
+  createGeoJson,
 } from "@/components/assistant/bounding-box/schema"
 import { Button } from "@/components/ui/button"
 import {
@@ -42,7 +43,14 @@ export function BoundingBoxForm() {
   })
 
   function onSubmit(values: BoundingBoxFormSchema) {
-    console.log(values)
+    const geoJson = createGeoJson(
+      values.xMin,
+      values.yMin,
+      values.xMax,
+      values.yMax,
+      values.epsgCode,
+    )
+    console.log(geoJson)
   }
 
   return (
