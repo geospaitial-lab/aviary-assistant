@@ -15,6 +15,7 @@ import {
   initFuse,
   searchAdminEntries,
 } from "@/components/assistant/name/search"
+import { useNameStore } from "@/components/assistant/name/store"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -41,6 +42,7 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function NameForm() {
+  const { formValues, setFormValues, setGeoJson } = useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -57,6 +59,12 @@ export function NameForm() {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
+
+  React.useEffect(() => {
+    if (formValues) {
+      form.reset(formValues)
+    }
+  }, [form, formValues])
 
   React.useEffect(() => {
     void initFuse()
@@ -108,6 +116,10 @@ export function NameForm() {
       try {
         const overpassData = await fetchOverpassData(selectedLocation.osmId)
         const geoJson = osm2geojson(overpassData)
+
+        setFormValues(values)
+        setGeoJson(geoJson)
+
         console.log(geoJson)
       } catch (error) {
         form.setError("name", {
