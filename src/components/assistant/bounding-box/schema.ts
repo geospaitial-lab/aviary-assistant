@@ -2,13 +2,10 @@ import proj4 from "proj4"
 import { z } from "zod"
 
 import { booleanContains } from "@turf/boolean-contains"
-import { buffer } from "@turf/buffer"
 import { AllGeoJSON, polygon } from "@turf/helpers"
 
 const ERROR_BOUNDARY = "Muss in Deutschland liegen"
 const ERROR_NUMBER = "Muss eine Zahl sein"
-
-const BUFFER = 0.01
 
 const createBoundaryManager = (() => {
   let boundary: any = null
@@ -19,10 +16,7 @@ const createBoundaryManager = (() => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/boundary_de.geojson`,
     )
-    const geoJson = await response.json()
-
-    boundary = buffer(geoJson, BUFFER, { units: "degrees" })
-    return boundary
+    return await response.json()
   }
 })()
 

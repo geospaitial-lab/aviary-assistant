@@ -3,7 +3,6 @@ import { z } from "zod"
 
 import { geoJsonSchema } from "@/lib/geojson-schema"
 import { booleanContains } from "@turf/boolean-contains"
-import { buffer } from "@turf/buffer"
 import { type AllGeoJSON } from "@turf/helpers"
 
 const ERROR_BOUNDARY = "Muss in Deutschland liegen"
@@ -15,8 +14,6 @@ const MAX_FILE_SIZE = 1024 * 1024
 const ajv = new Ajv()
 const isGeoJsonValid = ajv.compile(geoJsonSchema)
 
-const BUFFER = 0.01
-
 const createBoundaryManager = (() => {
   let boundary: any = null
 
@@ -26,10 +23,7 @@ const createBoundaryManager = (() => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/boundary_de.geojson`,
     )
-    const geoJson = await response.json()
-
-    boundary = buffer(geoJson, BUFFER, { units: "degrees" })
-    return boundary
+    return await response.json()
   }
 })()
 
