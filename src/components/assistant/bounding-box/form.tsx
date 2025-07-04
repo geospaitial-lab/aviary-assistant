@@ -7,6 +7,7 @@ import {
   type BoundingBoxFormSchema,
   boundingBoxFormSchema,
   createGeoJson,
+  initBoundary,
 } from "@/components/assistant/bounding-box/schema"
 import { useBoundingBoxStore } from "@/components/assistant/bounding-box/store"
 import { Button } from "@/components/ui/button"
@@ -51,6 +52,10 @@ export function BoundingBoxForm() {
       form.reset(formValues)
     }
   }, [form, formValues])
+
+  React.useEffect(() => {
+    void initBoundary()
+  }, [])
 
   function onSubmit(values: BoundingBoxFormSchema) {
     const geoJson = createGeoJson(
