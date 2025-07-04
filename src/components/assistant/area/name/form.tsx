@@ -42,7 +42,7 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function NameForm() {
-  const { formValues, setFormValues, setGeoJson } = useNameStore()
+  const { formValues, setFormValues, setGeoJson, reset } = useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -130,6 +130,18 @@ export function NameForm() {
         setIsSubmitting(false)
       }
     }
+  }
+
+  function handleReset() {
+    form.reset({
+      name: "",
+    })
+
+    setSelectedLocation(null)
+    setSearchQuery("")
+    setSearchResults([])
+
+    reset()
   }
 
   return (
@@ -224,9 +236,24 @@ export function NameForm() {
             </FormItem>
           )}
         />
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? "Wird geladen..." : "Anzeigen"}
-        </Button>
+        <div className="mt-4 flex justify-between">
+          <div className="flex gap-4">
+            <Button type="submit" className="w-32" disabled={isSubmitting}>
+              {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+            </Button>
+            <Button type="button" variant="outline" className="w-32">
+              Bearbeiten
+            </Button>
+          </div>
+          <Button
+            type="button"
+            variant="destructive"
+            className="w-32"
+            onClick={handleReset}
+          >
+            Entfernen
+          </Button>
+        </div>
       </form>
     </Form>
   )

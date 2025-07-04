@@ -22,7 +22,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function FileForm() {
-  const { formValues, setFormValues, setGeoJson } = useFileStore()
+  const { formValues, setFormValues, setGeoJson, reset } = useFileStore()
 
   const form = useForm<FileFormSchema>({
     resolver: zodResolver(fileFormSchema),
@@ -51,6 +51,14 @@ export function FileForm() {
     setGeoJson(geoJson)
 
     console.log(geoJson)
+  }
+
+  function handleReset() {
+    form.reset({
+      file: undefined,
+    })
+
+    reset()
   }
 
   return (
@@ -83,7 +91,24 @@ export function FileForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">Anzeigen</Button>
+        <div className="mt-4 flex justify-between">
+          <div className="flex gap-4">
+            <Button type="submit" className="w-32">
+              Anzeigen
+            </Button>
+            <Button type="button" variant="outline" className="w-32">
+              Bearbeiten
+            </Button>
+          </div>
+          <Button
+            type="button"
+            variant="destructive"
+            className="w-32"
+            onClick={handleReset}
+          >
+            Entfernen
+          </Button>
+        </div>
       </form>
     </Form>
   )

@@ -32,7 +32,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function BoundingBoxForm() {
-  const { formValues, setFormValues, setGeoJson } = useBoundingBoxStore()
+  const { formValues, setFormValues, setGeoJson, reset } = useBoundingBoxStore()
 
   const form = useForm<BoundingBoxFormSchema>({
     resolver: zodResolver(boundingBoxFormSchema),
@@ -70,6 +70,18 @@ export function BoundingBoxForm() {
     setGeoJson(geoJson)
 
     console.log(geoJson)
+  }
+
+  function handleReset() {
+    form.reset({
+      xMin: "",
+      yMin: "",
+      xMax: "",
+      yMax: "",
+      epsgCode: "4326",
+    })
+
+    reset()
   }
 
   return (
@@ -205,9 +217,24 @@ export function BoundingBoxForm() {
               </FormItem>
             )}
           />
-          <Button type="submit" className="@md:col-span-2">
-            Anzeigen
-          </Button>
+          <div className="mt-4 @md:col-span-2 flex justify-between">
+            <div className="flex gap-4">
+              <Button type="submit" className="w-32">
+                Anzeigen
+              </Button>
+              <Button type="button" variant="outline" className="w-32">
+                Bearbeiten
+              </Button>
+            </div>
+            <Button
+              type="button"
+              variant="destructive"
+              className="w-32"
+              onClick={handleReset}
+            >
+              Entfernen
+            </Button>
+          </div>
         </form>
       </Form>
     </div>
