@@ -248,7 +248,7 @@ export function CodeBlock({
           </TabsList>
 
           {codeVersions.map(([version, codeStr], index) => (
-            <TabsContent key={version} value={version} className="mt-0">
+            <TabsContent key={version} value={version}>
               <div className="rounded-lg bg-muted">
                 <CodeHeader
                   title={title}
