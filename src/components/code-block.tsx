@@ -234,7 +234,7 @@ export function CodeBlock({
   if (isMultiple) {
     return (
       <div className={cn("relative", className)}>
-        <Tabs defaultValue={defaultVersion} className="w-full">
+        <Tabs defaultValue={defaultVersion}>
           <TabsList className="mb-2">
             {codeVersions.map(([version]) => (
               <TabsTrigger
