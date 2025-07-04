@@ -1,9 +1,8 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+import { type BoundingBoxFormSchema } from "@/components/assistant/bounding-box/schema"
 import { AllGeoJSON } from "@turf/helpers"
-
-import { type BoundingBoxFormSchema } from "./schema"
 
 interface BoundingBoxState {
   formValues: BoundingBoxFormSchema | null

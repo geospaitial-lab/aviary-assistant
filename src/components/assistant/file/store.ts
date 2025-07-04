@@ -1,9 +1,8 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
+import { type FileFormSchema } from "@/components/assistant/file/schema"
 import { AllGeoJSON } from "@turf/helpers"
-
-import { type FileFormSchema } from "./schema"
 
 interface FileState {
   formValues: FileFormSchema | null
