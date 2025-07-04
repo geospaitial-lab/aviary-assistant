@@ -8,8 +8,8 @@ import {
   boundingBoxFormSchema,
   createGeoJson,
   initBoundary,
-} from "@/components/assistant/bounding-box/schema"
-import { useBoundingBoxStore } from "@/components/assistant/bounding-box/store"
+} from "@/components/assistant/area/bounding-box/schema"
+import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { Button } from "@/components/ui/button"
 import {
   Form,

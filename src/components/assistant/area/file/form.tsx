@@ -7,8 +7,8 @@ import {
   type FileFormSchema,
   fileFormSchema,
   initBoundary,
-} from "@/components/assistant/file/schema"
-import { useFileStore } from "@/components/assistant/file/store"
+} from "@/components/assistant/area/file/schema"
+import { useFileStore } from "@/components/assistant/area/file/store"
 import { Button } from "@/components/ui/button"
 import {
   Form,

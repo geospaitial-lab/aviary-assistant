@@ -9,13 +9,13 @@ import osm2geojson from "osm2geojson-lite"
 import {
   type NameFormSchema,
   nameFormSchema,
-} from "@/components/assistant/name/schema"
+} from "@/components/assistant/area/name/schema"
 import {
   type AdminEntry,
   initFuse,
   searchAdminEntries,
-} from "@/components/assistant/name/search"
-import { useNameStore } from "@/components/assistant/name/store"
+} from "@/components/assistant/area/name/search"
+import { useNameStore } from "@/components/assistant/area/name/store"
 import { Button } from "@/components/ui/button"
 import {
   Command,

@@ -1,7 +1,7 @@
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
 
-import { type NameFormSchema } from "@/components/assistant/name/schema"
+import { type NameFormSchema } from "@/components/assistant/area/name/schema"
 import { AllGeoJSON } from "@turf/helpers"
 
 interface NameState {
