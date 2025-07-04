@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import {
@@ -7,6 +8,7 @@ import {
   boundingBoxFormSchema,
   createGeoJson,
 } from "@/components/assistant/bounding-box/schema"
+import { useBoundingBoxStore } from "@/components/assistant/bounding-box/store"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -29,6 +31,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function BoundingBoxForm() {
+  const { formValues, setFormValues, setGeoJson } = useBoundingBoxStore()
+
   const form = useForm<BoundingBoxFormSchema>({
     resolver: zodResolver(boundingBoxFormSchema),
     defaultValues: {
@@ -42,6 +46,12 @@ export function BoundingBoxForm() {
     reValidateMode: "onSubmit",
   })
 
+  React.useEffect(() => {
+    if (formValues) {
+      form.reset(formValues)
+    }
+  }, [form, formValues])
+
   function onSubmit(values: BoundingBoxFormSchema) {
     const geoJson = createGeoJson(
       values.xMin,
@@ -50,6 +60,10 @@ export function BoundingBoxForm() {
       values.yMax,
       values.epsgCode,
     )
+
+    setFormValues(values)
+    setGeoJson(geoJson)
+
     console.log(geoJson)
   }
 
