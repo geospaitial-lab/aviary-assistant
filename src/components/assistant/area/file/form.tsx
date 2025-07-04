@@ -62,54 +62,56 @@ export function FileForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        autoComplete="off"
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4"
-      >
-        <FormField
-          control={form.control}
-          name="file"
-          render={({ field: { onChange, value, ...field } }) => (
-            <FormItem>
-              <FormLabel>Datei</FormLabel>
-              <FormControl>
-                <Input
-                  type="file"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0]
-                    onChange(file)
-                  }}
-                  {...field}
-                />
-              </FormControl>
-              <div className="min-h-[1.25rem]">
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <div className="mt-4 flex justify-between">
-          <div className="flex gap-4">
-            <Button type="submit" className="w-32">
-              Anzeigen
-            </Button>
-            <Button type="button" variant="outline" className="w-32">
-              Bearbeiten
+    <div className="@container">
+      <Form {...form}>
+        <form
+          autoComplete="off"
+          noValidate
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4"
+        >
+          <FormField
+            control={form.control}
+            name="file"
+            render={({ field: { onChange, value, ...field } }) => (
+              <FormItem>
+                <FormLabel>Datei</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      onChange(file)
+                    }}
+                    {...field}
+                  />
+                </FormControl>
+                <div className="min-h-[1.25rem]">
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
+            <div className="flex gap-4">
+              <Button type="submit" className="w-32">
+                Anzeigen
+              </Button>
+              <Button type="button" variant="outline" className="w-32">
+                Bearbeiten
+              </Button>
+            </div>
+            <Button
+              type="button"
+              variant="destructive"
+              className="w-32"
+              onClick={handleReset}
+            >
+              Entfernen
             </Button>
           </div>
-          <Button
-            type="button"
-            variant="destructive"
-            className="w-32"
-            onClick={handleReset}
-          >
-            Entfernen
-          </Button>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   )
 }

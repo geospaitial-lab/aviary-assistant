@@ -145,116 +145,118 @@ export function NameForm() {
   }
 
   return (
-    <Form {...form}>
-      <form
-        autoComplete="off"
-        noValidate
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grid gap-4"
-      >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="pointer-events-none">Name</FormLabel>
-              <Popover open={isOpen} onOpenChange={setIsOpen}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      className={cn(
-                        "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground",
-                        isOpen
-                          ? "dark:hover:bg-input/30"
-                          : "dark:hover:bg-input/50",
-                      )}
-                    >
-                      <div className="font-normal">{field.value || ""}</div>
-                      <ChevronDownIcon className="opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
-                  <Command shouldFilter={false}>
-                    <CommandInput
-                      placeholder="Suchen..."
-                      value={searchQuery}
-                      onValueChange={handleSearch}
-                    />
-                    <CommandList>
-                      {isSearching ? (
-                        <CommandEmpty>Suche läuft...</CommandEmpty>
-                      ) : searchResults.length === 0 ? (
-                        <CommandEmpty>
-                          {searchQuery.length > 0 ? (
-                            "Nichts gefunden"
-                          ) : (
-                            <span className="invisible">Nichts gefunden</span>
-                          )}
-                        </CommandEmpty>
-                      ) : (
-                        <CommandGroup>
-                          {searchResults.map((adminEntry) => (
-                            <CommandItem
-                              key={adminEntry.osmId}
-                              value={adminEntry.osmId.toString()}
-                              onSelect={() => {
-                                form.setValue("name", adminEntry.name)
-                                setSelectedLocation(adminEntry)
-                                setIsOpen(false)
-                              }}
-                            >
-                              <div className="flex flex-col">
-                                <span>{adminEntry.name}</span>
-                                {adminEntry.adminLevel !== 4 && (
-                                  <span className="text-muted-foreground font-light">
-                                    {adminEntry.state}
-                                  </span>
-                                )}
-                              </div>
-                              <Check
-                                className={cn(
-                                  "ml-auto text-success",
-                                  adminEntry.osmId === selectedLocation?.osmId
-                                    ? "opacity-100"
-                                    : "opacity-0",
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      )}
-                    </CommandList>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-              <div className="min-h-[1.25rem]">
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <div className="mt-4 flex justify-between">
-          <div className="flex gap-4">
-            <Button type="submit" className="w-32" disabled={isSubmitting}>
-              {isSubmitting ? "Wird geladen..." : "Anzeigen"}
-            </Button>
-            <Button type="button" variant="outline" className="w-32">
-              Bearbeiten
+    <div className="@container">
+      <Form {...form}>
+        <form
+          autoComplete="off"
+          noValidate
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grid gap-4"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="pointer-events-none">Name</FormLabel>
+                <Popover open={isOpen} onOpenChange={setIsOpen}>
+                  <PopoverTrigger asChild>
+                    <FormControl>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        className={cn(
+                          "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground",
+                          isOpen
+                            ? "dark:hover:bg-input/30"
+                            : "dark:hover:bg-input/50",
+                        )}
+                      >
+                        <div className="font-normal">{field.value || ""}</div>
+                        <ChevronDownIcon className="opacity-50" />
+                      </Button>
+                    </FormControl>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                    <Command shouldFilter={false}>
+                      <CommandInput
+                        placeholder="Suchen..."
+                        value={searchQuery}
+                        onValueChange={handleSearch}
+                      />
+                      <CommandList>
+                        {isSearching ? (
+                          <CommandEmpty>Suche läuft...</CommandEmpty>
+                        ) : searchResults.length === 0 ? (
+                          <CommandEmpty>
+                            {searchQuery.length > 0 ? (
+                              "Nichts gefunden"
+                            ) : (
+                              <span className="invisible">Nichts gefunden</span>
+                            )}
+                          </CommandEmpty>
+                        ) : (
+                          <CommandGroup>
+                            {searchResults.map((adminEntry) => (
+                              <CommandItem
+                                key={adminEntry.osmId}
+                                value={adminEntry.osmId.toString()}
+                                onSelect={() => {
+                                  form.setValue("name", adminEntry.name)
+                                  setSelectedLocation(adminEntry)
+                                  setIsOpen(false)
+                                }}
+                              >
+                                <div className="flex flex-col">
+                                  <span>{adminEntry.name}</span>
+                                  {adminEntry.adminLevel !== 4 && (
+                                    <span className="text-muted-foreground font-light">
+                                      {adminEntry.state}
+                                    </span>
+                                  )}
+                                </div>
+                                <Check
+                                  className={cn(
+                                    "ml-auto text-success",
+                                    adminEntry.osmId === selectedLocation?.osmId
+                                      ? "opacity-100"
+                                      : "opacity-0",
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        )}
+                      </CommandList>
+                    </Command>
+                  </PopoverContent>
+                </Popover>
+                <div className="min-h-[1.25rem]">
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
+            <div className="flex gap-4">
+              <Button type="submit" className="w-32" disabled={isSubmitting}>
+                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+              </Button>
+              <Button type="button" variant="outline" className="w-32">
+                Bearbeiten
+              </Button>
+            </div>
+            <Button
+              type="button"
+              variant="destructive"
+              className="w-32"
+              onClick={handleReset}
+            >
+              Entfernen
             </Button>
           </div>
-          <Button
-            type="button"
-            variant="destructive"
-            className="w-32"
-            onClick={handleReset}
-          >
-            Entfernen
-          </Button>
-        </div>
-      </form>
-    </Form>
+        </form>
+      </Form>
+    </div>
   )
 }

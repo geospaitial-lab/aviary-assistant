@@ -217,7 +217,7 @@ export function BoundingBoxForm() {
               </FormItem>
             )}
           />
-          <div className="mt-4 @md:col-span-2 flex justify-between">
+          <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
               <Button type="submit" className="w-32">
                 Anzeigen
