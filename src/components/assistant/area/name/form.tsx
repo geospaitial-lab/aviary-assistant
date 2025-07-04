@@ -177,7 +177,7 @@ export function NameForm() {
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
-                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0">
+                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-[1000]">
                     <Command shouldFilter={false}>
                       <CommandInput
                         placeholder="Suchen..."
