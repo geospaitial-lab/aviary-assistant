@@ -42,7 +42,8 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function NameForm() {
-  const { formValues, setFormValues, setGeoJson, reset } = useNameStore()
+  const { formValues, osmId, setFormValues, setOsmId, setGeoJson, reset } =
+    useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -110,14 +111,17 @@ export function NameForm() {
   }
 
   async function onSubmit(values: NameFormSchema) {
-    if (selectedLocation) {
+    const currentOsmId = selectedLocation?.osmId || osmId
+
+    if (currentOsmId) {
       setIsSubmitting(true)
 
       try {
-        const overpassData = await fetchOverpassData(selectedLocation.osmId)
+        const overpassData = await fetchOverpassData(currentOsmId)
         const geoJson = osm2geojson(overpassData)
 
         setFormValues(values)
+        setOsmId(currentOsmId)
         setGeoJson(geoJson)
 
         console.log(geoJson)
@@ -218,7 +222,9 @@ export function NameForm() {
                                 <Check
                                   className={cn(
                                     "ml-auto text-success",
-                                    adminEntry.osmId === selectedLocation?.osmId
+                                    adminEntry.osmId ===
+                                      selectedLocation?.osmId ||
+                                      adminEntry.osmId === osmId
                                       ? "opacity-100"
                                       : "opacity-0",
                                   )}
