@@ -19,6 +19,7 @@
     "fuse.js": "^7.1.0",
     "isomorphic-dompurify": "^2.25.0",
     "lucide-react": "^0.513.0",
+    "maplibre-gl": "^5.6.1",
     "next": "15.3.3",
     "next-themes": "^0.4.6",
     "osm2geojson-lite": "^1.1.2",
@@ -27,6 +28,7 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.58.0",
+    "react-map-gl": "^8.0.4",
     "tailwind-merge": "^3.3.0",
     "zod": "^3.25.64",
     "zustand": "^5.0.5"
