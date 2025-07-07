@@ -27,8 +27,8 @@ const createFuseManager = (() => {
       osmId: entry.osm_id,
       name: entry.name,
       center: {
-        lat: entry.center[0],
-        lon: entry.center[1],
+        lat: entry.center.lat,
+        lon: entry.center.lon,
       },
       adminLevel: entry.admin_level,
       rank: entry.rank,
