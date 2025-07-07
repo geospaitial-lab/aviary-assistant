@@ -196,7 +196,7 @@ export function BoundingBoxForm() {
                     <SelectTrigger className="w-full">
                       <SelectValue />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className=" z-[1000]">
                       <SelectItem value="4326">4326</SelectItem>
                       <SelectSeparator />
                       <SelectItem value="25832">25832</SelectItem>
