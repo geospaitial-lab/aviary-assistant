@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
-import { Check, ChevronDownIcon } from "lucide-react"
+import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
 
 import {
@@ -219,16 +219,12 @@ export function NameForm() {
                                     </span>
                                   )}
                                 </div>
-                                <Check
-                                  className={cn(
-                                    "ml-auto text-success",
-                                    adminEntry.osmId ===
-                                      selectedLocation?.osmId ||
-                                      adminEntry.osmId === osmId
-                                      ? "opacity-100"
-                                      : "opacity-0",
-                                  )}
-                                />
+                                {adminEntry.osmId === osmId ? (
+                                  <Check className="ml-auto text-success" />
+                                ) : adminEntry.osmId ===
+                                  selectedLocation?.osmId ? (
+                                  <Locate className="ml-auto text-muted-foreground" />
+                                ) : null}
                               </CommandItem>
                             ))}
                           </CommandGroup>
