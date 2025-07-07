@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@turf/bbox": "^7.2.0",
     "@turf/boolean-contains": "^7.2.0",
     "@turf/helpers": "^7.2.0",
     "ajv": "^8.17.1",
