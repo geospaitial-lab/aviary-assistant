@@ -42,8 +42,15 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function NameForm() {
-  const { formValues, osmId, setFormValues, setOsmId, setGeoJson, reset } =
-    useNameStore()
+  const {
+    formValues,
+    osmId,
+    geoJson,
+    setFormValues,
+    setOsmId,
+    setGeoJson,
+    reset,
+  } = useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
   const [isSubmitting, setIsSubmitting] = React.useState(false)
@@ -244,7 +251,12 @@ export function NameForm() {
               <Button type="submit" className="w-32" disabled={isSubmitting}>
                 {isSubmitting ? "Wird geladen..." : "Anzeigen"}
               </Button>
-              <Button type="button" variant="outline" className="w-32">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-32"
+                disabled={!geoJson}
+              >
                 Bearbeiten
               </Button>
             </div>
@@ -252,6 +264,7 @@ export function NameForm() {
               type="button"
               variant="destructive"
               className="w-32"
+              disabled={!geoJson}
               onClick={handleReset}
             >
               Entfernen

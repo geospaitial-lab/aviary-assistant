@@ -32,7 +32,8 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function BoundingBoxForm() {
-  const { formValues, setFormValues, setGeoJson, reset } = useBoundingBoxStore()
+  const { formValues, geoJson, setFormValues, setGeoJson, reset } =
+    useBoundingBoxStore()
 
   const form = useForm<BoundingBoxFormSchema>({
     resolver: zodResolver(boundingBoxFormSchema),
@@ -222,7 +223,12 @@ export function BoundingBoxForm() {
               <Button type="submit" className="w-32">
                 Anzeigen
               </Button>
-              <Button type="button" variant="outline" className="w-32">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-32"
+                disabled={!geoJson}
+              >
                 Bearbeiten
               </Button>
             </div>
@@ -230,6 +236,7 @@ export function BoundingBoxForm() {
               type="button"
               variant="destructive"
               className="w-32"
+              disabled={!geoJson}
               onClick={handleReset}
             >
               Entfernen
