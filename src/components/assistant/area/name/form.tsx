@@ -61,18 +61,12 @@ export function NameForm() {
 
   const form = useForm<NameFormSchema>({
     resolver: zodResolver(nameFormSchema),
-    defaultValues: {
+    defaultValues: formValues || {
       name: "",
     },
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
-
-  React.useEffect(() => {
-    if (formValues) {
-      form.reset(formValues)
-    }
-  }, [form, formValues])
 
   React.useEffect(() => {
     void initFuse()

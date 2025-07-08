@@ -38,7 +38,7 @@ export function BoundingBoxForm() {
 
   const form = useForm<BoundingBoxFormSchema>({
     resolver: zodResolver(boundingBoxFormSchema),
-    defaultValues: {
+    defaultValues: formValues || {
       xMin: "",
       yMin: "",
       xMax: "",
@@ -48,12 +48,6 @@ export function BoundingBoxForm() {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
-
-  React.useEffect(() => {
-    if (formValues) {
-      form.reset(formValues)
-    }
-  }, [form, formValues])
 
   React.useEffect(() => {
     void initBoundary()

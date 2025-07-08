@@ -22,8 +22,7 @@ import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function FileForm() {
-  const { formValues, geoJson, setFormValues, setGeoJson, reset } =
-    useFileStore()
+  const { geoJson, setFormValues, setGeoJson, reset } = useFileStore()
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const form = useForm<FileFormSchema>({
@@ -34,12 +33,6 @@ export function FileForm() {
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
-
-  React.useEffect(() => {
-    if (formValues) {
-      form.reset(formValues)
-    }
-  }, [form, formValues])
 
   React.useEffect(() => {
     void initBoundary()
