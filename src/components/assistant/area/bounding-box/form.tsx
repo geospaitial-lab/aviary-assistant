@@ -37,14 +37,16 @@ export function BoundingBoxForm() {
   const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const form = useForm<BoundingBoxFormSchema>({
-    resolver: zodResolver(boundingBoxFormSchema),
-    defaultValues: formValues || {
-      xMin: "",
-      yMin: "",
-      xMax: "",
-      yMax: "",
-      epsgCode: "4326",
-    },
+    resolver: zodResolver(boundingBoxFormSchema) as any,
+    defaultValues:
+      formValues ||
+      ({
+        xMin: "",
+        yMin: "",
+        xMax: "",
+        yMax: "",
+        epsgCode: "4326",
+      } as any),
     mode: "onSubmit",
     reValidateMode: "onSubmit",
   })
@@ -81,7 +83,7 @@ export function BoundingBoxForm() {
       xMax: "",
       yMax: "",
       epsgCode: "4326",
-    })
+    } as any)
 
     reset()
   }
