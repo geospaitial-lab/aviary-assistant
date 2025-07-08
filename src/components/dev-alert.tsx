@@ -15,23 +15,23 @@ import {
 } from "@/components/ui/alert-dialog"
 
 export function DevAlert() {
-  const [open, setOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     const hasSeenAlert = localStorage.getItem("devAlertSeen")
 
     if (!hasSeenAlert) {
-      setOpen(true)
+      setIsOpen(true)
     }
   }, [])
 
   const handleContinue = () => {
     localStorage.setItem("devAlertSeen", "true")
-    setOpen(false)
+    setIsOpen(false)
   }
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
+    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>

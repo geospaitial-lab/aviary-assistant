@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import DOMPurify from "isomorphic-dompurify"
 import { Check, ChevronDown, ChevronUp, Copy } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -154,7 +155,7 @@ const CodeContent: React.FC<CodeContentProps> = ({
       >
         <code
           dangerouslySetInnerHTML={{
-            __html: highlightCode(displayCode, language),
+            __html: DOMPurify.sanitize(highlightCode(displayCode, language)),
           }}
         />
       </pre>
@@ -233,7 +234,7 @@ export function CodeBlock({
   if (isMultiple) {
     return (
       <div className={cn("relative", className)}>
-        <Tabs defaultValue={defaultVersion} className="w-full">
+        <Tabs defaultValue={defaultVersion}>
           <TabsList className="mb-2">
             {codeVersions.map(([version]) => (
               <TabsTrigger
@@ -247,8 +248,8 @@ export function CodeBlock({
           </TabsList>
 
           {codeVersions.map(([version, codeStr], index) => (
-            <TabsContent key={version} value={version} className="mt-0">
-              <div className="rounded-lg border bg-muted">
+            <TabsContent key={version} value={version}>
+              <div className="rounded-lg bg-muted">
                 <CodeHeader
                   title={title}
                   titleClassName={titleClassName}
@@ -282,7 +283,7 @@ export function CodeBlock({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="rounded-lg border bg-muted">
+      <div className="rounded-lg bg-muted">
         <CodeHeader
           title={title}
           titleClassName={titleClassName}
