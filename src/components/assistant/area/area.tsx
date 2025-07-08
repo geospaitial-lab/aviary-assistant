@@ -6,20 +6,30 @@ import { BoundingBoxForm } from "@/components/assistant/area/bounding-box/form"
 import { FileForm } from "@/components/assistant/area/file/form"
 import { Map } from "@/components/assistant/area/map/map"
 import { NameForm } from "@/components/assistant/area/name/form"
+import { useAreaStore } from "@/components/assistant/area/store"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export function Area() {
-  const [activeTab, setActiveTab] = React.useState("name")
+  const [isHydrated, setIsHydrated] = React.useState(false)
+  const { activeTab, setActiveTab } = useAreaStore()
+
+  React.useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  if (!isHydrated) {
+    return null
+  }
 
   return (
     <div className="@container">
       <div className="flex flex-col @2xl:flex-row gap-4">
         <div className="order-2 @2xl:order-1 @2xl:w-1/2 aspect-square">
-          <Map activeTab={activeTab} />
+          <Map />
         </div>
 
         <div className="flex-1 order-1 @2xl:order-2">
-          <Tabs defaultValue="name" onValueChange={setActiveTab}>
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-2">
               <TabsTrigger value="name">Name</TabsTrigger>
               <TabsTrigger value="file">Datei</TabsTrigger>
