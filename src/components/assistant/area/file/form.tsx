@@ -24,6 +24,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 export function FileForm() {
   const { formValues, geoJson, setFormValues, setGeoJson, reset } =
     useFileStore()
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const form = useForm<FileFormSchema>({
     resolver: zodResolver(fileFormSchema),
@@ -45,13 +46,19 @@ export function FileForm() {
   }, [])
 
   async function onSubmit(values: FileFormSchema) {
-    const text = await values.file.text()
-    const geoJson = JSON.parse(text)
+    setIsSubmitting(true)
 
-    setFormValues(values)
-    setGeoJson(geoJson)
+    try {
+      const text = await values.file.text()
+      const geoJson = JSON.parse(text)
 
-    console.log(geoJson)
+      setFormValues(values)
+      setGeoJson(geoJson)
+
+      console.log(geoJson)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function handleReset() {
@@ -95,8 +102,8 @@ export function FileForm() {
           />
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
-              <Button type="submit" className="w-32">
-                Anzeigen
+              <Button type="submit" className="w-32" disabled={isSubmitting}>
+                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
               </Button>
               <Button
                 type="button"

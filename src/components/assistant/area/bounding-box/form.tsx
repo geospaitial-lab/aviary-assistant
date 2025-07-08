@@ -34,6 +34,7 @@ import { zodResolver } from "@hookform/resolvers/zod"
 export function BoundingBoxForm() {
   const { formValues, geoJson, setFormValues, setGeoJson, reset } =
     useBoundingBoxStore()
+  const [isSubmitting, setIsSubmitting] = React.useState(false)
 
   const form = useForm<BoundingBoxFormSchema>({
     resolver: zodResolver(boundingBoxFormSchema),
@@ -59,18 +60,24 @@ export function BoundingBoxForm() {
   }, [])
 
   function onSubmit(values: BoundingBoxFormSchema) {
-    const geoJson = createGeoJson(
-      values.xMin,
-      values.yMin,
-      values.xMax,
-      values.yMax,
-      values.epsgCode,
-    )
+    setIsSubmitting(true)
 
-    setFormValues(values)
-    setGeoJson(geoJson)
+    try {
+      const geoJson = createGeoJson(
+        values.xMin,
+        values.yMin,
+        values.xMax,
+        values.yMax,
+        values.epsgCode,
+      )
 
-    console.log(geoJson)
+      setFormValues(values)
+      setGeoJson(geoJson)
+
+      console.log(geoJson)
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   function handleReset() {
@@ -220,8 +227,8 @@ export function BoundingBoxForm() {
           />
           <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
-              <Button type="submit" className="w-32">
-                Anzeigen
+              <Button type="submit" className="w-32" disabled={isSubmitting}>
+                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
               </Button>
               <Button
                 type="button"
