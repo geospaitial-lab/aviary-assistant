@@ -14,11 +14,6 @@ export const useAreaStore = create<AreaState>()(
     }),
     {
       name: "area-storage",
-      skipHydration: true,
     },
   ),
 )
-
-if (typeof window !== "undefined") {
-  useAreaStore.persist.rehydrate()
-}
