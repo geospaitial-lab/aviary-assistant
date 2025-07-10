@@ -100,8 +100,6 @@ export function Map() {
         },
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
-        dragRotate: false,
-        touchZoomRotate: false,
         keyboard: false,
       }
 
@@ -127,6 +125,9 @@ export function Map() {
       }
 
       map.current = new maplibregl.Map(mapOptions)
+      map.current.dragRotate.disable()
+      map.current.touchZoomRotate.disableRotation()
+      map.current.touchPitch.disable()
     }
 
     return () => {
