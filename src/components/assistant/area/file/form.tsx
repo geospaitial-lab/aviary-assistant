@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function FileForm() {
@@ -96,7 +97,9 @@ export function FileForm() {
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
               <Button type="submit" className="w-32" disabled={isSubmitting}>
-                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+                <span className={cn(isSubmitting && "animate-pulse")}>
+                  Anzeigen
+                </span>
               </Button>
               <Button
                 type="button"

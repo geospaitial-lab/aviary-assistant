@@ -243,7 +243,9 @@ export function NameForm() {
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
               <Button type="submit" className="w-32" disabled={isSubmitting}>
-                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+                <span className={cn(isSubmitting && "animate-pulse")}>
+                  Anzeigen
+                </span>
               </Button>
               <Button
                 type="button"
