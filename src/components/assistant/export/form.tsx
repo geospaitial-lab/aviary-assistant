@@ -28,17 +28,24 @@ export function ExportForm() {
       dirPath: "",
     },
     mode: "onBlur",
-    reValidateMode: "onChange",
+    reValidateMode: "onBlur",
   })
 
-  const handleBlur = React.useCallback(() => {
-    const values = form.getValues()
-    setFormValues(values)
+  React.useEffect(() => {
+    const subscription = form.watch((value) => {
+      setFormValues(value as ExportFormSchema)
+    })
+    return () => subscription.unsubscribe()
   }, [form, setFormValues])
 
   return (
     <Form {...form}>
-      <form autoComplete="off" noValidate className="p-4 border rounded-lg">
+      <form
+        autoComplete="off"
+        noValidate
+        onSubmit={(e) => e.preventDefault()}
+        className="p-4 border rounded-lg"
+      >
         <FormField
           control={form.control}
           name="dirPath"
@@ -46,12 +53,7 @@ export function ExportForm() {
             <FormItem>
               <FormLabel>Ausgabeverzeichnis</FormLabel>
               <FormControl>
-                <Input
-                  type="text"
-                  placeholder="optional"
-                  {...field}
-                  onBlur={handleBlur}
-                />
+                <Input type="text" placeholder="optional" {...field} />
               </FormControl>
               <div className="min-h-[1.25rem]">
                 <FormMessage />
