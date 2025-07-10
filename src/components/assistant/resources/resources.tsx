@@ -23,6 +23,14 @@ export function Resources() {
     <div className="@container">
       <div className="@2xl:w-1/2 @2xl:mx-auto">
         <div>
+          <div className="text-2xl font-bold text-center mb-2">
+            Womit willst du rechnen?
+          </div>
+
+          <div className="font-medium text-muted-foreground text-center mb-8">
+            Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU.
+          </div>
+
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-2">
               <TabsTrigger value="cpu">CPU</TabsTrigger>
