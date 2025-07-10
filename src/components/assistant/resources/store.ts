@@ -9,7 +9,7 @@ interface ResourcesState {
 export const useResourcesStore = create<ResourcesState>()(
   persist(
     (set) => ({
-      activeTab: "CPU",
+      activeTab: "cpu",
       setActiveTab: (tab) => set({ activeTab: tab }),
     }),
     {
