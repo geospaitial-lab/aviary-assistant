@@ -29,6 +29,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function BoundingBoxForm() {
@@ -224,7 +225,9 @@ export function BoundingBoxForm() {
           <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
               <Button type="submit" className="w-32" disabled={isSubmitting}>
-                {isSubmitting ? "Wird geladen..." : "Anzeigen"}
+                <span className={cn(isSubmitting && "animate-pulse")}>
+                  Anzeigen
+                </span>
               </Button>
               <Button
                 type="button"
