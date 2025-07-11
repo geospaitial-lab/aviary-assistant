@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import { Cpu } from "@/components/assistant/resources/cpu"
-import { Gpu } from "@/components/assistant/resources/gpu"
+import { CpuForm } from "@/components/assistant/resources/cpu/form"
+import { GpuForm } from "@/components/assistant/resources/gpu/form"
 import { useResourcesStore } from "@/components/assistant/resources/store"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
@@ -23,13 +23,13 @@ export function Resources() {
     <div className="@container">
       <div className="@2xl:w-1/2 @2xl:mx-auto">
         <div>
-          <div className="text-2xl font-bold text-center mb-2">
+          <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
             Womit willst du rechnen?
-          </div>
+          </h1>
 
-          <div className="font-medium text-muted-foreground text-center mb-8">
+          <h2 className="font-medium text-muted-foreground text-center mb-8">
             Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU.
-          </div>
+          </h2>
 
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="mb-2">
@@ -39,13 +39,13 @@ export function Resources() {
 
             <TabsContent value="cpu">
               <div className="p-4 border rounded-lg">
-                <Cpu />
+                <CpuForm />
               </div>
             </TabsContent>
 
             <TabsContent value="gpu">
               <div className="p-4 border rounded-lg">
-                <Gpu />
+                <GpuForm />
               </div>
             </TabsContent>
           </Tabs>
