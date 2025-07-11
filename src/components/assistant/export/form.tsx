@@ -40,12 +40,15 @@ export function ExportForm() {
 
   return (
     <Form {...form}>
-      <form
-        autoComplete="off"
-        noValidate
-        onSubmit={(e) => e.preventDefault()}
-        className="p-4 border rounded-lg"
-      >
+      <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
+        <p className="mb-4">
+          Gib hier an, in welchem Verzeichnis die Daten gespeichert werden
+          sollen.
+          <br />
+          Falls du den Pfad jetzt noch nicht kennst, kannst du das Feld
+          freilassen und später nachtragen.
+        </p>
+
         <FormField
           control={form.control}
           name="dirPath"
