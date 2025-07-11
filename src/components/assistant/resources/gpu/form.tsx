@@ -46,7 +46,7 @@ export function GpuForm() {
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0 font-medium", {
+            className={cn("absolute left-0 font-medium transition-color", {
               "text-muted-foreground": vramValue !== 0,
             })}
           >
@@ -54,7 +54,7 @@ export function GpuForm() {
           </span>
           <span
             className={cn(
-              "absolute left-1/3 transform -translate-x-1/2 font-medium",
+              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color",
               {
                 "text-muted-foreground": vramValue !== 1,
               },
@@ -64,7 +64,7 @@ export function GpuForm() {
           </span>
           <span
             className={cn(
-              "absolute left-2/3 transform -translate-x-1/2 font-medium",
+              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color",
               {
                 "text-muted-foreground": vramValue !== 2,
               },
@@ -73,9 +73,12 @@ export function GpuForm() {
             16 GB
           </span>
           <span
-            className={cn("absolute right-0 text-right font-medium", {
-              "text-muted-foreground": vramValue !== 3,
-            })}
+            className={cn(
+              "absolute right-0 text-right font-medium transition-color",
+              {
+                "text-muted-foreground": vramValue !== 3,
+              },
+            )}
           >
             24 GB
           </span>
