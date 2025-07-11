@@ -46,29 +46,35 @@ export function CpuForm() {
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0", {
-              "font-semibold": ramValue === 0,
+            className={cn("absolute left-0 font-medium", {
+              "text-muted-foreground": ramValue !== 0,
             })}
           >
             8 GB
           </span>
           <span
-            className={cn("absolute left-1/3 transform -translate-x-1/2", {
-              "font-semibold": ramValue === 1,
-            })}
+            className={cn(
+              "absolute left-1/3 transform -translate-x-1/2 font-medium",
+              {
+                "text-muted-foreground": ramValue !== 1,
+              },
+            )}
           >
             16 GB
           </span>
           <span
-            className={cn("absolute left-2/3 transform -translate-x-1/2", {
-              "font-semibold": ramValue === 2,
-            })}
+            className={cn(
+              "absolute left-2/3 transform -translate-x-1/2 font-medium",
+              {
+                "text-muted-foreground": ramValue !== 2,
+              },
+            )}
           >
             32 GB
           </span>
           <span
-            className={cn("absolute right-0 text-right", {
-              "font-semibold": ramValue === 3,
+            className={cn("absolute right-0 text-right font-medium", {
+              "text-muted-foreground": ramValue !== 3,
             })}
           >
             64 GB

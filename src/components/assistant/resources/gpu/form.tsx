@@ -46,29 +46,35 @@ export function GpuForm() {
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0", {
-              "font-semibold": vramValue === 0,
+            className={cn("absolute left-0 font-medium", {
+              "text-muted-foreground": vramValue !== 0,
             })}
           >
             8 GB
           </span>
           <span
-            className={cn("absolute left-1/3 transform -translate-x-1/2", {
-              "font-semibold": vramValue === 1,
-            })}
+            className={cn(
+              "absolute left-1/3 transform -translate-x-1/2 font-medium",
+              {
+                "text-muted-foreground": vramValue !== 1,
+              },
+            )}
           >
             12 GB
           </span>
           <span
-            className={cn("absolute left-2/3 transform -translate-x-1/2", {
-              "font-semibold": vramValue === 2,
-            })}
+            className={cn(
+              "absolute left-2/3 transform -translate-x-1/2 font-medium",
+              {
+                "text-muted-foreground": vramValue !== 2,
+              },
+            )}
           >
             16 GB
           </span>
           <span
-            className={cn("absolute right-0 text-right", {
-              "font-semibold": vramValue === 3,
+            className={cn("absolute right-0 text-right font-medium", {
+              "text-muted-foreground": vramValue !== 3,
             })}
           >
             24 GB
