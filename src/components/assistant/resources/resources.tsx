@@ -37,13 +37,13 @@ export function Resources() {
           </TabsList>
 
           <TabsContent value="cpu">
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border-2 rounded-lg">
               <CpuForm />
             </div>
           </TabsContent>
 
           <TabsContent value="gpu">
-            <div className="p-4 border rounded-lg">
+            <div className="p-4 border-2 rounded-lg">
               <GpuForm />
             </div>
           </TabsContent>

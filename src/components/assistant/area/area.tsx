@@ -38,25 +38,25 @@ export function Area() {
             </TabsList>
 
             <TabsContent value="name">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <NameForm />
               </div>
             </TabsContent>
 
             <TabsContent value="file">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <FileForm />
               </div>
             </TabsContent>
 
             <TabsContent value="bounding-box">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <BoundingBoxForm />
               </div>
             </TabsContent>
 
             <TabsContent value="draw">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <p>TODO</p>
               </div>
             </TabsContent>
