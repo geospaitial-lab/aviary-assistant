@@ -36,6 +36,9 @@ export function CpuForm() {
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
         <p className="mb-4">
           Gib hier an, wie viel RAM dein Prozessor zur Verfügung hat.
+          <br />
+          Je mehr, desto schneller – die Qualität der Ergebnisse beeinflusst das
+          aber nicht.
         </p>
 
         <div className="mb-4 relative h-6">
