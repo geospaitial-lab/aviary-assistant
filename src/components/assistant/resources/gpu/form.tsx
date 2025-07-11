@@ -10,6 +10,7 @@ import {
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
+import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function GpuForm() {
@@ -31,6 +32,8 @@ export function GpuForm() {
     return () => subscription.unsubscribe()
   }, [form, setFormValues])
 
+  const vramValue = form.watch("vram")
+
   return (
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
@@ -42,14 +45,34 @@ export function GpuForm() {
         </p>
 
         <div className="mb-4 relative h-6">
-          <span className="absolute left-0">8 GB</span>
-          <span className="absolute left-1/3 transform -translate-x-1/2">
+          <span
+            className={cn("absolute left-0", {
+              "font-semibold": vramValue === 0,
+            })}
+          >
+            8 GB
+          </span>
+          <span
+            className={cn("absolute left-1/3 transform -translate-x-1/2", {
+              "font-semibold": vramValue === 1,
+            })}
+          >
             12 GB
           </span>
-          <span className="absolute left-2/3 transform -translate-x-1/2">
+          <span
+            className={cn("absolute left-2/3 transform -translate-x-1/2", {
+              "font-semibold": vramValue === 2,
+            })}
+          >
             16 GB
           </span>
-          <span className="absolute right-0 text-right">24 GB</span>
+          <span
+            className={cn("absolute right-0 text-right", {
+              "font-semibold": vramValue === 3,
+            })}
+          >
+            24 GB
+          </span>
         </div>
         <FormField
           control={form.control}
