@@ -22,34 +22,32 @@ export function Resources() {
   return (
     <div className="@container">
       <div className="@2xl:w-1/2 @2xl:mx-auto">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
-            Womit willst du rechnen?
-          </h1>
+        <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
+          Womit willst du rechnen?
+        </h1>
 
-          <h2 className="font-semibold text-muted-foreground text-center mb-8">
-            Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU.
-          </h2>
+        <h2 className="font-semibold text-muted-foreground text-center mb-8">
+          Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU.
+        </h2>
 
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsList className="mb-2">
-              <TabsTrigger value="cpu">CPU</TabsTrigger>
-              <TabsTrigger value="gpu">GPU</TabsTrigger>
-            </TabsList>
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-2">
+            <TabsTrigger value="cpu">CPU</TabsTrigger>
+            <TabsTrigger value="gpu">GPU</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="cpu">
-              <div className="p-4 border rounded-lg">
-                <CpuForm />
-              </div>
-            </TabsContent>
+          <TabsContent value="cpu">
+            <div className="p-4 border rounded-lg">
+              <CpuForm />
+            </div>
+          </TabsContent>
 
-            <TabsContent value="gpu">
-              <div className="p-4 border rounded-lg">
-                <GpuForm />
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+          <TabsContent value="gpu">
+            <div className="p-4 border rounded-lg">
+              <GpuForm />
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
