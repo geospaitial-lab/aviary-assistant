@@ -17,7 +17,7 @@ export function Export() {
 
   return (
     <div className="@container">
-      <div className="@2xl:w-1/2 @2xl:mx-auto">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
         <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
           Wohin mit den Ergebnissen?
         </h1>
