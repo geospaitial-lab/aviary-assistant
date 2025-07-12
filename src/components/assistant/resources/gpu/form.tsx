@@ -46,39 +46,43 @@ export function GpuForm() {
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0 font-medium transition-color", {
+            className={cn("absolute left-0 font-medium transition-color cursor-pointer", {
               "text-muted-foreground": vramValue !== 0,
             })}
+            onClick={() => form.setValue("vram", 0)}
           >
             8 GB
           </span>
           <span
             className={cn(
-              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color",
+              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": vramValue !== 1,
               },
             )}
+            onClick={() => form.setValue("vram", 1)}
           >
             12 GB
           </span>
           <span
             className={cn(
-              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color",
+              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": vramValue !== 2,
               },
             )}
+            onClick={() => form.setValue("vram", 2)}
           >
             16 GB
           </span>
           <span
             className={cn(
-              "absolute right-0 text-right font-medium transition-color",
+              "absolute right-0 text-right font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": vramValue !== 3,
               },
             )}
+            onClick={() => form.setValue("vram", 3)}
           >
             24 GB
           </span>

@@ -46,39 +46,46 @@ export function CpuForm() {
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0 font-medium transition-color", {
-              "text-muted-foreground": ramValue !== 0,
-            })}
+            className={cn(
+              "absolute left-0 font-medium transition-color cursor-pointer",
+              {
+                "text-muted-foreground": ramValue !== 0,
+              },
+            )}
+            onClick={() => form.setValue("ram", 0)}
           >
             8 GB
           </span>
           <span
             className={cn(
-              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color",
+              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": ramValue !== 1,
               },
             )}
+            onClick={() => form.setValue("ram", 1)}
           >
             16 GB
           </span>
           <span
             className={cn(
-              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color",
+              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": ramValue !== 2,
               },
             )}
+            onClick={() => form.setValue("ram", 2)}
           >
             32 GB
           </span>
           <span
             className={cn(
-              "absolute right-0 text-right font-medium transition-color",
+              "absolute right-0 text-right font-medium transition-color cursor-pointer",
               {
                 "text-muted-foreground": ramValue !== 3,
               },
             )}
+            onClick={() => form.setValue("ram", 3)}
           >
             64 GB
           </span>
