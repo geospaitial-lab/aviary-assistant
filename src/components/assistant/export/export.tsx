@@ -22,7 +22,7 @@ export function Export() {
           Wohin mit den Ergebnissen?
         </h1>
 
-        <h2 className="font-semibold text-muted-foreground text-center mb-8">
+        <h2 className="text-lg font-semibold text-muted-foreground text-center mb-8">
           Wähle den Ort, an dem die Ausgabe unserer KI gespeichert werden soll
         </h2>
 

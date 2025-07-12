@@ -26,7 +26,7 @@ export function Resources() {
           Womit willst du rechnen?
         </h1>
 
-        <h2 className="font-semibold text-muted-foreground text-center mb-8">
+        <h2 className="text-lg font-semibold text-muted-foreground text-center mb-8">
           Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU
         </h2>
 

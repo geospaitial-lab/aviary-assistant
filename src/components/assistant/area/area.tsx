@@ -28,7 +28,7 @@ export function Area() {
           Welches Gebiet?
         </h1>
 
-        <h2 className="font-semibold text-muted-foreground text-center mb-8">
+        <h2 className="text-lg font-semibold text-muted-foreground text-center mb-8">
           Wähle das Gebiet, das von unserer KI ausgewertet werden soll
         </h2>
       </div>
