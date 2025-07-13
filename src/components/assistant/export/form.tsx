@@ -41,11 +41,9 @@ export function ExportForm() {
   return (
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
-        <p className="mb-4">
+        <p className="text-pretty mb-4">
           Gib hier an, in welchem Verzeichnis die Daten gespeichert werden
-          sollen.
-          <br />
-          Falls du den Pfad jetzt noch nicht kennst, kannst du das Feld
+          sollen. Falls du den Pfad jetzt noch nicht kennst, kannst du das Feld
           freilassen und später nachtragen.
         </p>
 

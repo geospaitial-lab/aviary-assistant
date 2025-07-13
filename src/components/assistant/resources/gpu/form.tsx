@@ -37,18 +37,20 @@ export function GpuForm() {
   return (
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
-        <p className="mb-4">
-          Gib hier an, wie viel VRAM deine Grafikkarte zur Verfügung hat.
-          <br />
-          Je mehr, desto schneller – die Qualität der Ergebnisse beeinflusst das
+        <p className="text-pretty mb-4">
+          Gib hier an, wie viel VRAM deine Grafikkarte zur Verfügung hat. Je
+          mehr, desto schneller – die Qualität der Ergebnisse beeinflusst das
           aber nicht.
         </p>
 
         <div className="mb-4 relative h-6">
           <span
-            className={cn("absolute left-0 font-medium transition-color cursor-pointer", {
-              "text-muted-foreground": vramValue !== 0,
-            })}
+            className={cn(
+              "absolute left-0 font-medium transition-color cursor-pointer",
+              {
+                "text-muted-foreground": vramValue !== 0,
+              },
+            )}
             onClick={() => form.setValue("vram", 0)}
           >
             8 GB

@@ -18,11 +18,11 @@ export function Export() {
   return (
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
+        <h1 className="text-3xl font-bold tracking-tight text-center text-balance mb-2">
           Wohin mit den Ergebnissen?
         </h1>
 
-        <h2 className="text-lg font-semibold text-muted-foreground text-center mb-8">
+        <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance  mb-8">
           Wähle den Ort, an dem die Ausgabe unserer KI gespeichert werden soll
         </h2>
 

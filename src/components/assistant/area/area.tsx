@@ -24,11 +24,11 @@ export function Area() {
   return (
     <div className="@container">
       <div className="@2xl:w-1/2 @2xl:mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight text-center mb-2">
+        <h1 className="text-3xl font-bold tracking-tight text-center text-balance mb-2">
           Welches Gebiet?
         </h1>
 
-        <h2 className="text-lg font-semibold text-muted-foreground text-center mb-8">
+        <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
           Wähle das Gebiet, das von unserer KI ausgewertet werden soll
         </h2>
       </div>
