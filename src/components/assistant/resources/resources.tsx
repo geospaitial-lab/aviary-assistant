@@ -22,7 +22,7 @@ export function Resources() {
   return (
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <h1 className="text-3xl font-bold tracking-tight text-center text-balance mb-2">
+        <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
           Womit willst du rechnen?
         </h1>
 
