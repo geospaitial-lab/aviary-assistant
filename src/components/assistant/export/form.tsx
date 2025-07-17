@@ -8,6 +8,7 @@ import {
   exportFormSchema,
 } from "@/components/assistant/export/schema"
 import { useExportStore } from "@/components/assistant/export/store"
+import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
@@ -42,7 +43,7 @@ export function ExportForm() {
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
         <p className="text-pretty mb-4">
-          Gib hier an, in welchem Verzeichnis die Daten gespeichert werden
+          Gib hier an, in welchem Verzeichnis die Ergebnisse gespeichert werden
           sollen. Falls du den Pfad jetzt noch nicht kennst, kannst du das Feld
           freilassen und später nachtragen.
         </p>
@@ -62,6 +63,9 @@ export function ExportForm() {
             </FormItem>
           )}
         />
+        <Link className="text-sm" showArrow={true}>
+          Mehr erfahren
+        </Link>
       </form>
     </Form>
   )

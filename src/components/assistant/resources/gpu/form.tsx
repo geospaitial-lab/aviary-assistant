@@ -8,7 +8,14 @@ import {
   gpuFormSchema,
 } from "@/components/assistant/resources/gpu/schema"
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
+import { Link } from "@/components/link"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -104,10 +111,15 @@ export function GpuForm() {
                   }}
                 />
               </FormControl>
+              <div className="min-h-[1.25rem]">
+                <FormMessage />
+              </div>
             </FormItem>
           )}
         />
-        <div className="h-8"></div>
+        <Link className="text-sm" showArrow={true}>
+          Mehr erfahren
+        </Link>
       </form>
     </Form>
   )

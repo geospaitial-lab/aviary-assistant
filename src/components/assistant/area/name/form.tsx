@@ -16,6 +16,7 @@ import {
   searchAdminEntries,
 } from "@/components/assistant/area/name/search"
 import { useNameStore } from "@/components/assistant/area/name/store"
+import { Link } from "@/components/link"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -266,6 +267,9 @@ export function NameForm() {
               Entfernen
             </Button>
           </div>
+          <Link className="text-sm" showArrow={true}>
+            Mehr erfahren
+          </Link>
         </form>
       </Form>
     </div>

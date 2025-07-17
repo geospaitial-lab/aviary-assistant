@@ -10,6 +10,7 @@ import {
   initBoundary,
 } from "@/components/assistant/area/bounding-box/schema"
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
+import { Link } from "@/components/link"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -248,6 +249,9 @@ export function BoundingBoxForm() {
               Entfernen
             </Button>
           </div>
+          <Link className="text-sm" showArrow={true}>
+            Mehr erfahren
+          </Link>
         </form>
       </Form>
     </div>
