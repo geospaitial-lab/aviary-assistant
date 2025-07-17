@@ -36,7 +36,7 @@ export function DevAlert() {
         <AlertDialogHeader>
           <AlertDialogTitle>
             <div className="flex items-center gap-2">
-              <Construction />
+              <Construction aria-hidden="true" />
               Wir arbeiten noch daran
             </div>
           </AlertDialogTitle>

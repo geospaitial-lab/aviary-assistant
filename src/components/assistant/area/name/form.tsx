@@ -179,7 +179,10 @@ export function NameForm() {
                         )}
                       >
                         <div className="font-normal">{field.value || ""}</div>
-                        <ChevronDownIcon className="opacity-50" />
+                        <ChevronDownIcon
+                          className="opacity-50"
+                          aria-hidden="true"
+                        />
                       </Button>
                     </FormControl>
                   </PopoverTrigger>
@@ -222,10 +225,22 @@ export function NameForm() {
                                   )}
                                 </div>
                                 {adminEntry.osmId === osmId ? (
-                                  <Check className="ml-auto text-success" />
+                                  <>
+                                    <Check
+                                      className="ml-auto text-success"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="sr-only">Angezeigt</span>
+                                  </>
                                 ) : adminEntry.osmId ===
                                   selectedLocation?.osmId ? (
-                                  <Locate className="ml-auto text-muted-foreground" />
+                                  <>
+                                    <Locate
+                                      className="ml-auto text-muted-foreground"
+                                      aria-hidden="true"
+                                    />
+                                    <span className="sr-only">Ausgewählt</span>
+                                  </>
                                 ) : null}
                               </CommandItem>
                             ))}
@@ -267,7 +282,7 @@ export function NameForm() {
               Entfernen
             </Button>
           </div>
-          <Link className="text-sm" showArrow={true}>
+          <Link showArrow={true} className="text-sm">
             Mehr erfahren
           </Link>
         </form>

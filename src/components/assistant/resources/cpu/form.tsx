@@ -117,7 +117,7 @@ export function CpuForm() {
             </FormItem>
           )}
         />
-        <Link className="text-sm" showArrow={true}>
+        <Link showArrow={true} className="text-sm">
           Mehr erfahren
         </Link>
       </form>
