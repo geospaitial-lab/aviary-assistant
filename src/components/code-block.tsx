@@ -100,7 +100,12 @@ const CopyButton: React.FC<{
           className="absolute top-2 right-2 text-muted-foreground hover:text-foreground hover:bg-transparent dark:hover:bg-transparent z-20"
           onClick={onCopy}
         >
-          {copied ? <Check className="text-success" /> : <Copy />}
+          {copied ? (
+            <Check className="text-success" aria-hidden="true" />
+          ) : (
+            <Copy aria-hidden="true" />
+          )}
+          <span className="sr-only">In Zwischenablage kopieren</span>
         </Button>
       </TooltipTrigger>
       <TooltipContent sideOffset={8}>
@@ -184,7 +189,12 @@ const CollapsibleCodeBlock: React.FC<{
           size="icon"
           className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-8 px-3 mb-2 text-muted-foreground hover:text-foreground hover:bg-transparent dark:hover:bg-transparent z-10"
         >
-          {isOpen ? <ChevronUp /> : <ChevronDown />}
+          {isOpen ? (
+            <ChevronUp aria-hidden="true" />
+          ) : (
+            <ChevronDown aria-hidden="true" />
+          )}
+          <span className="sr-only">Aus- / Einklappen</span>
         </Button>
       </CollapsibleTrigger>
     )}

@@ -9,6 +9,7 @@ import {
   initBoundary,
 } from "@/components/assistant/area/file/schema"
 import { useFileStore } from "@/components/assistant/area/file/store"
+import { Link } from "@/components/link"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -120,6 +121,9 @@ export function FileForm() {
               Entfernen
             </Button>
           </div>
+          <Link showArrow={true} className="text-sm">
+            Mehr erfahren
+          </Link>
         </form>
       </Form>
     </div>

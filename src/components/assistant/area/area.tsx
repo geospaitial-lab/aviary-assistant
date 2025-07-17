@@ -23,6 +23,16 @@ export function Area() {
 
   return (
     <div className="@container">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
+        <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
+          Welches Gebiet interessiert dich?
+        </h1>
+
+        <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
+          Wähle das Gebiet, das von unserer KI ausgewertet werden soll
+        </h2>
+      </div>
+
       <div className="flex flex-col @2xl:flex-row gap-4">
         <div className="order-2 @2xl:order-1 @2xl:w-1/2 aspect-square">
           <Map />
@@ -38,25 +48,25 @@ export function Area() {
             </TabsList>
 
             <TabsContent value="name">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <NameForm />
               </div>
             </TabsContent>
 
             <TabsContent value="file">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <FileForm />
               </div>
             </TabsContent>
 
             <TabsContent value="bounding-box">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <BoundingBoxForm />
               </div>
             </TabsContent>
 
             <TabsContent value="draw">
-              <div className="p-4 border rounded-lg">
+              <div className="p-4 border-2 rounded-lg">
                 <p>TODO</p>
               </div>
             </TabsContent>

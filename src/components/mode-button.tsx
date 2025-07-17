@@ -19,23 +19,29 @@ export function ModeButton() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          <Sun className="scale-100 transition-all dark:scale-0 dark:-rotate-90" />
-          <Moon className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+          <Sun
+            className="scale-100 transition-all dark:scale-0 dark:-rotate-90"
+            aria-hidden="true"
+          />
+          <Moon
+            className="absolute scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+            aria-hidden="true"
+          />
           <span className="sr-only">Design ändern</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setTheme("light")}>
-          <Sun />
+          <Sun aria-hidden="true" />
           Hell
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setTheme("dark")}>
-          <Moon />
+          <Moon aria-hidden="true" />
           Dunkel
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => setTheme("system")}>
-          <Monitor />
+          <Monitor aria-hidden="true" />
           System
         </DropdownMenuItem>
       </DropdownMenuContent>

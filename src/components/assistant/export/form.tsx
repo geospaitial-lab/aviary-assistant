@@ -8,6 +8,7 @@ import {
   exportFormSchema,
 } from "@/components/assistant/export/schema"
 import { useExportStore } from "@/components/assistant/export/store"
+import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
@@ -40,12 +41,13 @@ export function ExportForm() {
 
   return (
     <Form {...form}>
-      <form
-        autoComplete="off"
-        noValidate
-        onSubmit={(e) => e.preventDefault()}
-        className="p-4 border rounded-lg"
-      >
+      <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
+        <p className="text-pretty mb-4">
+          Gib hier an, in welchem Verzeichnis die Ergebnisse gespeichert werden
+          sollen. Falls du den Pfad jetzt noch nicht kennst, kannst du das Feld
+          freilassen und später nachtragen.
+        </p>
+
         <FormField
           control={form.control}
           name="dirPath"
@@ -61,6 +63,9 @@ export function ExportForm() {
             </FormItem>
           )}
         />
+        <Link showArrow={true} className="text-sm">
+          Mehr erfahren
+        </Link>
       </form>
     </Form>
   )
