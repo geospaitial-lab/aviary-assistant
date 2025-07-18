@@ -7,8 +7,8 @@ export function Footer() {
     <div className="border-t-2">
       <div className="w-full max-w-6xl mx-auto px-4">
         <footer className="@container py-16">
-          <div className="flex flex-col gap-16">
-            <div className="flex flex-col gap-8 @4xl:flex-row @4xl:justify-between">
+          <div className="flex flex-col gap-24">
+            <div className="flex flex-col gap-16 @4xl:flex-row @4xl:justify-between">
               <div className="grid grid-rows-2 grid-flow-col gap-4 @2xl:grid-rows-1 @2xl:grid-cols-4 @2xl:grid-flow-row">
                 <div className="flex flex-col gap-2">
                   <h3 className="font-medium text-muted-foreground">aviary</h3>
