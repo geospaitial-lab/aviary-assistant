@@ -97,7 +97,7 @@ export function FileForm() {
           />
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
-              <Button type="submit" className="w-32" disabled={isSubmitting}>
+              <Button type="submit" className="w-24" disabled={isSubmitting}>
                 <span className={cn(isSubmitting && "animate-pulse")}>
                   Anzeigen
                 </span>
@@ -105,7 +105,7 @@ export function FileForm() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-32"
+                className="w-24"
                 disabled={!geoJson}
               >
                 Bearbeiten
@@ -114,7 +114,7 @@ export function FileForm() {
             <Button
               type="button"
               variant="destructive"
-              className="w-32"
+              className="w-24"
               disabled={!geoJson}
               onClick={handleReset}
             >

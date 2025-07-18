@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 
 import { DevAlert } from "@/components/dev-alert"
+import { Footer } from "@/components/footer"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import "./globals.css"
@@ -37,7 +38,10 @@ export default function RootLayout({
       >
         <DevAlert />
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <div className="min-h-screen flex flex-col">
+            <main className="flex-1 mb-32">{children}</main>
+            <Footer />
+          </div>
         </ThemeProvider>
       </body>
     </html>
