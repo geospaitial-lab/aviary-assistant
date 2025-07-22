@@ -9,6 +9,20 @@ import { NameForm } from "@/components/assistant/area/name/form"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
+function AreaHeadings() {
+  return (
+    <>
+      <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
+        Welches Gebiet interessiert dich?
+      </h1>
+
+      <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
+        Wähle das Gebiet, das von unserer KI ausgewertet werden soll
+      </h2>
+    </>
+  )
+}
+
 export function Area() {
   const [isHydrated, setIsHydrated] = React.useState(false)
   const { activeTab, setActiveTab } = useAreaStore()
@@ -18,19 +32,19 @@ export function Area() {
   }, [])
 
   if (!isHydrated) {
-    return null
+    return (
+      <div className="@container">
+        <div className="@2xl:w-2/3 @2xl:mx-auto">
+          <AreaHeadings />
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-          Welches Gebiet interessiert dich?
-        </h1>
-
-        <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-          Wähle das Gebiet, das von unserer KI ausgewertet werden soll
-        </h2>
+        <AreaHeadings />
       </div>
 
       <div className="flex flex-col @2xl:flex-row gap-4">
