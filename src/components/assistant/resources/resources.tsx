@@ -5,7 +5,22 @@ import * as React from "react"
 import { CpuForm } from "@/components/assistant/resources/cpu/form"
 import { GpuForm } from "@/components/assistant/resources/gpu/form"
 import { useResourcesStore } from "@/components/assistant/resources/store"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+function ResourcesHeadings() {
+  return (
+    <>
+      <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
+        Womit willst du rechnen?
+      </h1>
+
+      <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
+        Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU
+      </h2>
+    </>
+  )
+}
 
 export function Resources() {
   const [isHydrated, setIsHydrated] = React.useState(false)
@@ -16,20 +31,20 @@ export function Resources() {
   }, [])
 
   if (!isHydrated) {
-    return null
+    return (
+      <div className="@container">
+        <div className="@2xl:w-2/3 @2xl:mx-auto">
+          <ResourcesHeadings />
+          <Skeleton className="w-[100.637px] h-[36px]" />
+        </div>
+      </div>
+    )
   }
 
   return (
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-          Womit willst du rechnen?
-        </h1>
-
-        <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-          Wähle die Hardware, auf der unsere KI laufen soll – CPU oder GPU
-        </h2>
-
+        <ResourcesHeadings />
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-2">
             <TabsTrigger value="cpu">CPU</TabsTrigger>
