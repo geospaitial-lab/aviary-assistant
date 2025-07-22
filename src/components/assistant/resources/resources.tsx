@@ -5,7 +5,6 @@ import * as React from "react"
 import { CpuForm } from "@/components/assistant/resources/cpu/form"
 import { GpuForm } from "@/components/assistant/resources/gpu/form"
 import { useResourcesStore } from "@/components/assistant/resources/store"
-import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function ResourcesHeadings() {
@@ -35,7 +34,6 @@ export function Resources() {
       <div className="@container">
         <div className="@2xl:w-2/3 @2xl:mx-auto">
           <ResourcesHeadings />
-          <Skeleton className="w-[100.637px] h-[36px]" />
         </div>
       </div>
     )
