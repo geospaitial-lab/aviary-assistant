@@ -2,7 +2,7 @@ import { Link } from "@/components/link"
 
 export function Footer() {
   return (
-    <div className="w-full max-w-6xl mx-auto px-4">
+    <div className="max-w-6xl mx-auto px-4">
       <footer className="@container py-16">
         <div className="flex flex-col gap-24">
           <div className="flex flex-col gap-16 @4xl:flex-row @4xl:justify-between">
