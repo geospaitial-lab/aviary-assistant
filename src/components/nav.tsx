@@ -7,7 +7,7 @@ import {
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
+  navigationMenuLinkStyle,
 } from "@/components/ui/navigation-menu"
 
 export function Nav() {
@@ -15,12 +15,12 @@ export function Nav() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink className={navigationMenuLinkStyle()} asChild>
             <NextLink href="/">Modelle</NextLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink asChild className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink className={navigationMenuLinkStyle()} asChild>
             <NextLink href="/">Anleitungen</NextLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
