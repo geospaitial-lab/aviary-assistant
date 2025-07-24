@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 
 export function AviaryAssistantButton() {
   return (
-    <Button variant="link" asChild>
+    <Button asChild variant="link">
       <NextLink href="/">
         <AviaryIcon className="size-10 text-foreground" aria-hidden="true" />
         <span className="sr-only">Startseite</span>
