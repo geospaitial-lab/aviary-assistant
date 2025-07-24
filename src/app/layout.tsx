@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google"
 
 import { DevAlert } from "@/components/dev-alert"
 import { Footer } from "@/components/footer"
+import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
 
 import "./globals.css"
@@ -37,7 +38,13 @@ export default function RootLayout({
         className={`${inter.variable} ${jetBrainsMono.variable} font-sans antialiased`}
       >
         <DevAlert />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Header />
           <div className="min-h-screen flex flex-col">
             <main className="flex-1 mb-32">{children}</main>
           </div>
