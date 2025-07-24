@@ -35,16 +35,13 @@ export function Footer() {
                 <h3 className="font-medium text-muted-foreground">Hilfe</h3>
                 <ul className="flex flex-col gap-1">
                   <li>
-                    <Link className="text-sm">FAQ</Link>
-                  </li>
-                  <li>
                     <Link className="text-sm">Anleitungen</Link>
                   </li>
                   <li>
-                    <Link className="text-sm">Community</Link>
+                    <Link className="text-sm">FAQ</Link>
                   </li>
                   <li>
-                    <Link className="text-sm">Kontakt</Link>
+                    <Link className="text-sm">Community</Link>
                   </li>
                 </ul>
               </div>
@@ -57,6 +54,9 @@ export function Footer() {
                   </li>
                   <li>
                     <Link className="text-sm">Neuigkeiten</Link>
+                  </li>
+                  <li>
+                    <Link className="text-sm">Kontakt</Link>
                   </li>
                 </ul>
               </div>
