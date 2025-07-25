@@ -72,7 +72,8 @@ export function Header() {
                   size="icon"
                   className="self-end mr-4 mt-2"
                 >
-                  <X />
+                  <X aria-hidden="true" />
+                  <span className="sr-only">Schließen</span>
                 </Button>
               </SheetClose>
               <div className="ml-4 mt-8">
