@@ -131,5 +131,5 @@
 }
 
 ::selection {
-  @apply bg-success text-background;
+  @apply bg-foreground text-background;
 }
