@@ -108,7 +108,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                             </>
                           )}
                         </div>
-                        <p className="mt-2 font-normal text-muted-foreground text-pretty">
+                        <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
                           Lorem ipsum dolor sit amet, consetetur sadipscing
                           elitr, sed diam nonumy eirmod tempor invidunt ut
                           labore et dolore magna aliquyam erat, sed diam
@@ -156,7 +156,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                             </>
                           )}
                         </div>
-                        <p className="mt-2 font-normal text-muted-foreground text-pretty">
+                        <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
                           Lorem ipsum dolor sit amet, consetetur sadipscing
                           elitr, sed diam nonumy eirmod tempor invidunt ut
                           labore et dolore magna aliquyam erat, sed diam
