@@ -53,7 +53,7 @@ export function ExportForm() {
           name="dirPath"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Ausgabeverzeichnis</FormLabel>
+              <FormLabel>Pfad zum Ausgabeverzeichnis</FormLabel>
               <FormControl>
                 <Input type="text" placeholder="optional" {...field} />
               </FormControl>
