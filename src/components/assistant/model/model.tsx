@@ -12,7 +12,7 @@ function ModelHeadings() {
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        Wähle mindestens ein Modell, das zur Auswertung verwendet werden soll
+        Wähle die Modelle, die zur Auswertung verwendet werden sollen
       </h2>
     </>
   )
