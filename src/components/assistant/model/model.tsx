@@ -3,6 +3,7 @@
 import * as React from "react"
 
 import { ModelForm } from "@/components/assistant/model/form"
+import { Button } from "@/components/ui/button"
 
 function ModelHeadings() {
   return (
@@ -20,10 +21,17 @@ function ModelHeadings() {
 
 export function Model() {
   const [isHydrated, setIsHydrated] = React.useState(false)
+  const formRef = React.useRef<React.ComponentRef<typeof ModelForm>>(null)
 
   React.useEffect(() => {
     setIsHydrated(true)
   }, [])
+
+  const handleNextClick = async () => {
+    if (formRef.current) {
+      const valid = await formRef.current.validate()
+    }
+  }
 
   if (!isHydrated) {
     return (
@@ -41,7 +49,11 @@ export function Model() {
         <ModelHeadings />
 
         <div className="p-4 border-2 rounded-lg">
-          <ModelForm />
+          <ModelForm ref={formRef} />
+        </div>
+
+        <div className="mt-4 flex justify-end">
+          <Button onClick={handleNextClick}>Weiter</Button>
         </div>
       </div>
     </div>
