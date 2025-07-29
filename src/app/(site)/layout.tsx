@@ -11,7 +11,7 @@ export default function AssistantLayout({
     <>
       <Header />
       <div className="min-h-screen flex flex-col">
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 mb-32">{children}</main>
       </div>
       <Footer />
     </>
