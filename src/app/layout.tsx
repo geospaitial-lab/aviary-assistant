@@ -1,12 +1,9 @@
 import type { Metadata } from "next"
 import { Inter, JetBrains_Mono } from "next/font/google"
 
+import "@/app/globals.css"
 import { DevAlert } from "@/components/dev-alert"
-import { Footer } from "@/components/footer"
-import { Header } from "@/components/header"
 import { ThemeProvider } from "@/components/theme-provider"
-
-import "./globals.css"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -44,11 +41,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Header />
-          <div className="min-h-screen flex flex-col">
-            <main className="flex-1 mb-32">{children}</main>
-          </div>
-          <Footer />
+          {children}
         </ThemeProvider>
       </body>
     </html>
