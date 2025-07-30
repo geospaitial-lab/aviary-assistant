@@ -59,7 +59,7 @@ export function Header() {
             asChild
             className={cn("hidden md:block", isAssistantRoute && "md:hidden")}
           >
-            <NextLink href="/">Zum Assistant</NextLink>
+            <NextLink href="/assistant">Zum Assistant</NextLink>
           </Button>
           <ModeButton />
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -91,7 +91,7 @@ export function Header() {
               <SheetFooter>
                 <div className={cn("mx-auto", isAssistantRoute && "hidden")}>
                   <Button asChild onClick={handleCloseSheet}>
-                    <NextLink href="/">Zum Assistant</NextLink>
+                    <NextLink href="/assistant">Zum Assistant</NextLink>
                   </Button>
                 </div>
               </SheetFooter>
