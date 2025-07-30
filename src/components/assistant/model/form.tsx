@@ -71,7 +71,11 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
             <p className="text-pretty mb-4">
               Gib hier an, mit welchen Modellen du deine Daten auswerten
               möchtest – welches Modell du für deinen Anwendungsfall brauchst,
-              findest du <Link showUnderline={true}>hier</Link>.
+              findest du{" "}
+              <Link showUnderline={true} openInNewTab={true}>
+                hier
+              </Link>
+              .
             </p>
 
             <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
@@ -114,7 +118,11 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                           labore et dolore magna aliquyam erat, sed diam
                           voluptua.
                         </p>
-                        <Link showArrow={true} className="font-normal">
+                        <Link
+                          showArrow={true}
+                          openInNewTab={true}
+                          className="font-normal"
+                        >
                           Mehr erfahren
                         </Link>
                       </Button>
@@ -162,7 +170,11 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                           labore et dolore magna aliquyam erat, sed diam
                           voluptua.
                         </p>
-                        <Link showArrow={true} className="font-normal">
+                        <Link
+                          showArrow={true}
+                          openInNewTab={true}
+                          className="font-normal"
+                        >
                           Mehr erfahren
                         </Link>
                       </Button>
@@ -184,7 +196,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
               )}
             />
 
-            <Link showArrow={true} className="text-sm">
+            <Link showArrow={true} openInNewTab={true} className="text-sm">
               Mehr erfahren
             </Link>
           </form>

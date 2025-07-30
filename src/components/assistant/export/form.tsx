@@ -63,7 +63,7 @@ export function ExportForm() {
             </FormItem>
           )}
         />
-        <Link showArrow={true} className="text-sm">
+        <Link showArrow={true} openInNewTab={true} className="text-sm">
           Mehr erfahren
         </Link>
       </form>
