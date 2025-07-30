@@ -6,6 +6,7 @@ import { type GpuFormSchema } from "@/components/assistant/resources/gpu/schema"
 interface GpuState {
   formValues: GpuFormSchema | null
   setFormValues: (values: GpuFormSchema) => void
+  reset: () => void
 }
 
 export const useGpuStore = create<GpuState>()(

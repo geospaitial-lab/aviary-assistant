@@ -6,6 +6,7 @@ import { type CpuFormSchema } from "@/components/assistant/resources/cpu/schema"
 interface CpuState {
   formValues: CpuFormSchema | null
   setFormValues: (values: CpuFormSchema) => void
+  reset: () => void
 }
 
 export const useCpuStore = create<CpuState>()(

@@ -6,6 +6,7 @@ import { type ExportFormSchema } from "@/components/assistant/export/schema"
 interface ExportState {
   formValues: ExportFormSchema | null
   setFormValues: (values: ExportFormSchema) => void
+  reset: () => void
 }
 
 export const useExportStore = create<ExportState>()(

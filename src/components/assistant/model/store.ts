@@ -6,6 +6,7 @@ import { type ModelFormSchema } from "@/components/assistant/model/schema"
 interface ModelState {
   formValues: ModelFormSchema | null
   setFormValues: (values: ModelFormSchema) => void
+  reset: () => void
 }
 
 export const useModelStore = create<ModelState>()(
