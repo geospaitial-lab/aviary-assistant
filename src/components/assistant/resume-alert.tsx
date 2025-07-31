@@ -113,7 +113,7 @@ export function ResumeAlert() {
             </div>
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Möchtest du diese fortsetzen oder eine neue erstellen?
+            Möchtest du sie fortsetzen oder eine neue erstellen?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
