@@ -54,7 +54,24 @@ export function ResumeAlert() {
 
   React.useEffect(() => {
     const hasExistingSession = storeKeys.some((key) => {
-      return localStorage.getItem(key)
+      if (key === "assistant-storage") {
+        return false
+      }
+
+      const item = localStorage.getItem(key)
+      if (!item) return false
+
+      if (key === "model-storage") {
+        const modelStore = JSON.parse(item)
+        if (
+          modelStore.state.formValues.model1 === false &&
+          modelStore.state.formValues.model2 === false
+        ) {
+          return false
+        }
+      }
+
+      return true
     })
 
     if (hasExistingSession) {
