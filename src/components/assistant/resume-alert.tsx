@@ -109,16 +109,16 @@ export function ResumeAlert() {
           <AlertDialogTitle>
             <div className="flex items-center gap-2">
               <History aria-hidden="true" />
-              Vorherige Sitzung gefunden
+              Vorherige Konfiguration gefunden
             </div>
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Möchtest du diese fortsetzen oder eine neue Sitzung starten?
+            Möchtest du diese fortsetzen oder eine neue erstellen?
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={handleReset}>
-            Neue Sitzung
+            Neue Konfiguration
           </AlertDialogCancel>
           <AlertDialogAction onClick={handleResume}>
             Fortsetzen
