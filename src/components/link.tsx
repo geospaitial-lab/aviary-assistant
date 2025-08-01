@@ -50,7 +50,7 @@ export function Link({
 
   const linkClassName = cn(
     "inline-flex items-center gap-1 cursor-pointer hover:text-muted-foreground transition-all outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] rounded-sm",
-    showUnderline && "underline",
+    showUnderline && "underline underline-offset-4",
     className,
   )
 
