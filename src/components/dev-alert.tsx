@@ -35,7 +35,7 @@ export function DevAlert() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
               <Construction aria-hidden="true" />
               Wir arbeiten noch daran
             </div>

@@ -107,9 +107,9 @@ export function ResumeAlert() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 justify-center sm:justify-start">
               <History aria-hidden="true" />
-              Vorherige Konfiguration gefunden
+              Konfiguration gefunden
             </div>
           </AlertDialogTitle>
           <AlertDialogDescription>

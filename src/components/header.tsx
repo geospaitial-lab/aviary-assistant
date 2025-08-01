@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Menu, X } from "lucide-react"
+import { ArrowRight, Menu, X } from "lucide-react"
 import NextLink from "next/link"
 import { usePathname } from "next/navigation"
 
@@ -59,7 +59,12 @@ export function Header() {
             asChild
             className={cn("hidden md:block", isAssistantRoute && "md:hidden")}
           >
-            <NextLink href="/assistant">Zum Assistant</NextLink>
+            <NextLink href="/assistant">
+              <div className="flex items-center gap-1">
+                <span>Zum Assistant</span>
+                <ArrowRight aria-hidden="true" />
+              </div>
+            </NextLink>
           </Button>
           <ModeButton />
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -91,7 +96,12 @@ export function Header() {
               <SheetFooter>
                 <div className={cn("mx-auto", isAssistantRoute && "hidden")}>
                   <Button asChild onClick={handleCloseSheet}>
-                    <NextLink href="/assistant">Zum Assistant</NextLink>
+                    <NextLink href="/assistant">
+                      <div className="flex items-center gap-1">
+                        <span>Zum Assistant</span>
+                        <ArrowRight aria-hidden="true" />
+                      </div>
+                    </NextLink>
                   </Button>
                 </div>
               </SheetFooter>

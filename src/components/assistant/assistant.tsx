@@ -15,6 +15,7 @@ import { useAssistantStore } from "@/components/assistant/store"
 import { Summary } from "@/components/assistant/summary/summary"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { cn } from "@/lib/utils"
 
 export function Assistant() {
   const [isHydrated, setIsHydrated] = React.useState(false)
@@ -145,6 +146,7 @@ export function Assistant() {
             size="icon"
             onClick={handleNext}
             disabled={activeStep === "summary" || !isHydrated}
+            className={cn(activeStep === "model" && "animate-throb")}
           >
             <ArrowRight aria-hidden="true" />
             <span className="sr-only">Weiter</span>

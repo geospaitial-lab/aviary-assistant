@@ -44,6 +44,24 @@
   --color-success: var(--success);
   --color-yaml-key: var(--yaml-key);
   --color-yaml-comment: var(--yaml-comment);
+
+  --animate-throb: throb 2s infinite ease-in-out;
+
+  @keyframes throb {
+    0% {
+      box-shadow: 0 0 0 0 var(--ring);
+    }
+    50% {
+      box-shadow: 0 0 0 8px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+}
+
+.animate-throb:focus-visible {
+  animation: none;
 }
 
 :root {
