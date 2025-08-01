@@ -2,6 +2,8 @@
 
 import * as React from "react"
 
+import { CircleAlert } from "lucide-react"
+
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
@@ -12,6 +14,16 @@ import { useCpuStore } from "@/components/assistant/resources/cpu/store"
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { useResourcesStore } from "@/components/assistant/resources/store"
 import { useAssistantStore } from "@/components/assistant/store"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 
 function SummaryHeadings() {
@@ -30,6 +42,7 @@ function SummaryHeadings() {
 
 export function Summary() {
   const [isHydrated, setIsHydrated] = React.useState(false)
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
 
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
@@ -59,7 +72,11 @@ export function Summary() {
     setIsHydrated(true)
   }, [])
 
-  const handleReset = () => {
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true)
+  }
+
+  const handleConfirmReset = () => {
     resetAreaStore()
     resetBoundingBoxStore()
     resetNameStore()
@@ -74,6 +91,12 @@ export function Summary() {
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
     })
+
+    setIsDialogOpen(false)
+  }
+
+  const handleCancelReset = () => {
+    setIsDialogOpen(false)
   }
 
   if (!isHydrated) {
@@ -92,8 +115,33 @@ export function Summary() {
         <SummaryHeadings />
 
         <div className="mt-8 flex justify-center">
-          <Button onClick={handleReset}>Neue Konfiguration</Button>
+          <Button onClick={handleOpenDialog}>Neue Konfiguration</Button>
         </div>
+
+        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                <div className="flex items-center gap-2">
+                  <CircleAlert aria-hidden="true" />
+                  Konfiguration zurücksetzen
+                </div>
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                Bist du sicher, dass du eine neue erstellen möchtest? Dabei geht
+                deine aktuelle verloren.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleCancelReset}>
+                Abbrechen
+              </AlertDialogCancel>
+              <AlertDialogAction onClick={handleConfirmReset}>
+                Bestätigen
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     </div>
   )
