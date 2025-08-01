@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { Menu, X } from "lucide-react"
 import NextLink from "next/link"
+import { usePathname } from "next/navigation"
 
 import { AviaryAssistantButton } from "@/components/aviary-assistant-button"
 import { ModeButton } from "@/components/mode-button"
@@ -18,10 +19,15 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { cn } from "@/lib/utils"
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden"
 
 export function Header() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false)
+
+  const pathname = usePathname()
+  const isAssistantRoute =
+    pathname === "/assistant" || pathname === "/aviary-assistant/assistant"
 
   const handleCloseSheet = () => {
     setIsSheetOpen(false)
@@ -49,8 +55,11 @@ export function Header() {
           <Nav className="hidden md:block" />
         </div>
         <div className="flex items-center gap-2">
-          <Button asChild className="hidden md:block">
-            <NextLink href="/">Zum Assistant</NextLink>
+          <Button
+            asChild
+            className={cn("hidden md:block", isAssistantRoute && "md:hidden")}
+          >
+            <NextLink href="/assistant">Zum Assistant</NextLink>
           </Button>
           <ModeButton />
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -80,9 +89,9 @@ export function Header() {
                 <Nav onLinkClick={handleCloseSheet} orientation="vertical" />
               </div>
               <SheetFooter>
-                <div className="flex justify-center">
+                <div className={cn("mx-auto", isAssistantRoute && "hidden")}>
                   <Button asChild onClick={handleCloseSheet}>
-                    <NextLink href="/">Zum Assistant</NextLink>
+                    <NextLink href="/assistant">Zum Assistant</NextLink>
                   </Button>
                 </div>
               </SheetFooter>

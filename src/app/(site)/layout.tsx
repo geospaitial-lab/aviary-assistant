@@ -1,6 +1,11 @@
+import * as React from "react"
+
+import { CircleX } from "lucide-react"
+
 import "@/app/globals.css"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
+import { Toaster } from "@/components/ui/sonner"
 
 export default function AssistantLayout({
   children,
@@ -9,6 +14,13 @@ export default function AssistantLayout({
 }>) {
   return (
     <>
+      <Toaster
+        icons={{
+          error: (
+            <CircleX className="size-5 text-destructive" aria-hidden="true" />
+          ),
+        }}
+      />
       <Header />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 mb-32">{children}</main>

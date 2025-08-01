@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   showArrow?: boolean
   showUnderline?: boolean
+  openInNewTab?: boolean
 }
 
 export function Link({
@@ -20,16 +21,17 @@ export function Link({
   rel,
   showArrow = false,
   showUnderline = false,
+  openInNewTab = false,
   ...props
 }: LinkProps) {
   const isExternal = href?.startsWith("http") || href?.startsWith("mailto:")
 
-  const externalProps = isExternal
-    ? {
-        target: target || "_blank",
-        rel: rel || "noopener noreferrer",
-      }
-    : {}
+  const newTabProps = {
+    target: target || "_blank",
+    rel: rel || "noopener noreferrer",
+  }
+
+  const linkProps = isExternal || openInNewTab ? newTabProps : {}
 
   const linkContent = (
     <>
@@ -54,19 +56,19 @@ export function Link({
 
   if (isExternal) {
     return (
-      <a
-        href={href || "#"}
-        className={linkClassName}
-        {...externalProps}
-        {...props}
-      >
+      <a href={href || "#"} className={linkClassName} {...linkProps} {...props}>
         {linkContent}
       </a>
     )
   }
 
   return (
-    <NextLink href={href || "/"} className={linkClassName} {...props}>
+    <NextLink
+      href={href || "/"}
+      className={linkClassName}
+      {...linkProps}
+      {...props}
+    >
       {linkContent}
     </NextLink>
   )

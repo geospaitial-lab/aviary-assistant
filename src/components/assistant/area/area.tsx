@@ -2,12 +2,20 @@
 
 import * as React from "react"
 
+import { toast } from "sonner"
+
 import { BoundingBoxForm } from "@/components/assistant/area/bounding-box/form"
+import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { FileForm } from "@/components/assistant/area/file/form"
+import { useFileStore } from "@/components/assistant/area/file/store"
 import { Map } from "@/components/assistant/area/map/map"
 import { NameForm } from "@/components/assistant/area/name/form"
+import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AllGeoJSON } from "@turf/helpers"
+
+const ERROR_AREA = "Ein Gebiet muss ausgewählt sein"
 
 function AreaHeadings() {
   return (
@@ -23,13 +31,53 @@ function AreaHeadings() {
   )
 }
 
-export function Area() {
+export interface AreaFormRef {
+  validate: () => Promise<boolean>
+}
+
+export const Area = React.forwardRef<AreaFormRef>(function Area(_, ref) {
   const [isHydrated, setIsHydrated] = React.useState(false)
   const { activeTab, setActiveTab } = useAreaStore()
+  const nameGeoJson = useNameStore((state) => state.geoJson)
+  const fileGeoJson = useFileStore((state) => state.geoJson)
+  const boundingBoxGeoJson = useBoundingBoxStore((state) => state.geoJson)
 
   React.useEffect(() => {
     setIsHydrated(true)
   }, [])
+
+  const getCurrentGeoJson = React.useCallback((): AllGeoJSON | null => {
+    switch (activeTab) {
+      case "name":
+        return nameGeoJson
+      case "file":
+        return fileGeoJson
+      case "bounding-box":
+        return boundingBoxGeoJson
+      default:
+        return null
+    }
+  }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson])
+
+  const validateArea = React.useCallback(async (): Promise<boolean> => {
+    return new Promise<boolean>((resolve) => {
+      const currentGeoJson = getCurrentGeoJson()
+      const isValid = currentGeoJson !== null
+
+      if (!isValid) {
+        toast.error(ERROR_AREA)
+      }
+      resolve(isValid)
+    })
+  }, [getCurrentGeoJson])
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      validate: validateArea,
+    }),
+    [validateArea],
+  )
 
   if (!isHydrated) {
     return (
@@ -89,4 +137,4 @@ export function Area() {
       </div>
     </div>
   )
-}
+})

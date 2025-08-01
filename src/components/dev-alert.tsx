@@ -6,7 +6,7 @@ import { Construction } from "lucide-react"
 
 import {
   AlertDialog,
-  AlertDialogAction,
+  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
@@ -64,7 +64,7 @@ export function DevAlert() {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogAction onClick={handleContinue}>Ok</AlertDialogAction>
+          <AlertDialogCancel onClick={handleContinue}>Ok</AlertDialogCancel>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
