@@ -129,7 +129,7 @@ export function Summary() {
               </AlertDialogTitle>
               <AlertDialogDescription>
                 Bist du sicher, dass du eine neue erstellen möchtest? Dabei geht
-                deine aktuelle verloren.
+                deine aktuelle Konfiguration verloren.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
