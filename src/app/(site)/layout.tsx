@@ -17,7 +17,7 @@ export default function AssistantLayout({
       <Toaster
         icons={{
           error: (
-            <CircleX className="size-5 text-destructive" aria-hidden="true" />
+            <CircleX className="size-4 text-destructive" aria-hidden="true" />
           ),
         }}
       />
