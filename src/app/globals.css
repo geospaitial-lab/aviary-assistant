@@ -60,6 +60,10 @@
   }
 }
 
+.animate-throb:focus-visible {
+  animation: none;
+}
+
 :root {
   --radius: 0.375rem;
   --background: oklch(1 0 0);
