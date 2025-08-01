@@ -3,6 +3,7 @@ import * as React from "react"
 import { CircleX } from "lucide-react"
 
 import "@/app/globals.css"
+import { DevBanner } from "@/components/dev-banner"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { Toaster } from "@/components/ui/sonner"
@@ -21,6 +22,7 @@ export default function AssistantLayout({
           ),
         }}
       />
+      <DevBanner />
       <Header />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 mb-32">{children}</main>
