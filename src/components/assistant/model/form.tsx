@@ -4,6 +4,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import { Check } from "lucide-react"
+import { toast } from "sonner"
 
 import {
   type ModelFormSchema,
@@ -12,15 +13,11 @@ import {
 import { useModelStore } from "@/components/assistant/model/store"
 import { Link } from "@/components/link"
 import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+
+const ERROR_MODEL = "Mindestens ein Modell muss ausgewählt sein"
 
 export interface ModelFormRef {
   validate: () => Promise<boolean>
@@ -35,14 +32,22 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
       defaultValues: formValues || {
         model1: false,
         model2: false,
-        root: undefined,
       },
       mode: "onSubmit",
       reValidateMode: "onSubmit",
     })
 
     const validateForm = React.useCallback(async () => {
-      return await form.trigger()
+      return new Promise<boolean>((resolve) => {
+        form.trigger().then((isValid) => {
+          if (!isValid) {
+            if (!form.getValues().model1 && !form.getValues().model2) {
+              toast.error(ERROR_MODEL)
+            }
+          }
+          resolve(isValid)
+        })
+      })
     }, [form])
 
     React.useImperativeHandle(
@@ -184,19 +189,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
               />
             </div>
 
-            <FormField
-              control={form.control}
-              name="root"
-              render={() => (
-                <FormItem>
-                  <div className="min-h-[1.25rem] mt-2">
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <Link showArrow={true} openInNewTab={true} className="text-sm">
+            <Link showArrow={true} openInNewTab={true} className="text-sm mt-4">
               Mehr erfahren
             </Link>
           </form>
