@@ -34,7 +34,7 @@ export function DevBanner() {
             <Link href="https://urban-ki.de" showArrow={true}>
               URBAN.KI
             </Link>{" "}
-            entsteht ein Assistent zur Konfiguration von{" "}
+            entsteht ein Assistant zur Konfiguration von{" "}
             <Link
               href="https://github.com/geospaitial-lab/aviary"
               showArrow={true}
