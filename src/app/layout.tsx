@@ -15,7 +15,10 @@ const jetBrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "aviary-assistant",
+  title: {
+    default: "aviary-assistant",
+    template: "%s | aviary-assistant",
+  },
   description: "Konfiguriere aviary im Web",
 }
 
