@@ -122,7 +122,7 @@ export function Summary() {
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 justify-center sm:justify-start">
                   <CircleAlert aria-hidden="true" />
                   Konfiguration zurücksetzen
                 </div>
