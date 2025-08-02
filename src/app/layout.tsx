@@ -20,6 +20,27 @@ export const metadata: Metadata = {
     template: "%s | aviary-assistant",
   },
   description: "Konfiguriere aviary im Web",
+  keywords: [
+    "aviary-assistant",
+    "aviary",
+    "geospaitial lab",
+    "geospaitial-lab",
+    "Westfälische Hochschule",
+    "URBAN.KI",
+  ],
+  authors: [
+    {
+      name: "Marius Maryniak",
+    },
+  ],
+  creator: "Marius Maryniak",
+  publisher: "geospaitial lab",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  referrer: "no-referrer",
 }
 
 export default function RootLayout({
