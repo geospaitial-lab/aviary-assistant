@@ -132,7 +132,7 @@ export function Assistant() {
             variant="outline"
             size="icon"
             onClick={handleBack}
-            disabled={activeStep === "model" || !isHydrated}
+            disabled={activeStep === "model"}
           >
             <ArrowLeft aria-hidden="true" />
             <span className="sr-only">Zurück</span>
@@ -145,7 +145,7 @@ export function Assistant() {
           <Button
             size="icon"
             onClick={handleNext}
-            disabled={activeStep === "summary" || !isHydrated}
+            disabled={activeStep === "summary"}
             className={cn(activeStep === "model" && "animate-throb")}
           >
             <ArrowRight aria-hidden="true" />
