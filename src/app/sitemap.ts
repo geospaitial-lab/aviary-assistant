@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next"
 
 const BASE_URL = "https://geospaitial-lab.github.io/aviary-assistant"
 
+export const dynamic = "force-static"
+
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
