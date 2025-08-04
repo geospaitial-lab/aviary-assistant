@@ -139,6 +139,12 @@
   --yaml-comment: oklch(0.707 0.165 254.624);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animate-throb: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
