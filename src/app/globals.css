@@ -49,7 +49,7 @@
 
   @keyframes throb {
     0% {
-      box-shadow: 0 0 0 0 var(--ring);
+      box-shadow: 0 0 0 0 var(--primary);
     }
     50% {
       box-shadow: 0 0 0 8px transparent;
