@@ -6,4 +6,4 @@ export const vrtFormSchema = z.object({
   channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
 })
 
-export type vrtFormSchema = z.infer<typeof vrtFormSchema>
+export type VrtFormSchema = z.infer<typeof vrtFormSchema>
