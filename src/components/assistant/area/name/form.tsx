@@ -173,7 +173,7 @@ export function NameForm() {
                         variant="outline"
                         role="combobox"
                         className={cn(
-                          "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground",
+                          "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground aria-invalid:transition-none",
                           isOpen
                             ? "dark:hover:bg-input/30"
                             : "dark:hover:bg-input/50",
