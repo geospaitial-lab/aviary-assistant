@@ -110,7 +110,17 @@ export function BoundingBoxForm() {
                   </span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" inputMode="numeric" {...field} />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      className="pr-8"
+                      {...field}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.xMin ? (
@@ -133,7 +143,17 @@ export function BoundingBoxForm() {
                   </span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" inputMode="numeric" {...field} />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      className="pr-8"
+                      {...field}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.yMin ? (
@@ -156,7 +176,17 @@ export function BoundingBoxForm() {
                   </span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" inputMode="numeric" {...field} />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      className="pr-8"
+                      {...field}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.xMax ? (
@@ -179,7 +209,17 @@ export function BoundingBoxForm() {
                   </span>
                 </FormLabel>
                 <FormControl>
-                  <Input type="text" inputMode="numeric" {...field} />
+                  <div className="relative">
+                    <Input
+                      type="text"
+                      inputMode="numeric"
+                      className="pr-8"
+                      {...field}
+                    />
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.yMax ? (
