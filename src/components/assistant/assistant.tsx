@@ -15,6 +15,7 @@ import { useAssistantStore } from "@/components/assistant/store"
 import { Summary } from "@/components/assistant/summary/summary"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { useScrollDirection } from "@/hooks/use-scroll-direction"
 import { cn } from "@/lib/utils"
 
 export function Assistant() {
@@ -22,6 +23,7 @@ export function Assistant() {
   const { activeStep, setActiveStep } = useAssistantStore()
   const modelRef = React.useRef<ModelFormRef>(null)
   const areaRef = React.useRef<AreaFormRef>(null)
+  const { isVisible } = useScrollDirection()
 
   React.useEffect(() => {
     setIsHydrated(true)
@@ -126,7 +128,12 @@ export function Assistant() {
   return (
     <div className="@container">
       <ResumeAlert />
-      <div className="-mt-4">
+      <div
+        className={cn(
+          "sticky top-13 z-49 -mt-8 pt-4 bg-background transition-all duration-500 transform",
+          isVisible ? "translate-y-0" : "-translate-y-full",
+        )}
+      >
         <div className="@2xl:w-2/3 @2xl:mx-auto">
           <div className="flex justify-between items-center gap-4 py-2">
             <Button
