@@ -139,6 +139,12 @@
   --yaml-comment: oklch(0.707 0.165 254.624);
 }
 
+/* https://github.com/shadcn-ui/ui/issues/4227 */
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
   :root {
     --animate-throb: none;
