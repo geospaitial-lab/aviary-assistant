@@ -9,6 +9,7 @@ import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { useDataStore } from "@/components/assistant/data/store"
+import { useVrtStore } from "@/components/assistant/data/vrt/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
@@ -56,6 +57,7 @@ export function Summary() {
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
   const resetResourcesStore = useResourcesStore((state) => state.reset)
+  const resetVrtStore = useVrtStore((state) => state.reset)
 
   const storeKeys = [
     "area-storage",
@@ -69,6 +71,7 @@ export function Summary() {
     "model-storage",
     "name-storage",
     "resources-storage",
+    "vrt-storage",
   ]
 
   React.useEffect(() => {
@@ -91,6 +94,7 @@ export function Summary() {
     resetModelStore()
     resetNameStore()
     resetResourcesStore()
+    resetVrtStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
