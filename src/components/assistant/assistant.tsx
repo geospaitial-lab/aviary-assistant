@@ -126,31 +126,33 @@ export function Assistant() {
   return (
     <div className="@container">
       <ResumeAlert />
-      <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <div className="flex justify-between items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleBack}
-            disabled={activeStep === "model"}
-          >
-            <ArrowLeft aria-hidden="true" />
-            <span className="sr-only">Zurück</span>
-          </Button>
+      <div className="-mt-4">
+        <div className="@2xl:w-2/3 @2xl:mx-auto">
+          <div className="flex justify-between items-center gap-4 py-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleBack}
+              disabled={activeStep === "model"}
+            >
+              <ArrowLeft aria-hidden="true" />
+              <span className="sr-only">Zurück</span>
+            </Button>
 
-          <div className="flex-1 max-w-64 mx-4">
-            <Progress value={getProgressValue()} />
+            <div className="flex-1 max-w-64 mx-4">
+              <Progress value={getProgressValue()} />
+            </div>
+
+            <Button
+              size="icon"
+              onClick={handleNext}
+              disabled={activeStep === "summary"}
+              className={cn(activeStep === "model" && "animate-throb")}
+            >
+              <ArrowRight aria-hidden="true" />
+              <span className="sr-only">Weiter</span>
+            </Button>
           </div>
-
-          <Button
-            size="icon"
-            onClick={handleNext}
-            disabled={activeStep === "summary"}
-            className={cn(activeStep === "model" && "animate-throb")}
-          >
-            <ArrowRight aria-hidden="true" />
-            <span className="sr-only">Weiter</span>
-          </Button>
         </div>
       </div>
       <div className="mt-8">{renderStep()}</div>
