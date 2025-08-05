@@ -8,6 +8,7 @@ import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/st
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
+import { useDataStore } from "@/components/assistant/data/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
@@ -32,6 +33,7 @@ export function ResumeAlert() {
   const resetAssistantStore = useAssistantStore((state) => state.reset)
   const resetBoundingBoxStore = useBoundingBoxStore((state) => state.reset)
   const resetCpuStore = useCpuStore((state) => state.reset)
+  const resetDataStore = useDataStore((state) => state.reset)
   const resetExportStore = useExportStore((state) => state.reset)
   const resetFileStore = useFileStore((state) => state.reset)
   const resetGpuStore = useGpuStore((state) => state.reset)
@@ -44,6 +46,7 @@ export function ResumeAlert() {
     "assistant-storage",
     "bounding-box-storage",
     "cpu-storage",
+    "data-storage",
     "export-storage",
     "file-storage",
     "gpu-storage",
@@ -81,15 +84,16 @@ export function ResumeAlert() {
 
   const handleReset = () => {
     resetAreaStore()
-    resetBoundingBoxStore()
-    resetNameStore()
-    resetFileStore()
-    resetExportStore()
     resetAssistantStore()
-    resetResourcesStore()
+    resetBoundingBoxStore()
     resetCpuStore()
+    resetDataStore()
+    resetExportStore()
+    resetFileStore()
     resetGpuStore()
     resetModelStore()
+    resetNameStore()
+    resetResourcesStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
