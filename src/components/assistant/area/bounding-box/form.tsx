@@ -109,19 +109,19 @@ export function BoundingBoxForm() {
                     x<sub>min</sub>
                   </span>
                 </FormLabel>
-                <FormControl>
-                  <div className="relative">
+                <div className="relative">
+                  <FormControl>
                     <Input
                       type="text"
                       inputMode="numeric"
                       className="pr-8"
                       {...field}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                    </span>
-                  </div>
-                </FormControl>
+                  </FormControl>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                  </span>
+                </div>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.xMin ? (
                     <FormMessage />
@@ -142,19 +142,19 @@ export function BoundingBoxForm() {
                     y<sub>min</sub>
                   </span>
                 </FormLabel>
-                <FormControl>
-                  <div className="relative">
+                <div className="relative">
+                  <FormControl>
                     <Input
                       type="text"
                       inputMode="numeric"
                       className="pr-8"
                       {...field}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                    </span>
-                  </div>
-                </FormControl>
+                  </FormControl>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                  </span>
+                </div>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.yMin ? (
                     <FormMessage />
@@ -175,19 +175,19 @@ export function BoundingBoxForm() {
                     x<sub>max</sub>
                   </span>
                 </FormLabel>
-                <FormControl>
-                  <div className="relative">
+                <div className="relative">
+                  <FormControl>
                     <Input
                       type="text"
                       inputMode="numeric"
                       className="pr-8"
                       {...field}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                    </span>
-                  </div>
-                </FormControl>
+                  </FormControl>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                  </span>
+                </div>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.xMax ? (
                     <FormMessage />
@@ -208,19 +208,19 @@ export function BoundingBoxForm() {
                     y<sub>max</sub>
                   </span>
                 </FormLabel>
-                <FormControl>
-                  <div className="relative">
+                <div className="relative">
+                  <FormControl>
                     <Input
                       type="text"
                       inputMode="numeric"
                       className="pr-8"
                       {...field}
                     />
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                    </span>
-                  </div>
-                </FormControl>
+                  </FormControl>
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                  </span>
+                </div>
                 <div className="min-h-[1.25rem]">
                   {form.formState.errors.yMax ? (
                     <FormMessage />
