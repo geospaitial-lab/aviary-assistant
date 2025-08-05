@@ -29,6 +29,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -251,7 +252,13 @@ export function NameForm() {
                   </PopoverContent>
                 </Popover>
                 <div className="min-h-[1.25rem]">
-                  <FormMessage />
+                  {form.formState.errors.name ? (
+                    <FormMessage />
+                  ) : (
+                    <FormDescription>
+                      Stadt, Kreis oder Bundesland
+                    </FormDescription>
+                  )}
                 </div>
               </FormItem>
             )}
