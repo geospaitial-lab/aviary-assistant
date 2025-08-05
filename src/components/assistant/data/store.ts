@@ -10,9 +10,9 @@ interface DataState {
 export const useDataStore = create<DataState>()(
   persist(
     (set) => ({
-      activeTab: "vrt",
+      activeTab: "wms",
       setActiveTab: (tab) => set({ activeTab: tab }),
-      reset: () => set({ activeTab: "vrt" }),
+      reset: () => set({ activeTab: "wms" }),
     }),
     {
       name: "data-storage",

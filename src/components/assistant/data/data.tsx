@@ -44,6 +44,7 @@ export function Data() {
         <DataHeadings />
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-2">
+            <TabsTrigger value="wms">WMS</TabsTrigger>
             <TabsTrigger value="vrt">VRT</TabsTrigger>
           </TabsList>
 
