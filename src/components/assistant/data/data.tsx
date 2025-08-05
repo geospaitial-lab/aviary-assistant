@@ -2,6 +2,10 @@
 
 import * as React from "react"
 
+import { useDataStore } from "@/components/assistant/data/store"
+import { VrtForm } from "@/components/assistant/data/vrt/form"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
 function DataHeadings() {
   return (
     <>
@@ -18,6 +22,7 @@ function DataHeadings() {
 
 export function Data() {
   const [isHydrated, setIsHydrated] = React.useState(false)
+  const { activeTab, setActiveTab } = useDataStore()
 
   React.useEffect(() => {
     setIsHydrated(true)
@@ -37,6 +42,17 @@ export function Data() {
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
         <DataHeadings />
+        <Tabs value={activeTab} onValueChange={setActiveTab}>
+          <TabsList className="mb-2">
+            <TabsTrigger value="vrt">VRT</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="vrt">
+            <div className="p-4 border-2 rounded-lg">
+              <VrtForm />
+            </div>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   )
