@@ -4,6 +4,7 @@ const ERROR_NUMBER = "Muss eine positive Zahl zwischen 0 und 1 sein"
 
 export const vrtFormSchema = z.object({
   path: z.string(),
+  channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
   groundSamplingDistance: z.preprocess(
     (value) => {
       if (value === "") return undefined
@@ -16,7 +17,6 @@ export const vrtFormSchema = z.object({
       .gt(0, ERROR_NUMBER)
       .max(1, ERROR_NUMBER),
   ),
-  channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
 })
 
 export type VrtFormSchema = z.infer<typeof vrtFormSchema>
