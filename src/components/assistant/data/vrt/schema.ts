@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const ERROR_NUMBER = "Muss eine Zahl zwischen 0 und 1 sein"
+const ERROR_NUMBER = "Muss eine positive Zahl zwischen 0 und 1 sein"
 
 export const vrtFormSchema = z.object({
   path: z.string(),
@@ -13,7 +13,7 @@ export const vrtFormSchema = z.object({
       .number({
         invalid_type_error: ERROR_NUMBER,
       })
-      .min(0, ERROR_NUMBER)
+      .gt(0, ERROR_NUMBER)
       .max(1, ERROR_NUMBER),
   ),
   channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
