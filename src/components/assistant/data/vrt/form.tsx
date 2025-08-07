@@ -125,7 +125,12 @@ export function VrtForm() {
               </FormItem>
             )}
           />
-          <Link showArrow={true} openInNewTab={true} className="text-sm">
+          <Link
+            href="/faq#daten"
+            showArrow={true}
+            openInNewTab={true}
+            className="text-sm"
+          >
             Mehr erfahren
           </Link>
         </form>

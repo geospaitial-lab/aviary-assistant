@@ -121,7 +121,12 @@ export function FileForm() {
               Entfernen
             </Button>
           </div>
-          <Link showArrow={true} openInNewTab={true} className="text-sm">
+          <Link
+            href="/faq#gebiet"
+            showArrow={true}
+            openInNewTab={true}
+            className="text-sm"
+          >
             Mehr erfahren
           </Link>
         </form>

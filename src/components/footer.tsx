@@ -38,7 +38,7 @@ export function Footer() {
                     <Link className="text-sm">Anleitungen</Link>
                   </li>
                   <li>
-                    <Link className="text-sm">FAQ</Link>
+                    <Link href="/faq" className="text-sm">FAQ</Link>
                   </li>
                   <li>
                     <Link className="text-sm">Community</Link>

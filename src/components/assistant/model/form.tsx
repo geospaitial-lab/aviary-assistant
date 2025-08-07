@@ -189,7 +189,12 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
               />
             </div>
 
-            <Link showArrow={true} openInNewTab={true} className="text-sm mt-4">
+            <Link
+              href="/faq#modelle"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm mt-4"
+            >
               Mehr erfahren
             </Link>
           </form>
