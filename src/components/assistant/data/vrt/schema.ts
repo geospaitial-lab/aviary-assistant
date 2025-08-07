@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const ERROR_NUMBER = "Muss eine positive Zahl zwischen 0 und 1 sein"
+const ERROR_NUMBER = "Muss eine positive Zahl (0 bis 1) sein"
 
 export const vrtFormSchema = z.object({
   path: z.string(),
