@@ -20,6 +20,14 @@ export function DomBadge() {
   return <Badge>DOM</Badge>
 }
 
+export function VrtBadge() {
+  return <Badge>VRT</Badge>
+}
+
+export function WmsBadge() {
+  return <Badge>WMS</Badge>
+}
+
 export interface ChannelBadgeProps {
   channel: "rgb" | "cir" | "nir" | "rgbi" | "dom"
 }
@@ -34,4 +42,17 @@ export function ChannelBadge({ channel }: ChannelBadgeProps) {
   }
 
   return channelMap[channel]
+}
+
+export interface DataBadgeProps {
+  data: "vrt" | "wms"
+}
+
+export function DataBadge({ data }: DataBadgeProps) {
+  const dataMap = {
+    vrt: <VrtBadge />,
+    wms: <WmsBadge />,
+  }
+
+  return dataMap[data]
 }
