@@ -1,9 +1,10 @@
 import { z } from "zod"
 
-const ERROR_NUMBER = "Muss eine positive Zahl (0 bis 1) sein"
+const ERROR_GROUND_SAMPLING_DISTANCE = "Muss eine positive Zahl (0 bis 1) sein"
 
 export const vrtFormSchema = z.object({
   path: z.string(),
+  epsgCode: z.enum(["25832", "25833"]),
   channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
   groundSamplingDistance: z.preprocess(
     (value) => {
@@ -12,10 +13,10 @@ export const vrtFormSchema = z.object({
     },
     z.coerce
       .number({
-        invalid_type_error: ERROR_NUMBER,
+        invalid_type_error: ERROR_GROUND_SAMPLING_DISTANCE,
       })
-      .gt(0, ERROR_NUMBER)
-      .max(1, ERROR_NUMBER),
+      .gt(0, ERROR_GROUND_SAMPLING_DISTANCE)
+      .max(1, ERROR_GROUND_SAMPLING_DISTANCE),
   ),
 })
 

@@ -36,6 +36,7 @@ export function VrtForm() {
       formValues ||
       ({
         path: "",
+        epsgCode: "25832",
         channels: "RGB",
         groundSamplingDistance: "",
       } as any),
@@ -76,9 +77,32 @@ export function VrtForm() {
           />
           <FormField
             control={form.control}
+            name="epsgCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>EPSG Code</FormLabel>
+                <FormControl>
+                  <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger className="w-full">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="z-[1000]">
+                      <SelectItem value="25832">25832</SelectItem>
+                      <SelectItem value="25833">25833</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <div className="min-h-[1.25rem]">
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name="channels"
             render={({ field }) => (
-              <FormItem className="@lg:col-start-1">
+              <FormItem>
                 <FormLabel>Kanäle</FormLabel>
                 <FormControl>
                   <Select value={field.value} onValueChange={field.onChange}>
