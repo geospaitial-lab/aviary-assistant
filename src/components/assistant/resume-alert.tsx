@@ -10,6 +10,7 @@ import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { useDataStore } from "@/components/assistant/data/store"
 import { useVrtStore } from "@/components/assistant/data/vrt/store"
+import { useWmsStore } from "@/components/assistant/data/wms/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
@@ -42,6 +43,7 @@ export function ResumeAlert() {
   const resetNameStore = useNameStore((state) => state.reset)
   const resetResourcesStore = useResourcesStore((state) => state.reset)
   const resetVrtStore = useVrtStore((state) => state.reset)
+  const resetWmsStore = useWmsStore((state) => state.reset)
 
   const storeKeys = [
     "area-storage",
@@ -56,6 +58,7 @@ export function ResumeAlert() {
     "name-storage",
     "resources-storage",
     "vrt-storage",
+    "wms-storage",
   ]
 
   React.useEffect(() => {
@@ -98,6 +101,7 @@ export function ResumeAlert() {
     resetNameStore()
     resetResourcesStore()
     resetVrtStore()
+    resetWmsStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
