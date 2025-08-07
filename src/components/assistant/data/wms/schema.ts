@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const ERROR_GROUND_SAMPLING_DISTANCE = "Muss eine positive Zahl (0 bis 1) sein"
+const ERROR_GROUND_SAMPLING_DISTANCE = "Muss eine Zahl (0.1 bis 1) sein"
 const ERROR_LAYER = "Muss ein gültiger Layer sein"
 const ERROR_URL = "Muss eine gültige URL sein"
 
@@ -21,7 +21,7 @@ export const wmsFormSchema = z.object({
       .number({
         invalid_type_error: ERROR_GROUND_SAMPLING_DISTANCE,
       })
-      .gt(0, ERROR_GROUND_SAMPLING_DISTANCE)
+      .min(0.1, ERROR_GROUND_SAMPLING_DISTANCE)
       .max(1, ERROR_GROUND_SAMPLING_DISTANCE),
   ),
 })
