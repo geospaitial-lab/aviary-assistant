@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { useDataStore } from "@/components/assistant/data/store"
 import { VrtForm } from "@/components/assistant/data/vrt/form"
+import { WmsForm } from "@/components/assistant/data/wms/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 function DataHeadings() {
@@ -47,6 +48,12 @@ export function Data() {
             <TabsTrigger value="wms">WMS</TabsTrigger>
             <TabsTrigger value="vrt">VRT</TabsTrigger>
           </TabsList>
+
+          <TabsContent value="wms">
+            <div className="p-4 border-2 rounded-lg">
+              <WmsForm />
+            </div>
+          </TabsContent>
 
           <TabsContent value="vrt">
             <div className="p-4 border-2 rounded-lg">
