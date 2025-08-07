@@ -3,9 +3,13 @@
 import * as React from "react"
 
 import { useDataStore } from "@/components/assistant/data/store"
-import { VrtForm } from "@/components/assistant/data/vrt/form"
-import { WmsForm } from "@/components/assistant/data/wms/form"
+import { VrtForm, VrtFormRef } from "@/components/assistant/data/vrt/form"
+import { WmsForm, WmsFormRef } from "@/components/assistant/data/wms/form"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+export interface DataFormRef {
+  validate: () => Promise<boolean>
+}
 
 function DataHeadings() {
   return (
@@ -21,13 +25,32 @@ function DataHeadings() {
   )
 }
 
-export function Data() {
+export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
   const [isHydrated, setIsHydrated] = React.useState(false)
   const { activeTab, setActiveTab } = useDataStore()
+  const wmsFormRef = React.useRef<WmsFormRef>(null)
+  const vrtFormRef = React.useRef<VrtFormRef>(null)
 
   React.useEffect(() => {
     setIsHydrated(true)
   }, [])
+
+  const validateForm = React.useCallback(async () => {
+    if (activeTab === "wms" && wmsFormRef.current) {
+      return await wmsFormRef.current.validate()
+    } else if (activeTab === "vrt" && vrtFormRef.current) {
+      return await vrtFormRef.current.validate()
+    }
+    return false
+  }, [activeTab])
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      validate: validateForm,
+    }),
+    [validateForm],
+  )
 
   if (!isHydrated) {
     return (
@@ -51,17 +74,17 @@ export function Data() {
 
           <TabsContent value="wms">
             <div className="p-4 border-2 rounded-lg">
-              <WmsForm />
+              <WmsForm ref={wmsFormRef} />
             </div>
           </TabsContent>
 
           <TabsContent value="vrt">
             <div className="p-4 border-2 rounded-lg">
-              <VrtForm />
+              <VrtForm ref={vrtFormRef} />
             </div>
           </TabsContent>
         </Tabs>
       </div>
     </div>
   )
-}
+})

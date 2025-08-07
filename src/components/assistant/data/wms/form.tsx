@@ -3,6 +3,8 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { toast } from "sonner"
+
 import {
   type WmsFormSchema,
   wmsFormSchema,
@@ -28,7 +30,13 @@ import {
 } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-export function WmsForm() {
+const ERROR_WMS = "Die Datenquelle ist nicht richtig konfiguriert"
+
+export interface WmsFormRef {
+  validate: () => Promise<boolean>
+}
+
+export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
   const { formValues, setFormValues } = useWmsStore()
 
   const form = useForm<WmsFormSchema>({
@@ -55,6 +63,25 @@ export function WmsForm() {
     })
     return () => subscription.unsubscribe()
   }, [form, setFormValues])
+
+  const validateForm = React.useCallback(async () => {
+    return new Promise<boolean>((resolve) => {
+      form.trigger().then((isValid) => {
+        if (!isValid) {
+          toast.error(ERROR_WMS)
+        }
+        resolve(isValid)
+      })
+    })
+  }, [form])
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      validate: validateForm,
+    }),
+    [validateForm],
+  )
 
   return (
     <div className="@container">
@@ -283,4 +310,4 @@ export function WmsForm() {
       </Form>
     </div>
   )
-}
+})

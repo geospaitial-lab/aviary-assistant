@@ -3,6 +3,8 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { toast } from "sonner"
+
 import {
   type VrtFormSchema,
   vrtFormSchema,
@@ -28,7 +30,13 @@ import {
 } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-export function VrtForm() {
+const ERROR_VRT = "Die Datenquelle ist nicht richtig konfiguriert"
+
+export interface VrtFormRef {
+  validate: () => Promise<boolean>
+}
+
+export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
   const { formValues, setFormValues } = useVrtStore()
 
   const form = useForm<VrtFormSchema>({
@@ -38,7 +46,7 @@ export function VrtForm() {
       ({
         path: "",
         epsgCode: "25832",
-        channels: "RGB",
+        channels: "rgb",
         groundSamplingDistance: "",
       } as any),
     mode: "onBlur",
@@ -51,6 +59,25 @@ export function VrtForm() {
     })
     return () => subscription.unsubscribe()
   }, [form, setFormValues])
+
+  const validateForm = React.useCallback(async () => {
+    return new Promise<boolean>((resolve) => {
+      form.trigger().then((isValid) => {
+        if (!isValid) {
+          toast.error(ERROR_VRT)
+        }
+        resolve(isValid)
+      })
+    })
+  }, [form])
+
+  React.useImperativeHandle(
+    ref,
+    () => ({
+      validate: validateForm,
+    }),
+    [validateForm],
+  )
 
   return (
     <div className="@container">
@@ -121,11 +148,11 @@ export function VrtForm() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="z-[1000]">
-                        <SelectItem value="RGB">RGB</SelectItem>
-                        <SelectItem value="CIR">CIR</SelectItem>
-                        <SelectItem value="NIR">NIR</SelectItem>
-                        <SelectItem value="RGBI">RGBI</SelectItem>
-                        <SelectItem value="DOM">DOM</SelectItem>
+                        <SelectItem value="rgb">RGB</SelectItem>
+                        <SelectItem value="cir">CIR</SelectItem>
+                        <SelectItem value="nir">NIR</SelectItem>
+                        <SelectItem value="rgbi">RGBI</SelectItem>
+                        <SelectItem value="dom">DOM</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -183,4 +210,4 @@ export function VrtForm() {
       </Form>
     </div>
   )
-}
+})

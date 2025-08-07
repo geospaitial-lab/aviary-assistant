@@ -5,7 +5,7 @@ import * as React from "react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { Area, AreaFormRef } from "@/components/assistant/area/area"
-import { Data } from "@/components/assistant/data/data"
+import { Data, DataFormRef } from "@/components/assistant/data/data"
 import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
 import { Model } from "@/components/assistant/model/model"
@@ -23,6 +23,7 @@ export function Assistant() {
   const { activeStep, setActiveStep } = useAssistantStore()
   const modelRef = React.useRef<ModelFormRef>(null)
   const areaRef = React.useRef<AreaFormRef>(null)
+  const dataRef = React.useRef<DataFormRef>(null)
   const { isVisible } = useScrollDirection()
 
   React.useEffect(() => {
@@ -67,7 +68,12 @@ export function Assistant() {
         }
         break
       case "data":
-        setActiveStep("resources")
+        if (dataRef.current) {
+          const isValid = await dataRef.current.validate()
+          if (isValid) {
+            setActiveStep("resources")
+          }
+        }
         break
       case "resources":
         setActiveStep("export")
@@ -113,7 +119,7 @@ export function Assistant() {
       case "area":
         return <Area ref={areaRef} />
       case "data":
-        return <Data />
+        return <Data ref={dataRef} />
       case "resources":
         return <Resources />
       case "export":
