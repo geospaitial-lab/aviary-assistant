@@ -12,10 +12,10 @@ import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -48,29 +48,29 @@ export function ExportForm() {
           freilassen und später nachtragen.
         </p>
 
-        <FormField
-          control={form.control}
-          name="dirPath"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Pfad zum Ausgabeverzeichnis</FormLabel>
-              <FormControl>
-                <Input type="text" placeholder="optional" {...field} />
-              </FormControl>
-              <div className="min-h-[1.25rem]">
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <Link
-          href="/faq#export"
-          showArrow={true}
-          openInNewTab={true}
-          className="text-sm"
-        >
-          Mehr erfahren
-        </Link>
+        <div className="grid gap-4 grid-cols-1">
+          <FormField
+            control={form.control}
+            name="dirPath"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Pfad</FormLabel>
+                <FormControl>
+                  <Input type="text" placeholder="optional" {...field} />
+                </FormControl>
+                <FormDescription>Pfad zum Ausgabeverzeichnis</FormDescription>
+              </FormItem>
+            )}
+          />
+          <Link
+            href="/faq#export"
+            showArrow={true}
+            openInNewTab={true}
+            className="text-sm"
+          >
+            Mehr erfahren
+          </Link>
+        </div>
       </form>
     </Form>
   )

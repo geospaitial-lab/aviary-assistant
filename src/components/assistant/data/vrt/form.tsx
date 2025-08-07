@@ -12,6 +12,7 @@ import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -58,105 +59,126 @@ export function VrtForm() {
           autoComplete="off"
           noValidate
           onSubmit={(e) => e.preventDefault()}
-          className="grid gap-4 grid-cols-1 @lg:grid-cols-2"
         >
-          <FormField
-            control={form.control}
-            name="path"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Pfad</FormLabel>
-                <FormControl>
-                  <Input type="text" placeholder="optional" {...field} />
-                </FormControl>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="epsgCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>EPSG Code</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="z-[1000]">
-                      <SelectItem value="25832">25832</SelectItem>
-                      <SelectItem value="25833">25833</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="channels"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Kanäle</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className="z-[1000]">
-                      <SelectItem value="RGB">RGB</SelectItem>
-                      <SelectItem value="CIR">CIR</SelectItem>
-                      <SelectItem value="NIR">NIR</SelectItem>
-                      <SelectItem value="RGBI">RGBI</SelectItem>
-                      <SelectItem value="DOM">DOM</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="groundSamplingDistance"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Bodenauflösung</FormLabel>
-                <div className="relative">
+          <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="path"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pfad</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      className="pr-16"
-                      {...field}
-                    />
+                    <Input type="text" placeholder="optional" {...field} />
                   </FormControl>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                    m / px
-                  </span>
-                </div>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <Link
-            href="/faq#daten"
-            showArrow={true}
-            openInNewTab={true}
-            className="text-sm"
-          >
-            Mehr erfahren
-          </Link>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.path ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Pfad zur .vrt-Datei</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="epsgCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>EPSG Code</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="z-[1000]">
+                        <SelectItem value="25832">25832</SelectItem>
+                        <SelectItem value="25833">25833</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.epsgCode ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        Koordinatenreferenzsystem
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="channels"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Kanäle</FormLabel>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="z-[1000]">
+                        <SelectItem value="RGB">RGB</SelectItem>
+                        <SelectItem value="CIR">CIR</SelectItem>
+                        <SelectItem value="NIR">NIR</SelectItem>
+                        <SelectItem value="RGBI">RGBI</SelectItem>
+                        <SelectItem value="DOM">DOM</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.channels ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Kanäle</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="groundSamplingDistance"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bodenauflösung</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        className="pr-16"
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      m / px
+                    </span>
+                  </div>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.groundSamplingDistance ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        Räumliche Auflösung der Pixel
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <Link
+              href="/faq#daten"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm"
+            >
+              Mehr erfahren
+            </Link>
+          </div>
         </form>
       </Form>
     </div>
