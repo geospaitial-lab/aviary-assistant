@@ -158,6 +158,9 @@ html body[data-scroll-locked] {
   body {
     @apply bg-background text-foreground;
   }
+  :where([id]) {
+    @apply scroll-mt-16;
+  }
 }
 
 ::selection {
