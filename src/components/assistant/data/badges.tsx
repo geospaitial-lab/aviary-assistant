@@ -1,31 +1,31 @@
 import { Badge } from "@/components/ui/badge"
 
 export function RgbBadge() {
-  return <Badge>RGB</Badge>
+  return <Badge className="font-mono">RGB</Badge>
 }
 
 export function CirBadge() {
-  return <Badge>CIR</Badge>
+  return <Badge className="font-mono">CIR</Badge>
 }
 
 export function NirBadge() {
-  return <Badge>NIR</Badge>
+  return <Badge className="font-mono">NIR</Badge>
 }
 
 export function RgbiBadge() {
-  return <Badge>RGBI</Badge>
+  return <Badge className="font-mono">RGBI</Badge>
 }
 
 export function DomBadge() {
-  return <Badge>DOM</Badge>
+  return <Badge className="font-mono">DOM</Badge>
 }
 
 export function VrtBadge() {
-  return <Badge>VRT</Badge>
+  return <Badge className="font-mono">VRT</Badge>
 }
 
 export function WmsBadge() {
-  return <Badge>WMS</Badge>
+  return <Badge className="font-mono">WMS</Badge>
 }
 
 export interface ChannelBadgeProps {
