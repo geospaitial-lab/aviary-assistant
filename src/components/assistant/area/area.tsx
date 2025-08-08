@@ -96,8 +96,10 @@ export const Area = React.forwardRef<AreaFormRef>(function Area(_, ref) {
       </div>
 
       <div className="flex flex-col @2xl:flex-row gap-4">
-        <div className="order-2 @2xl:order-1 @2xl:w-1/2 aspect-square">
-          <Map />
+        <div className="order-2 @2xl:order-1 @2xl:w-1/2">
+          <div className="aspect-square">
+            <Map />
+          </div>
         </div>
 
         <div className="flex-1 order-1 @2xl:order-2">
