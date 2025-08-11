@@ -90,9 +90,9 @@ export function Map() {
   }, [])
 
   React.useEffect(() => {
-    if (!map.current) return
-
     const mapInstance = map.current
+
+    if (!mapInstance) return
 
     const handleMapLoaded = () => {
       const currentGeoJson = getCurrentGeoJson()
