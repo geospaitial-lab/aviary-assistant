@@ -48,14 +48,15 @@ export function NameForm() {
     formValues,
     osmId,
     geoJson,
+    isLoading,
     setFormValues,
     setOsmId,
     setGeoJson,
+    setIsLoading,
     reset,
   } = useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [searchResults, setSearchResults] = React.useState<AdminEntry[]>([])
   const [selectedLocation, setSelectedLocation] =
@@ -117,7 +118,7 @@ export function NameForm() {
     const currentOsmId = selectedLocation?.osmId || osmId
 
     if (currentOsmId) {
-      setIsSubmitting(true)
+      setIsLoading(true)
 
       try {
         const overpassData = await fetchOverpassData(currentOsmId)
@@ -134,7 +135,7 @@ export function NameForm() {
           message: "Ein Fehler ist aufgetreten",
         })
       } finally {
-        setIsSubmitting(false)
+        setIsLoading(false)
       }
     }
   }
@@ -265,8 +266,8 @@ export function NameForm() {
           />
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isSubmitting}>
-                <span className={cn(isSubmitting && "animate-pulse")}>
+              <Button type="submit" className="w-24" disabled={isLoading}>
+                <span className={cn(isLoading && "animate-pulse")}>
                   Anzeigen
                 </span>
               </Button>
@@ -274,7 +275,7 @@ export function NameForm() {
                 type="button"
                 variant="outline"
                 className="w-24"
-                disabled={!geoJson}
+                disabled={!geoJson || isLoading || isSearching}
               >
                 Bearbeiten
               </Button>
@@ -283,7 +284,7 @@ export function NameForm() {
               type="button"
               variant="destructive"
               className="w-24"
-              disabled={!geoJson}
+              disabled={!geoJson || isLoading || isSearching}
               onClick={handleReset}
             >
               Entfernen

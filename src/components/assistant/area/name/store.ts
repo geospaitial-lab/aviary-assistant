@@ -9,9 +9,11 @@ interface NameState {
   formValues: NameFormSchema | null
   osmId: number | null
   geoJson: AllGeoJSON | null
+  isLoading: boolean
   setFormValues: (values: NameFormSchema) => void
   setOsmId: (osmId: number) => void
   setGeoJson: (geoJson: AllGeoJSON) => void
+  setIsLoading: (isLoading: boolean) => void
   reset: () => void
 }
 
@@ -23,6 +25,7 @@ export const useNameStore = create<NameState>()(
       formValues: null,
       osmId: null,
       geoJson: null,
+      isLoading: false,
       setFormValues: (values) => set({ formValues: values }),
       setOsmId: (osmId) => set({ osmId }),
       setGeoJson: (geoJson) => {
@@ -37,8 +40,9 @@ export const useNameStore = create<NameState>()(
           })
         }
       },
+      setIsLoading: (isLoading) => set({ isLoading: isLoading }),
       reset: () => {
-        set({ formValues: null, osmId: null, geoJson: null })
+        set({ formValues: null, osmId: null, geoJson: null, isLoading: false })
         idbDel(GEOJSON_KEY).catch((error) => {
           console.error("Error deleting name GeoJSON during reset:", error)
         })

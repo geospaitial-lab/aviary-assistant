@@ -8,8 +8,10 @@ import { AllGeoJSON } from "@turf/helpers"
 interface FileState {
   formValues: FileFormSchema | null
   geoJson: AllGeoJSON | null
+  isLoading: boolean
   setFormValues: (values: FileFormSchema) => void
   setGeoJson: (geoJson: AllGeoJSON) => void
+  setIsLoading: (isLoading: boolean) => void
   reset: () => void
 }
 
@@ -20,6 +22,7 @@ export const useFileStore = create<FileState>()(
     (set) => ({
       formValues: null,
       geoJson: null,
+      isLoading: false,
       setFormValues: (values) => set({ formValues: values }),
       setGeoJson: (geoJson) => {
         set({ geoJson })
@@ -33,8 +36,9 @@ export const useFileStore = create<FileState>()(
           })
         }
       },
+      setIsLoading: (isLoading) => set({ isLoading: isLoading }),
       reset: () => {
-        set({ formValues: null, geoJson: null })
+        set({ formValues: null, geoJson: null, isLoading: false })
         idbDel(GEOJSON_KEY).catch((error) => {
           console.error("Error deleting file GeoJSON during reset:", error)
         })

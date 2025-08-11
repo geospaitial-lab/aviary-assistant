@@ -5,6 +5,8 @@ import * as React from "react"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
 import { Area, AreaFormRef } from "@/components/assistant/area/area"
+import { useFileStore } from "@/components/assistant/area/file/store"
+import { useNameStore } from "@/components/assistant/area/name/store"
 import { Data, DataFormRef } from "@/components/assistant/data/data"
 import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
@@ -21,6 +23,9 @@ import { cn } from "@/lib/utils"
 export function Assistant() {
   const [isHydrated, setIsHydrated] = React.useState(false)
   const { activeStep, setActiveStep } = useAssistantStore()
+  const nameIsLoading = useNameStore((state) => state.isLoading)
+  const fileIsLoading = useFileStore((state) => state.isLoading)
+  const isLoading = nameIsLoading || fileIsLoading
   const modelRef = React.useRef<ModelFormRef>(null)
   const areaRef = React.useRef<AreaFormRef>(null)
   const dataRef = React.useRef<DataFormRef>(null)
@@ -146,7 +151,7 @@ export function Assistant() {
               variant="outline"
               size="icon"
               onClick={handleBack}
-              disabled={activeStep === "model"}
+              disabled={activeStep === "model" || isLoading}
             >
               <ArrowLeft aria-hidden="true" />
               <span className="sr-only">Zurück</span>
@@ -159,7 +164,7 @@ export function Assistant() {
             <Button
               size="icon"
               onClick={handleNext}
-              disabled={activeStep === "summary"}
+              disabled={activeStep === "summary" || isLoading}
               className={cn(activeStep === "model" && "animate-throb")}
             >
               <ArrowRight aria-hidden="true" />

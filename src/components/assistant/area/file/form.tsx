@@ -24,8 +24,8 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function FileForm() {
-  const { geoJson, setFormValues, setGeoJson, reset } = useFileStore()
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const { geoJson, isLoading, setFormValues, setGeoJson, setIsLoading, reset } =
+    useFileStore()
 
   const form = useForm<FileFormSchema>({
     resolver: zodResolver(fileFormSchema),
@@ -41,7 +41,7 @@ export function FileForm() {
   }, [])
 
   async function onSubmit(values: FileFormSchema) {
-    setIsSubmitting(true)
+    setIsLoading(true)
 
     try {
       const text = await values.file.text()
@@ -52,7 +52,7 @@ export function FileForm() {
 
       console.log(geoJson)
     } finally {
-      setIsSubmitting(false)
+      setIsLoading(false)
     }
   }
 
@@ -97,8 +97,8 @@ export function FileForm() {
           />
           <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
             <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isSubmitting}>
-                <span className={cn(isSubmitting && "animate-pulse")}>
+              <Button type="submit" className="w-24" disabled={isLoading}>
+                <span className={cn(isLoading && "animate-pulse")}>
                   Anzeigen
                 </span>
               </Button>
@@ -106,7 +106,7 @@ export function FileForm() {
                 type="button"
                 variant="outline"
                 className="w-24"
-                disabled={!geoJson}
+                disabled={!geoJson || isLoading}
               >
                 Bearbeiten
               </Button>
@@ -115,7 +115,7 @@ export function FileForm() {
               type="button"
               variant="destructive"
               className="w-24"
-              disabled={!geoJson}
+              disabled={!geoJson || isLoading}
               onClick={handleReset}
             >
               Entfernen
