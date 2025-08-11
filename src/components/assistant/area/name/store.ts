@@ -1,5 +1,6 @@
+import { del as idbDel, get as idbGet, set as idbSet } from "idb-keyval"
 import { create } from "zustand"
-import { persist } from "zustand/middleware"
+import { createJSONStorage, persist } from "zustand/middleware"
 
 import { type NameFormSchema } from "@/components/assistant/area/name/schema"
 import { AllGeoJSON } from "@turf/helpers"
@@ -14,6 +15,8 @@ interface NameState {
   reset: () => void
 }
 
+const GEOJSON_KEY = "name-geojson"
+
 export const useNameStore = create<NameState>()(
   persist(
     (set) => ({
@@ -22,11 +25,38 @@ export const useNameStore = create<NameState>()(
       geoJson: null,
       setFormValues: (values) => set({ formValues: values }),
       setOsmId: (osmId) => set({ osmId }),
-      setGeoJson: (geoJson) => set({ geoJson }),
-      reset: () => set({ formValues: null, osmId: null, geoJson: null }),
+      setGeoJson: (geoJson) => {
+        set({ geoJson })
+        if (geoJson) {
+          idbSet(GEOJSON_KEY, geoJson).catch((error) => {
+            console.error("Error saving name GeoJSON to IndexedDB:", error)
+          })
+        } else {
+          idbDel(GEOJSON_KEY).catch((error) => {
+            console.error("Error deleting name GeoJSON from IndexedDB:", error)
+          })
+        }
+      },
+      reset: () => {
+        set({ formValues: null, osmId: null, geoJson: null })
+        idbDel(GEOJSON_KEY).catch((error) => {
+          console.error("Error deleting name GeoJSON during reset:", error)
+        })
+      },
     }),
     {
       name: "name-storage",
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        formValues: state.formValues,
+        osmId: state.osmId,
+      }),
+      onRehydrateStorage: () => async (state) => {
+        const savedGeoJson = await idbGet<AllGeoJSON>(GEOJSON_KEY)
+        if (savedGeoJson) {
+          state?.setGeoJson(savedGeoJson)
+        }
+      },
     },
   ),
 )

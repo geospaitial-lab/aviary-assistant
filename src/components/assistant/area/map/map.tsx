@@ -47,8 +47,6 @@ export function Map() {
 
   React.useEffect(() => {
     if (mapContainer.current && !map.current) {
-      const currentGeoJson = getCurrentGeoJson()
-
       const mapOptions: maplibregl.MapOptions = {
         container: mapContainer.current,
         style: {
@@ -61,12 +59,6 @@ export function Map() {
               attribution:
                 '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
             },
-            ...(currentGeoJson && {
-              geometry: {
-                type: "geojson",
-                data: currentGeoJson,
-              },
-            }),
           },
           layers: [
             {
@@ -74,54 +66,13 @@ export function Map() {
               type: "raster",
               source: "osm",
             },
-            ...(currentGeoJson
-              ? [
-                  {
-                    id: "geometry-fill",
-                    type: "fill",
-                    source: "geometry",
-                    paint: {
-                      "fill-color": GEOJSON_COLOR,
-                      "fill-opacity": GEOJSON_OPACITY,
-                    },
-                  } as LayerSpecification,
-                  {
-                    id: "geometry-line",
-                    type: "line",
-                    source: "geometry",
-                    paint: {
-                      "line-color": GEOJSON_COLOR,
-                      "line-width": GEOJSON_LINE_WIDTH,
-                    },
-                  } as LayerSpecification,
-                ]
-              : []),
           ],
         },
+        center: CENTER,
+        zoom: DEFAULT_ZOOM,
         minZoom: MIN_ZOOM,
         maxZoom: MAX_ZOOM,
         keyboard: false,
-      }
-
-      if (currentGeoJson) {
-        try {
-          const bounds = bbox(currentGeoJson)
-          mapOptions.bounds = [
-            [bounds[0], bounds[1]],
-            [bounds[2], bounds[3]],
-          ]
-          mapOptions.fitBoundsOptions = {
-            padding: 128,
-          }
-          sourceAdded.current = true
-        } catch (error) {
-          console.error("Error calculating initial bounds:", error)
-          mapOptions.center = CENTER
-          mapOptions.zoom = DEFAULT_ZOOM
-        }
-      } else {
-        mapOptions.center = CENTER
-        mapOptions.zoom = DEFAULT_ZOOM
       }
 
       map.current = new maplibregl.Map(mapOptions)
@@ -139,84 +90,108 @@ export function Map() {
   }, [])
 
   React.useEffect(() => {
-    if (!map.current || !map.current.loaded()) return
+    if (!map.current) return
 
-    const currentGeoJson = getCurrentGeoJson()
-    const tabChanged = prevActiveTab !== activeTab
+    const mapInstance = map.current
 
-    if (tabChanged) {
-      setPrevActiveTab(activeTab)
-    }
+    const handleMapLoaded = () => {
+      const currentGeoJson = getCurrentGeoJson()
+      const tabChanged = prevActiveTab !== activeTab
 
-    if (!currentGeoJson) {
-      if (sourceAdded.current && map.current.getSource("geometry")) {
-        const emptyGeoJson = {
-          type: "FeatureCollection",
-          features: [],
-        } as AllGeoJSON
-
-        const source = map.current.getSource(
-          "geometry",
-        ) as maplibregl.GeoJSONSource
-        source.setData(emptyGeoJson)
+      if (tabChanged) {
+        setPrevActiveTab(activeTab)
       }
-      return
-    }
 
-    if (!sourceAdded.current) {
-      map.current.addSource("geometry", {
-        type: "geojson",
-        data: currentGeoJson,
-      })
+      if (!currentGeoJson) {
+        if (sourceAdded.current && mapInstance.getSource("geometry")) {
+          const emptyGeoJson = {
+            type: "FeatureCollection",
+            features: [],
+          } as AllGeoJSON
 
-      map.current.addLayer({
-        id: "geometry-fill",
-        type: "fill",
-        source: "geometry",
-        paint: {
-          "fill-color": GEOJSON_COLOR,
-          "fill-opacity": GEOJSON_OPACITY,
-        },
-      } as LayerSpecification)
+          try {
+            const source = mapInstance.getSource(
+              "geometry",
+            ) as maplibregl.GeoJSONSource
+            source.setData(emptyGeoJson)
+          } catch (error) {
+            console.error("Error updating empty source:", error)
+          }
+        }
+        return
+      }
 
-      map.current.addLayer({
-        id: "geometry-line",
-        type: "line",
-        source: "geometry",
-        paint: {
-          "line-color": GEOJSON_COLOR,
-          "line-width": GEOJSON_LINE_WIDTH,
-        },
-      } as LayerSpecification)
+      if (!sourceAdded.current) {
+        try {
+          mapInstance.addSource("geometry", {
+            type: "geojson",
+            data: currentGeoJson,
+          })
 
-      sourceAdded.current = true
-    } else {
+          mapInstance.addLayer({
+            id: "geometry-fill",
+            type: "fill",
+            source: "geometry",
+            paint: {
+              "fill-color": GEOJSON_COLOR,
+              "fill-opacity": GEOJSON_OPACITY,
+            },
+          } as LayerSpecification)
+
+          mapInstance.addLayer({
+            id: "geometry-line",
+            type: "line",
+            source: "geometry",
+            paint: {
+              "line-color": GEOJSON_COLOR,
+              "line-width": GEOJSON_LINE_WIDTH,
+            },
+          } as LayerSpecification)
+
+          sourceAdded.current = true
+        } catch (error) {
+          console.error("Error adding source:", error)
+        }
+      } else {
+        try {
+          const source = mapInstance.getSource(
+            "geometry",
+          ) as maplibregl.GeoJSONSource
+          source.setData(currentGeoJson)
+        } catch (error) {
+          console.error("Error updating source:", error)
+        }
+      }
+
       try {
-        const source = map.current.getSource(
-          "geometry",
-        ) as maplibregl.GeoJSONSource
-        source.setData(currentGeoJson)
+        const bounds = bbox(currentGeoJson)
+
+        mapInstance.fitBounds(
+          [
+            [bounds[0], bounds[1]],
+            [bounds[2], bounds[3]],
+          ],
+          {
+            padding: 128,
+            duration: 1000,
+            linear: false,
+          },
+        )
       } catch (error) {
-        console.error("Error updating source:", error)
+        console.error("Error calculating bounds:", error)
       }
     }
 
-    try {
-      const bounds = bbox(currentGeoJson)
+    if (mapInstance.loaded()) {
+      handleMapLoaded()
+    } else {
+      mapInstance.once("load", handleMapLoaded)
+    }
 
-      map.current.fitBounds(
-        [
-          [bounds[0], bounds[1]],
-          [bounds[2], bounds[3]],
-        ],
-        {
-          padding: 128,
-          duration: 1000,
-          linear: false,
-        },
-      )
-    } catch (error) {
-      console.error("Error calculating bounds:", error)
+    return () => {
+      if (map.current) {
+        map.current.off("load", handleMapLoaded)
+      }
     }
   }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson, prevActiveTab])
 
