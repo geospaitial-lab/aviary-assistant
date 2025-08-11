@@ -193,7 +193,7 @@ export function Map() {
         map.current.off("load", handleMapLoaded)
       }
     }
-  }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson, prevActiveTab])
+  }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson])
 
   return <div ref={mapContainer} className="h-full w-full rounded-lg" />
 }
