@@ -17,8 +17,9 @@ const DEFAULT_ZOOM = 4
 const GEOJSON_COLOR = "#155dfc"
 const GEOJSON_LINE_WIDTH = 2
 const GEOJSON_OPACITY = 0.2
-const MIN_ZOOM = DEFAULT_ZOOM
+const MAX_FIT_ZOOM = 12
 const MAX_ZOOM = 18
+const MIN_ZOOM = DEFAULT_ZOOM
 
 export function Map() {
   const nameGeoJson = useNameStore((state) => state.geoJson)
@@ -173,6 +174,7 @@ export function Map() {
           ],
           {
             padding: 128,
+            maxZoom: MAX_FIT_ZOOM,
             duration: 1000,
             linear: false,
           },
