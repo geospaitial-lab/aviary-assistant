@@ -22,7 +22,7 @@ const GEOJSON_SOURCE_ID = "area-geojson-source"
 const MAX_FIT_ZOOM = 12
 const MAX_ZOOM = 18
 const MIN_ZOOM = DEFAULT_ZOOM
-const VECTOR_TILES_URL = "https://tiles.openfreemap.org/styles/bright"
+const VECTOR_TILES_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/map_style.json`
 
 export function Map() {
   const mapContainer = React.useRef<HTMLDivElement>(null)
