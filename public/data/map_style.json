@@ -2,14 +2,6 @@
   "version": 8,
   "metadata": {},
   "sources": {
-    "ne2_shaded": {
-      "maxzoom": 6,
-      "tileSize": 256,
-      "tiles": [
-        "https://tiles.openfreemap.org/natural_earth/ne2sr/{z}/{x}/{y}.png"
-      ],
-      "type": "raster"
-    },
     "openmaptiles": {
       "type": "vector",
       "url": "https://tiles.openfreemap.org/planet"
@@ -891,8 +883,8 @@
         ["!", ["has", "claimed_by"]]
       ],
       "paint": {
-        "line-color": "hsl(0,0%,70%)",
-        "line-dasharray": [1, 1],
+        "line-color": "#155dfc",
+        "line-opacity": 0.2,
         "line-width": ["interpolate", ["linear", 1], ["zoom"], 7, 1, 11, 2]
       }
     },
@@ -965,36 +957,6 @@
       }
     },
     {
-      "id": "water_name_point_label",
-      "type": "symbol",
-      "source": "openmaptiles",
-      "source-layer": "water_name",
-      "filter": [
-        "match",
-        ["geometry-type"],
-        ["MultiPoint", "Point"],
-        true,
-        false
-      ],
-      "layout": {
-        "text-field": [
-          "case",
-          ["has", "name:nonlatin"],
-          ["concat", ["get", "name:latin"], "\n", ["get", "name:nonlatin"]],
-          ["coalesce", ["get", "name_de"], ["get", "name"]]
-        ],
-        "text-font": ["Noto Sans Italic"],
-        "text-letter-spacing": 0.2,
-        "text-max-width": 5,
-        "text-size": ["interpolate", ["linear"], ["zoom"], 0, 10, 8, 14]
-      },
-      "paint": {
-        "text-color": "#495e91",
-        "text-halo-color": "rgba(255,255,255,0.7)",
-        "text-halo-width": 1.5
-      }
-    },
-    {
       "id": "water_name_line_label",
       "type": "symbol",
       "source": "openmaptiles",
@@ -1021,7 +983,7 @@
         "text-size": 14
       },
       "paint": {
-        "text-color": "#495e91",
+        "text-color": "#000",
         "text-halo-color": "rgba(255,255,255,0.7)",
         "text-halo-width": 1.5
       }
@@ -1047,7 +1009,7 @@
       },
       "paint": {
         "text-color": "hsl(30,0%,62%)",
-        "text-halo-color": "#f8f4f0",
+        "text-halo-color": "#fff",
         "text-halo-width": 0.5
       }
     },
@@ -1569,6 +1531,5 @@
         "text-halo-width": 1
       }
     }
-  ],
-  "id": "ts15irwjs"
+  ]
 }
