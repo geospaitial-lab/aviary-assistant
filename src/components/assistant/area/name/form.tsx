@@ -127,6 +127,14 @@ export function NameForm() {
     const currentOsmId = selectedLocation?.osmId || osmId
 
     if (currentOsmId) {
+      const hasOsmIdChanged = currentOsmId !== osmId
+
+      if (!hasOsmIdChanged && geoJson) {
+        const geoJsonCopy = { ...geoJson }
+        setGeoJson(geoJsonCopy)
+        return
+      }
+
       setIsLoading(true)
 
       try {
