@@ -97,20 +97,29 @@ export function NameForm() {
   }, [])
 
   const fetchOverpassData = async (osmId: number) => {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+
     try {
       const query = `[out:json];relation(${osmId});out geom;`
       const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
 
-      const response = await fetch(url)
+      const response = await fetch(url, {
+        signal: controller.signal,
+      })
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      return await response.json()
+      const overpassData = await response.json()
+      clearTimeout(timeoutId)
+      return overpassData
     } catch (error) {
       console.error("Error fetching data from Overpass API: ", error)
       throw error
+    } finally {
+      clearTimeout(timeoutId)
     }
   }
 
