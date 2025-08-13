@@ -14,7 +14,7 @@ import { AllGeoJSON } from "@turf/helpers"
 
 const CENTER: [number, number] = [10.4541231, 51.1846362]
 const DEFAULT_ZOOM = 4
-const GEOJSON_COLOR = "#155dfc"
+const GEOJSON_COLOR = "#2b7fff" // blue-500
 const GEOJSON_LAYER_ID = "area-geojson-layer"
 const GEOJSON_LINE_WIDTH = 2
 const GEOJSON_OPACITY = 0.2
