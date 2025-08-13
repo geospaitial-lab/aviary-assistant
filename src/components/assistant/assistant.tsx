@@ -4,6 +4,7 @@ import * as React from "react"
 
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
+import { AlreadyOpenAlert } from "@/components/assistant/already-open-alert"
 import { Area, AreaFormRef } from "@/components/assistant/area/area"
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
@@ -18,6 +19,7 @@ import { Summary } from "@/components/assistant/summary/summary"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { useScrollDirection } from "@/hooks/use-scroll-direction"
+import { useTabLock } from "@/hooks/use-tab-lock"
 import { cn } from "@/lib/utils"
 
 export function Assistant() {
@@ -30,6 +32,7 @@ export function Assistant() {
   const areaRef = React.useRef<AreaFormRef>(null)
   const dataRef = React.useRef<DataFormRef>(null)
   const { isVisible } = useScrollDirection()
+  const { isLocked } = useTabLock()
 
   React.useEffect(() => {
     setIsHydrated(true)
@@ -138,7 +141,7 @@ export function Assistant() {
 
   return (
     <div className="@container">
-      <ResumeAlert />
+      {isLocked ? <AlreadyOpenAlert /> : <ResumeAlert />}
       <div
         className={cn(
           "sticky top-13 z-49 -mt-8 pt-4 bg-background transition-all duration-500 transform",
