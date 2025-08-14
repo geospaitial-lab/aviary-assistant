@@ -50,6 +50,7 @@ export function NameForm() {
     geoJson,
     isLoading,
     setFormValues,
+    setCenter,
     setOsmId,
     setGeoJson,
     setIsLoading,
@@ -230,6 +231,7 @@ export function NameForm() {
                                 onSelect={() => {
                                   form.setValue("name", adminEntry.name)
                                   setSelectedLocation(adminEntry)
+                                  setCenter(adminEntry.center)
                                   setIsOpen(false)
                                 }}
                               >

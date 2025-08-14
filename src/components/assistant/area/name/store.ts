@@ -7,10 +7,12 @@ import { AllGeoJSON } from "@turf/helpers"
 
 interface NameState {
   formValues: NameFormSchema | null
+  center: { lat: number; lon: number } | null
   osmId: number | null
   geoJson: AllGeoJSON | null
   isLoading: boolean
   setFormValues: (values: NameFormSchema) => void
+  setCenter: (center: { lat: number; lon: number }) => void
   setOsmId: (osmId: number) => void
   setGeoJson: (geoJson: AllGeoJSON) => void
   setIsLoading: (isLoading: boolean) => void
@@ -23,10 +25,12 @@ export const useNameStore = create<NameState>()(
   persist(
     (set) => ({
       formValues: null,
+      center: null,
       osmId: null,
       geoJson: null,
       isLoading: false,
       setFormValues: (values) => set({ formValues: values }),
+      setCenter: (center) => set({ center }),
       setOsmId: (osmId) => set({ osmId }),
       setGeoJson: (geoJson) => {
         set({ geoJson })
@@ -42,7 +46,13 @@ export const useNameStore = create<NameState>()(
       },
       setIsLoading: (isLoading) => set({ isLoading: isLoading }),
       reset: () => {
-        set({ formValues: null, osmId: null, geoJson: null, isLoading: false })
+        set({
+          formValues: null,
+          center: null,
+          osmId: null,
+          geoJson: null,
+          isLoading: false,
+        })
         idbDel(GEOJSON_KEY).catch((error) => {
           console.error("Error deleting name GeoJSON during reset:", error)
         })

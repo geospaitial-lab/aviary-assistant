@@ -32,6 +32,7 @@ export function Map() {
   const { activeTab } = useAreaStore()
 
   const nameGeoJson = useNameStore((state) => state.geoJson)
+  const nameCenter = useNameStore((state) => state.center)
   const fileGeoJson = useFileStore((state) => state.geoJson)
   const boundingBoxGeoJson = useBoundingBoxStore((state) => state.geoJson)
 
@@ -159,6 +160,23 @@ export function Map() {
     }
   }, [])
 
+  const flyToCenter = React.useCallback(
+    (center: { lat: number; lon: number }) => {
+      if (!map.current || !mapInitialized) return
+
+      try {
+        map.current.flyTo({
+          center: [center.lon, center.lat],
+          zoom: 8,
+          duration: 1000,
+        })
+      } catch (error) {
+        console.error("Error flying to center:", error)
+      }
+    },
+    [mapInitialized],
+  )
+
   React.useEffect(() => {
     if (!mapInitialized) return
 
@@ -194,6 +212,12 @@ export function Map() {
     updateGeoJsonSource,
     fitMapToGeometry,
   ])
+
+  React.useEffect(() => {
+    if (!mapInitialized || !nameCenter || activeTab !== "name") return
+
+    flyToCenter(nameCenter)
+  }, [nameCenter, mapInitialized, activeTab, flyToCenter])
 
   return <div ref={mapContainer} className="h-full w-full rounded-lg" />
 }
