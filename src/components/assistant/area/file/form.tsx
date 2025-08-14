@@ -25,6 +25,38 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+function truncateFileName(fileName: string, maxLength: number = 25): string {
+  if (!fileName || fileName.length <= maxLength) return fileName
+
+  const lastDotIndex = fileName.lastIndexOf(".")
+  if (lastDotIndex === -1) {
+    const charsToShow = maxLength - 3
+    const halfLength = Math.floor(charsToShow / 2)
+    return (
+      fileName.substring(0, halfLength) +
+      "..." +
+      fileName.substring(fileName.length - halfLength)
+    )
+  }
+
+  const extension = fileName.substring(lastDotIndex)
+  const nameWithoutExtension = fileName.substring(0, lastDotIndex)
+
+  const maxNameLength = maxLength - 3 - extension.length
+
+  if (maxNameLength <= 0) {
+    return fileName.substring(0, maxLength - 3) + "..."
+  }
+
+  const halfLength = Math.floor(maxNameLength / 2)
+  const startChars = nameWithoutExtension.substring(0, halfLength)
+  const endChars = nameWithoutExtension.substring(
+    nameWithoutExtension.length - halfLength,
+  )
+
+  return startChars + "..." + endChars + extension
+}
+
 export function FileForm() {
   const {
     fileName,
@@ -124,6 +156,7 @@ export function FileForm() {
                         onChange(file)
                       }}
                       className="absolute inset-0 opacity-0 cursor-pointer z-10 h-full"
+                      title=""
                       {...field}
                     />
                     <div className="border border-input rounded-md h-36 flex flex-col items-center justify-center p-4 text-center gap-2">
@@ -131,7 +164,7 @@ export function FileForm() {
                         <>
                           <Upload aria-hidden="true" />
                           <p className="text-sm font-medium">
-                            {selectedFileName}
+                            {truncateFileName(selectedFileName)}
                           </p>
                           <p className="text-xs text-muted-foreground">
                             Klicke zum Ändern
