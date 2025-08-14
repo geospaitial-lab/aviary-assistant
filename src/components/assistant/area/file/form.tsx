@@ -26,7 +26,7 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-function truncateFileName(fileName: string, maxLength: number = 25): string {
+function truncateFileName(fileName: string, maxLength: number = 35): string {
   if (!fileName || fileName.length <= maxLength) return fileName
 
   const lastDotIndex = fileName.lastIndexOf(".")
