@@ -301,7 +301,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
               href="/faq#daten"
               showArrow={true}
               openInNewTab={true}
-              className="text-sm"
+              className="text-sm w-fit"
             >
               Mehr erfahren
             </Link>

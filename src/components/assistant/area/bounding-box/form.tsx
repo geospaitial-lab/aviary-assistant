@@ -291,7 +291,7 @@ export function BoundingBoxForm() {
             href="/faq#gebiet"
             showArrow={true}
             openInNewTab={true}
-            className="text-sm"
+            className="text-sm w-fit"
           >
             Mehr erfahren
           </Link>
