@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -173,9 +174,7 @@ export function FileForm() {
                       ) : (
                         <>
                           <Upload aria-hidden="true" />
-                          <p className="text-sm font-medium">
-                            .geojson Datei auswählen
-                          </p>
+                          <p className="text-sm font-medium">Datei auswählen</p>
                           <p className="text-xs text-muted-foreground">
                             Max. 1 MB
                           </p>
@@ -185,7 +184,13 @@ export function FileForm() {
                   </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
-                  <FormMessage />
+                  {form.formState.errors.file ? (
+                    <FormMessage />
+                  ) : (
+                    <FormDescription>
+                      .geojson Datei mit Polygonen
+                    </FormDescription>
+                  )}
                 </div>
               </FormItem>
             )}
