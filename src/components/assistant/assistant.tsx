@@ -24,6 +24,7 @@ import { cn } from "@/lib/utils"
 
 export function Assistant() {
   const [isHydrated, setIsHydrated] = React.useState(false)
+  const [resetKey, setResetKey] = React.useState(0)
   const { activeStep, setActiveStep } = useAssistantStore()
   const nameIsLoading = useNameStore((state) => state.isLoading)
   const fileIsLoading = useFileStore((state) => state.isLoading)
@@ -123,7 +124,7 @@ export function Assistant() {
 
     switch (activeStep) {
       case "model":
-        return <Model ref={modelRef} />
+        return <Model key={resetKey} ref={modelRef} />
       case "area":
         return <Area ref={areaRef} />
       case "data":
@@ -139,9 +140,13 @@ export function Assistant() {
     }
   }
 
+  const handleReset = React.useCallback(() => {
+    setResetKey((prevKey) => prevKey + 1)
+  }, [])
+
   return (
     <div className="@container">
-      {isLocked ? <AlreadyOpenAlert /> : <ResumeAlert />}
+      {isLocked ? <AlreadyOpenAlert /> : <ResumeAlert onReset={handleReset} />}
       <div
         className={cn(
           "sticky top-13 z-49 -mt-8 pt-4 bg-background transition-all duration-500 transform",

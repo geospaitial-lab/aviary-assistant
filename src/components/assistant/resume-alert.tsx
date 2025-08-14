@@ -28,7 +28,11 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-export function ResumeAlert() {
+interface ResumeAlertProps {
+  onReset?: () => void
+}
+
+export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const resetAreaStore = useAreaStore((state) => state.reset)
@@ -106,6 +110,10 @@ export function ResumeAlert() {
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
     })
+
+    if (onReset) {
+      onReset()
+    }
 
     setIsOpen(false)
   }
