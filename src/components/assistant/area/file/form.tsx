@@ -3,6 +3,8 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { Upload } from "lucide-react"
+
 import {
   type FileFormSchema,
   fileFormSchema,
@@ -24,8 +26,20 @@ import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function FileForm() {
-  const { geoJson, isLoading, setFormValues, setGeoJson, setIsLoading, reset } =
-    useFileStore()
+  const {
+    fileName,
+    geoJson,
+    isLoading,
+    setFormValues,
+    setFileName,
+    setGeoJson,
+    setIsLoading,
+    reset,
+  } = useFileStore()
+
+  const [selectedFileName, setSelectedFileName] = React.useState<string | null>(
+    fileName,
+  )
 
   const form = useForm<FileFormSchema>({
     resolver: zodResolver(fileFormSchema),
@@ -40,6 +54,10 @@ export function FileForm() {
     void initBoundary()
   }, [])
 
+  React.useEffect(() => {
+    setSelectedFileName(fileName)
+  }, [fileName])
+
   async function onSubmit(values: FileFormSchema) {
     setIsLoading(true)
 
@@ -48,6 +66,7 @@ export function FileForm() {
       const geoJson = JSON.parse(text)
 
       setFormValues(values)
+      setFileName(values.file.name)
       setGeoJson(geoJson)
     } finally {
       setIsLoading(false)
@@ -59,7 +78,20 @@ export function FileForm() {
       file: undefined,
     })
 
+    setSelectedFileName(null)
     reset()
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    if (fileName && geoJson && !form.getValues().file) {
+      e.preventDefault()
+
+      const geoJsonCopy = { ...geoJson }
+      setGeoJson(geoJsonCopy)
+      return
+    }
+
+    form.handleSubmit(onSubmit)(e)
   }
 
   return (
@@ -68,7 +100,7 @@ export function FileForm() {
         <form
           autoComplete="off"
           noValidate
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit}
           className="grid gap-4"
         >
           <FormField
@@ -78,14 +110,46 @@ export function FileForm() {
               <FormItem>
                 <FormLabel>Datei</FormLabel>
                 <FormControl>
-                  <Input
-                    type="file"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      onChange(file)
-                    }}
-                    {...field}
-                  />
+                  <div className="relative">
+                    <Input
+                      type="file"
+                      accept=".geojson"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0]
+                        if (file) {
+                          setSelectedFileName(file.name)
+                        } else {
+                          setSelectedFileName(null)
+                        }
+                        onChange(file)
+                      }}
+                      className="absolute inset-0 opacity-0 cursor-pointer z-10 h-full"
+                      {...field}
+                    />
+                    <div className="border border-input rounded-md h-36 flex flex-col items-center justify-center p-4 text-center gap-2">
+                      {selectedFileName ? (
+                        <>
+                          <Upload aria-hidden="true" />
+                          <p className="text-sm font-medium">
+                            {selectedFileName}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Klicke zum Ändern
+                          </p>
+                        </>
+                      ) : (
+                        <>
+                          <Upload aria-hidden="true" />
+                          <p className="text-sm font-medium">
+                            .geojson Datei auswählen
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Max. 1 MB
+                          </p>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </FormControl>
                 <div className="min-h-[1.25rem]">
                   <FormMessage />
