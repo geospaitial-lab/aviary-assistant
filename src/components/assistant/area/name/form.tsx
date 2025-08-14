@@ -144,8 +144,6 @@ export function NameForm() {
         setFormValues(values)
         setOsmId(currentOsmId)
         setGeoJson(geoJson)
-
-        console.log(geoJson)
       } catch (error) {
         form.setError("name", {
           type: "manual",

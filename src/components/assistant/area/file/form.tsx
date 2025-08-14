@@ -49,8 +49,6 @@ export function FileForm() {
 
       setFormValues(values)
       setGeoJson(geoJson)
-
-      console.log(geoJson)
     } finally {
       setIsLoading(false)
     }

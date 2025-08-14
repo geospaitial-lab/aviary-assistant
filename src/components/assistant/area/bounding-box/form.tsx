@@ -71,8 +71,6 @@ export function BoundingBoxForm() {
 
       setFormValues(values)
       setGeoJson(geoJson)
-
-      console.log(geoJson)
     } finally {
       setIsSubmitting(false)
     }
