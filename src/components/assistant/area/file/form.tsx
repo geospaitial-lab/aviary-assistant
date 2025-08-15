@@ -200,7 +200,7 @@ export function FileForm() {
                       <FormMessage />
                     ) : (
                       <FormDescription>
-                        .geojson Datei mit Polygonen
+                        .geojson-Datei mit Polygonen
                       </FormDescription>
                     )}
                   </div>
