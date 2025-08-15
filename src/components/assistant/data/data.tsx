@@ -15,11 +15,11 @@ function DataHeadings() {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-        Daten
+        Woher kommen die Daten?
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        TODO
+        Wähle die Datenquelle, die die Luftbilder enthält
       </h2>
     </>
   )
