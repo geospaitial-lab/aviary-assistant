@@ -4,6 +4,7 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import { Upload } from "lucide-react"
+import { toast } from "sonner"
 
 import {
   type FileFormSchema,
@@ -106,6 +107,10 @@ export function FileForm() {
     }
   }
 
+  function handleEdit() {
+    toast("TODO")
+  }
+
   function handleReset() {
     form.reset({
       file: undefined,
@@ -205,8 +210,9 @@ export function FileForm() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-24"
                 disabled={!geoJson || isLoading}
+                onClick={handleEdit}
+                className="w-24"
               >
                 Bearbeiten
               </Button>
@@ -214,9 +220,9 @@ export function FileForm() {
             <Button
               type="button"
               variant="destructive"
-              className="w-24"
               disabled={!geoJson || isLoading}
               onClick={handleReset}
+              className="w-24"
             >
               Entfernen
             </Button>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
+import { toast } from "sonner"
 
 import {
   type NameFormSchema,
@@ -156,6 +157,10 @@ export function NameForm() {
     }
   }
 
+  function handleEdit() {
+    toast("TODO")
+  }
+
   function handleReset() {
     form.reset({
       name: "",
@@ -291,8 +296,9 @@ export function NameForm() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-24"
                 disabled={!geoJson || isLoading || isSearching}
+                onClick={handleEdit}
+                className="w-24"
               >
                 Bearbeiten
               </Button>
@@ -300,9 +306,9 @@ export function NameForm() {
             <Button
               type="button"
               variant="destructive"
-              className="w-24"
               disabled={!geoJson || isLoading || isSearching}
               onClick={handleReset}
+              className="w-24"
             >
               Entfernen
             </Button>

@@ -3,6 +3,8 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { toast } from "sonner"
+
 import {
   type BoundingBoxFormSchema,
   boundingBoxFormSchema,
@@ -74,6 +76,10 @@ export function BoundingBoxForm() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  function handleEdit() {
+    toast("TODO")
   }
 
   function handleReset() {
@@ -271,8 +277,9 @@ export function BoundingBoxForm() {
               <Button
                 type="button"
                 variant="outline"
-                className="w-24"
                 disabled={!geoJson}
+                onClick={handleEdit}
+                className="w-24"
               >
                 Bearbeiten
               </Button>
@@ -280,9 +287,9 @@ export function BoundingBoxForm() {
             <Button
               type="button"
               variant="destructive"
-              className="w-24"
               disabled={!geoJson}
               onClick={handleReset}
+              className="w-24"
             >
               Entfernen
             </Button>
