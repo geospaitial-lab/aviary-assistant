@@ -180,147 +180,165 @@ export function NameForm() {
           autoComplete="off"
           noValidate
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="pointer-events-none">Name</FormLabel>
-                <Popover open={isOpen} onOpenChange={setIsOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground aria-invalid:transition-none",
-                          isOpen
-                            ? "dark:hover:bg-input/30"
-                            : "dark:hover:bg-input/50",
-                        )}
-                      >
-                        <div className="font-normal">{field.value || ""}</div>
-                        <ChevronDownIcon
-                          className="opacity-50"
-                          aria-hidden="true"
+          <p className="text-pretty mb-4">
+            Gib hier an, wie der Name des Gebiets ist – das Polygon entspricht
+            den Grenzen von{" "}
+            <Link
+              href="https://www.openstreetmap.org"
+              showUnderline={true}
+              openInNewTab={true}
+            >
+              OpenStreetMap
+            </Link>
+            .
+          </p>
+
+          <div className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="pointer-events-none">Name</FormLabel>
+                  <Popover open={isOpen} onOpenChange={setIsOpen}>
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          className={cn(
+                            "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground aria-invalid:transition-none",
+                            isOpen
+                              ? "dark:hover:bg-input/30"
+                              : "dark:hover:bg-input/50",
+                          )}
+                        >
+                          <div className="font-normal">{field.value || ""}</div>
+                          <ChevronDownIcon
+                            className="opacity-50"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-[1000]">
+                      <Command shouldFilter={false}>
+                        <CommandInput
+                          placeholder="Suchen..."
+                          value={searchQuery}
+                          onValueChange={handleSearch}
                         />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-[1000]">
-                    <Command shouldFilter={false}>
-                      <CommandInput
-                        placeholder="Suchen..."
-                        value={searchQuery}
-                        onValueChange={handleSearch}
-                      />
-                      <CommandList>
-                        {isSearching ? (
-                          <CommandEmpty>Suche läuft...</CommandEmpty>
-                        ) : searchResults.length === 0 ? (
-                          <CommandEmpty>
-                            {searchQuery.length > 0 ? (
-                              "Nichts gefunden"
-                            ) : (
-                              <span className="invisible">Nichts gefunden</span>
-                            )}
-                          </CommandEmpty>
-                        ) : (
-                          <CommandGroup>
-                            {searchResults.map((adminEntry) => (
-                              <CommandItem
-                                key={adminEntry.osmId}
-                                value={adminEntry.osmId.toString()}
-                                onSelect={() => {
-                                  form.setValue("name", adminEntry.name)
-                                  setSelectedLocation(adminEntry)
-                                  setCenter(adminEntry.center)
-                                  setIsOpen(false)
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <span>{adminEntry.name}</span>
-                                  {adminEntry.adminLevel !== 4 && (
-                                    <span className="text-muted-foreground font-light">
-                                      {adminEntry.state}
-                                    </span>
-                                  )}
-                                </div>
-                                {adminEntry.osmId === osmId ? (
-                                  <>
-                                    <Check
-                                      className="ml-auto text-success"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="sr-only">Angezeigt</span>
-                                  </>
-                                ) : adminEntry.osmId ===
-                                  selectedLocation?.osmId ? (
-                                  <>
-                                    <Locate
-                                      className="ml-auto text-muted-foreground"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="sr-only">Ausgewählt</span>
-                                  </>
-                                ) : null}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        )}
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.name ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>
-                      Stadt, Kreis oder Bundesland
-                    </FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-            <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isLoading}>
-                <span className={cn(isLoading && "animate-pulse")}>
-                  Anzeigen
-                </span>
-              </Button>
+                        <CommandList>
+                          {isSearching ? (
+                            <CommandEmpty>Suche läuft...</CommandEmpty>
+                          ) : searchResults.length === 0 ? (
+                            <CommandEmpty>
+                              {searchQuery.length > 0 ? (
+                                "Nichts gefunden"
+                              ) : (
+                                <span className="invisible">
+                                  Nichts gefunden
+                                </span>
+                              )}
+                            </CommandEmpty>
+                          ) : (
+                            <CommandGroup>
+                              {searchResults.map((adminEntry) => (
+                                <CommandItem
+                                  key={adminEntry.osmId}
+                                  value={adminEntry.osmId.toString()}
+                                  onSelect={() => {
+                                    form.setValue("name", adminEntry.name)
+                                    setSelectedLocation(adminEntry)
+                                    setCenter(adminEntry.center)
+                                    setIsOpen(false)
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <span>{adminEntry.name}</span>
+                                    {adminEntry.adminLevel !== 4 && (
+                                      <span className="text-muted-foreground font-light">
+                                        {adminEntry.state}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {adminEntry.osmId === osmId ? (
+                                    <>
+                                      <Check
+                                        className="ml-auto text-success"
+                                        aria-hidden="true"
+                                      />
+                                      <span className="sr-only">Angezeigt</span>
+                                    </>
+                                  ) : adminEntry.osmId ===
+                                    selectedLocation?.osmId ? (
+                                    <>
+                                      <Locate
+                                        className="ml-auto text-muted-foreground"
+                                        aria-hidden="true"
+                                      />
+                                      <span className="sr-only">
+                                        Ausgewählt
+                                      </span>
+                                    </>
+                                  ) : null}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          )}
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.name ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        Stadt, Kreis oder Bundesland
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
+              <div className="flex gap-4">
+                <Button type="submit" className="w-24" disabled={isLoading}>
+                  <span className={cn(isLoading && "animate-pulse")}>
+                    Anzeigen
+                  </span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!geoJson || isLoading || isSearching}
+                  onClick={handleEdit}
+                  className="w-24"
+                >
+                  Bearbeiten
+                </Button>
+              </div>
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
                 disabled={!geoJson || isLoading || isSearching}
-                onClick={handleEdit}
+                onClick={handleReset}
                 className="w-24"
               >
-                Bearbeiten
+                Entfernen
               </Button>
             </div>
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={!geoJson || isLoading || isSearching}
-              onClick={handleReset}
-              className="w-24"
+            <Link
+              href="/faq#gebiet"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm w-fit"
             >
-              Entfernen
-            </Button>
+              Mehr erfahren
+            </Link>
           </div>
-          <Link
-            href="/faq#gebiet"
-            showArrow={true}
-            openInNewTab={true}
-            className="text-sm w-fit"
-          >
-            Mehr erfahren
-          </Link>
         </form>
       </Form>
     </div>

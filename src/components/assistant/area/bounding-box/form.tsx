@@ -101,207 +101,212 @@ export function BoundingBoxForm() {
           autoComplete="off"
           noValidate
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4 grid-cols-1 @md:grid-cols-2"
         >
-          <FormField
-            control={form.control}
-            name="xMin"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span>
-                    x<sub>min</sub>
-                  </span>
-                </FormLabel>
-                <div className="relative">
+          <p className="text-pretty mb-4">
+            Gib hier an, welche Koordinaten die Bounding Box deines Gebiets hat.
+          </p>
+
+          <div className="grid gap-4 grid-cols-1 @md:grid-cols-2">
+            <FormField
+              control={form.control}
+              name="xMin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span>
+                      x<sub>min</sub>
+                    </span>
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        className="pr-8"
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.xMin ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Westliche Koordinate</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="yMin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span>
+                      y<sub>min</sub>
+                    </span>
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        className="pr-8"
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.yMin ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Südliche Koordinate</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="xMax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span>
+                      x<sub>max</sub>
+                    </span>
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        className="pr-8"
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.xMax ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Östliche Koordinate</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="yMax"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    <span>
+                      y<sub>max</sub>
+                    </span>
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="text"
+                        inputMode="numeric"
+                        className="pr-8"
+                        {...field}
+                      />
+                    </FormControl>
+                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
+                      {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                    </span>
+                  </div>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.yMax ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>Nördliche Koordinate</FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="epsgCode"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>EPSG Code</FormLabel>
                   <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      className="pr-8"
-                      {...field}
-                    />
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className=" z-[1000]">
+                        <SelectItem value="4326">4326</SelectItem>
+                        <SelectSeparator />
+                        <SelectItem value="25832">25832</SelectItem>
+                        <SelectItem value="25833">25833</SelectItem>
+                        <SelectItem value="3857">3857</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.epsgCode ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        Koordinatenreferenzssystem
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
+              <div className="flex gap-4">
+                <Button type="submit" className="w-24" disabled={isSubmitting}>
+                  <span className={cn(isSubmitting && "animate-pulse")}>
+                    Anzeigen
                   </span>
-                </div>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.xMin ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>Westliche Koordinate</FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="yMin"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span>
-                    y<sub>min</sub>
-                  </span>
-                </FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      className="pr-8"
-                      {...field}
-                    />
-                  </FormControl>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                  </span>
-                </div>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.yMin ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>Südliche Koordinate</FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="xMax"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span>
-                    x<sub>max</sub>
-                  </span>
-                </FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      className="pr-8"
-                      {...field}
-                    />
-                  </FormControl>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                  </span>
-                </div>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.xMax ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>Östliche Koordinate</FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="yMax"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>
-                  <span>
-                    y<sub>max</sub>
-                  </span>
-                </FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      className="pr-8"
-                      {...field}
-                    />
-                  </FormControl>
-                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                    {form.watch("epsgCode") === "4326" ? "°" : "m"}
-                  </span>
-                </div>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.yMax ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>Nördliche Koordinate</FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="epsgCode"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>EPSG Code</FormLabel>
-                <FormControl>
-                  <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger className="w-full">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent className=" z-[1000]">
-                      <SelectItem value="4326">4326</SelectItem>
-                      <SelectSeparator />
-                      <SelectItem value="25832">25832</SelectItem>
-                      <SelectItem value="25833">25833</SelectItem>
-                      <SelectItem value="3857">3857</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <div className="min-h-[1.25rem]">
-                  {form.formState.errors.epsgCode ? (
-                    <FormMessage />
-                  ) : (
-                    <FormDescription>
-                      Koordinatenreferenzssystem
-                    </FormDescription>
-                  )}
-                </div>
-              </FormItem>
-            )}
-          />
-          <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
-            <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isSubmitting}>
-                <span className={cn(isSubmitting && "animate-pulse")}>
-                  Anzeigen
-                </span>
-              </Button>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!geoJson}
+                  onClick={handleEdit}
+                  className="w-24"
+                >
+                  Bearbeiten
+                </Button>
+              </div>
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
                 disabled={!geoJson}
-                onClick={handleEdit}
+                onClick={handleReset}
                 className="w-24"
               >
-                Bearbeiten
+                Entfernen
               </Button>
             </div>
-            <Button
-              type="button"
-              variant="destructive"
-              disabled={!geoJson}
-              onClick={handleReset}
-              className="w-24"
+            <Link
+              href="/faq#gebiet"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm w-fit"
             >
-              Entfernen
-            </Button>
+              Mehr erfahren
+            </Link>
           </div>
-          <Link
-            href="/faq#gebiet"
-            showArrow={true}
-            openInNewTab={true}
-            className="text-sm w-fit"
-          >
-            Mehr erfahren
-          </Link>
         </form>
       </Form>
     </div>
