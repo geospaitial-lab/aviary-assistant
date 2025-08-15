@@ -148,7 +148,7 @@ export function FileForm() {
               <FormItem>
                 <FormLabel>Datei</FormLabel>
                 <FormControl>
-                  <div className="relative">
+                  <div className="relative group">
                     <Input
                       type="file"
                       accept=".geojson"
@@ -165,7 +165,12 @@ export function FileForm() {
                       title=""
                       {...field}
                     />
-                    <div className="border border-input rounded-md h-36 flex flex-col items-center justify-center p-4 text-center gap-2">
+                    <div
+                      aria-invalid={
+                        form.formState.errors.file ? true : undefined
+                      }
+                      className="flex flex-col items-center justify-center h-36 p-4 text-center gap-2 cursor-pointer transition-all border rounded-md shadow-xs dark:bg-input/30 dark:border-input group-hover:bg-accent group-hover:text-accent-foreground dark:group-hover:bg-input/50 group-focus-within:border-ring group-focus-within:ring-ring/50 group-focus-within:ring-[3px] aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 dark:aria-invalid:border-destructive"
+                    >
                       {selectedFileName ? (
                         <>
                           <Upload aria-hidden="true" />
