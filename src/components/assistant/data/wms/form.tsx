@@ -105,9 +105,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                     {form.formState.errors.url ? (
                       <FormMessage />
                     ) : (
-                      <FormDescription>
-                        Webadresse des WMS-Dienstes
-                      </FormDescription>
+                      <FormDescription>TODO</FormDescription>
                     )}
                   </div>
                 </FormItem>
@@ -134,9 +132,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                     {form.formState.errors.version ? (
                       <FormMessage />
                     ) : (
-                      <FormDescription>
-                        Version des WMS-Protokolls
-                      </FormDescription>
+                      <FormDescription>TODO</FormDescription>
                     )}
                   </div>
                 </FormItem>
@@ -260,7 +256,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                     {form.formState.errors.channels ? (
                       <FormMessage />
                     ) : (
-                      <FormDescription>Kanäle</FormDescription>
+                      <FormDescription>TODO</FormDescription>
                     )}
                   </div>
                 </FormItem>

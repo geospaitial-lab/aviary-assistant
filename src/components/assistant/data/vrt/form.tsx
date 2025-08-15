@@ -160,7 +160,7 @@ export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
                     {form.formState.errors.channels ? (
                       <FormMessage />
                     ) : (
-                      <FormDescription>Kanäle</FormDescription>
+                      <FormDescription>TODO</FormDescription>
                     )}
                   </div>
                 </FormItem>
