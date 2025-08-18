@@ -162,7 +162,7 @@ export function Map() {
 
   const flyToCenter = React.useCallback(
     (center: { lat: number; lon: number }) => {
-      if (!map.current || !mapInitialized) return
+      if (!map.current) return
 
       try {
         map.current.flyTo({
@@ -174,7 +174,7 @@ export function Map() {
         console.error("Error flying to center:", error)
       }
     },
-    [mapInitialized],
+    [],
   )
 
   React.useEffect(() => {
@@ -217,7 +217,7 @@ export function Map() {
     if (!mapInitialized || !nameCenter || activeTab !== "name") return
 
     flyToCenter(nameCenter)
-  }, [nameCenter, mapInitialized, activeTab, flyToCenter])
+  }, [nameCenter, mapInitialized, flyToCenter])
 
   return <div ref={mapContainer} className="h-full w-full rounded-lg" />
 }
