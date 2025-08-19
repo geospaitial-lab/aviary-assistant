@@ -201,12 +201,16 @@ export function NameForm() {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="pointer-events-none">Name</FormLabel>
-                  <Popover open={isOpen} onOpenChange={setIsOpen}>
+                  <Popover
+                    open={isLoading ? false : isOpen}
+                    onOpenChange={isLoading ? () => {} : setIsOpen}
+                  >
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button
                           variant="outline"
                           role="combobox"
+                          disabled={isLoading}
                           className={cn(
                             "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground aria-invalid:transition-none",
                             isOpen
@@ -305,7 +309,7 @@ export function NameForm() {
             />
             <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
               <div className="flex gap-4">
-                <Button type="submit" className="w-24" disabled={isLoading}>
+                <Button type="submit" disabled={isLoading} className="w-24">
                   <span className={cn(isLoading && "animate-pulse")}>
                     Anzeigen
                   </span>
