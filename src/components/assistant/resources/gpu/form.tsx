@@ -117,7 +117,12 @@ export function GpuForm() {
             </FormItem>
           )}
         />
-        <Link showArrow={true} openInNewTab={true} className="text-sm">
+        <Link
+          href="/faq#ressourcen"
+          showArrow={true}
+          openInNewTab={true}
+          className="text-sm"
+        >
           Mehr erfahren
         </Link>
       </form>

@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
+import { toast } from "sonner"
 
 import {
   type NameFormSchema,
@@ -29,6 +30,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -47,14 +49,16 @@ export function NameForm() {
     formValues,
     osmId,
     geoJson,
+    isLoading,
     setFormValues,
+    setCenter,
     setOsmId,
     setGeoJson,
+    setIsLoading,
     reset,
   } = useNameStore()
   const [isOpen, setIsOpen] = React.useState(false)
   const [isSearching, setIsSearching] = React.useState(false)
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
   const [searchQuery, setSearchQuery] = React.useState("")
   const [searchResults, setSearchResults] = React.useState<AdminEntry[]>([])
   const [selectedLocation, setSelectedLocation] =
@@ -95,20 +99,29 @@ export function NameForm() {
   }, [])
 
   const fetchOverpassData = async (osmId: number) => {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 10000)
+
     try {
       const query = `[out:json];relation(${osmId});out geom;`
-      const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+      const url = `https://overpass.private.coffee/api/interpreter?data=${encodeURIComponent(query)}`
 
-      const response = await fetch(url)
+      const response = await fetch(url, {
+        signal: controller.signal,
+      })
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`)
       }
 
-      return await response.json()
+      const overpassData = await response.json()
+      clearTimeout(timeoutId)
+      return overpassData
     } catch (error) {
       console.error("Error fetching data from Overpass API: ", error)
       throw error
+    } finally {
+      clearTimeout(timeoutId)
     }
   }
 
@@ -116,7 +129,15 @@ export function NameForm() {
     const currentOsmId = selectedLocation?.osmId || osmId
 
     if (currentOsmId) {
-      setIsSubmitting(true)
+      const hasOsmIdChanged = currentOsmId !== osmId
+
+      if (!hasOsmIdChanged && geoJson) {
+        const geoJsonCopy = { ...geoJson }
+        setGeoJson(geoJsonCopy)
+        return
+      }
+
+      setIsLoading(true)
 
       try {
         const overpassData = await fetchOverpassData(currentOsmId)
@@ -125,17 +146,19 @@ export function NameForm() {
         setFormValues(values)
         setOsmId(currentOsmId)
         setGeoJson(geoJson)
-
-        console.log(geoJson)
       } catch (error) {
         form.setError("name", {
           type: "manual",
           message: "Ein Fehler ist aufgetreten",
         })
       } finally {
-        setIsSubmitting(false)
+        setIsLoading(false)
       }
     }
+  }
+
+  function handleEdit() {
+    toast("TODO")
   }
 
   function handleReset() {
@@ -157,134 +180,169 @@ export function NameForm() {
           autoComplete="off"
           noValidate
           onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4"
         >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="pointer-events-none">Name</FormLabel>
-                <Popover open={isOpen} onOpenChange={setIsOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        className={cn(
-                          "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground",
-                          isOpen
-                            ? "dark:hover:bg-input/30"
-                            : "dark:hover:bg-input/50",
-                        )}
-                      >
-                        <div className="font-normal">{field.value || ""}</div>
-                        <ChevronDownIcon
-                          className="opacity-50"
-                          aria-hidden="true"
+          <p className="text-pretty mb-4">
+            Gib hier an, wie der Name des Gebiets ist – das Polygon entspricht
+            den Grenzen von{" "}
+            <Link
+              href="https://www.openstreetmap.org"
+              showUnderline={true}
+              openInNewTab={true}
+            >
+              OpenStreetMap
+            </Link>
+            .
+          </p>
+
+          <div className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="pointer-events-none">Name</FormLabel>
+                  <Popover
+                    open={isLoading ? false : isOpen}
+                    onOpenChange={isLoading ? () => {} : setIsOpen}
+                  >
+                    <PopoverTrigger asChild>
+                      <FormControl>
+                        <Button
+                          variant="outline"
+                          role="combobox"
+                          disabled={isLoading}
+                          className={cn(
+                            "justify-between border-input [&_svg:not([class*='text-'])]:text-muted-foreground hover:bg-transparent hover:text-foreground aria-invalid:transition-none",
+                            isOpen
+                              ? "dark:hover:bg-input/30"
+                              : "dark:hover:bg-input/50",
+                          )}
+                        >
+                          <div className="font-normal">{field.value || ""}</div>
+                          <ChevronDownIcon
+                            className="opacity-50"
+                            aria-hidden="true"
+                          />
+                        </Button>
+                      </FormControl>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-[1000]">
+                      <Command shouldFilter={false}>
+                        <CommandInput
+                          placeholder="Suchen..."
+                          value={searchQuery}
+                          onValueChange={handleSearch}
                         />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0 z-[1000]">
-                    <Command shouldFilter={false}>
-                      <CommandInput
-                        placeholder="Suchen..."
-                        value={searchQuery}
-                        onValueChange={handleSearch}
-                      />
-                      <CommandList>
-                        {isSearching ? (
-                          <CommandEmpty>Suche läuft...</CommandEmpty>
-                        ) : searchResults.length === 0 ? (
-                          <CommandEmpty>
-                            {searchQuery.length > 0 ? (
-                              "Nichts gefunden"
-                            ) : (
-                              <span className="invisible">Nichts gefunden</span>
-                            )}
-                          </CommandEmpty>
-                        ) : (
-                          <CommandGroup>
-                            {searchResults.map((adminEntry) => (
-                              <CommandItem
-                                key={adminEntry.osmId}
-                                value={adminEntry.osmId.toString()}
-                                onSelect={() => {
-                                  form.setValue("name", adminEntry.name)
-                                  setSelectedLocation(adminEntry)
-                                  setIsOpen(false)
-                                }}
-                              >
-                                <div className="flex flex-col">
-                                  <span>{adminEntry.name}</span>
-                                  {adminEntry.adminLevel !== 4 && (
-                                    <span className="text-muted-foreground font-light">
-                                      {adminEntry.state}
-                                    </span>
-                                  )}
-                                </div>
-                                {adminEntry.osmId === osmId ? (
-                                  <>
-                                    <Check
-                                      className="ml-auto text-success"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="sr-only">Angezeigt</span>
-                                  </>
-                                ) : adminEntry.osmId ===
-                                  selectedLocation?.osmId ? (
-                                  <>
-                                    <Locate
-                                      className="ml-auto text-muted-foreground"
-                                      aria-hidden="true"
-                                    />
-                                    <span className="sr-only">Ausgewählt</span>
-                                  </>
-                                ) : null}
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        )}
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-            <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isSubmitting}>
-                <span className={cn(isSubmitting && "animate-pulse")}>
-                  Anzeigen
-                </span>
-              </Button>
+                        <CommandList>
+                          {isSearching ? (
+                            <CommandEmpty>Suche läuft...</CommandEmpty>
+                          ) : searchResults.length === 0 ? (
+                            <CommandEmpty>
+                              {searchQuery.length > 0 ? (
+                                "Nichts gefunden"
+                              ) : (
+                                <span className="invisible">
+                                  Nichts gefunden
+                                </span>
+                              )}
+                            </CommandEmpty>
+                          ) : (
+                            <CommandGroup>
+                              {searchResults.map((adminEntry) => (
+                                <CommandItem
+                                  key={adminEntry.osmId}
+                                  value={adminEntry.osmId.toString()}
+                                  onSelect={() => {
+                                    form.setValue("name", adminEntry.name)
+                                    setSelectedLocation(adminEntry)
+                                    setCenter(adminEntry.center)
+                                    setIsOpen(false)
+                                  }}
+                                >
+                                  <div className="flex flex-col">
+                                    <span>{adminEntry.name}</span>
+                                    {adminEntry.adminLevel !== 4 && (
+                                      <span className="text-muted-foreground font-light">
+                                        {adminEntry.state}
+                                      </span>
+                                    )}
+                                  </div>
+                                  {adminEntry.osmId === osmId ? (
+                                    <>
+                                      <Check
+                                        className="ml-auto text-success"
+                                        aria-hidden="true"
+                                      />
+                                      <span className="sr-only">Angezeigt</span>
+                                    </>
+                                  ) : adminEntry.osmId ===
+                                    selectedLocation?.osmId ? (
+                                    <>
+                                      <Locate
+                                        className="ml-auto text-muted-foreground"
+                                        aria-hidden="true"
+                                      />
+                                      <span className="sr-only">
+                                        Ausgewählt
+                                      </span>
+                                    </>
+                                  ) : null}
+                                </CommandItem>
+                              ))}
+                            </CommandGroup>
+                          )}
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.name ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        Stadt, Kreis oder Bundesland
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
+              <div className="flex gap-4">
+                <Button type="submit" disabled={isLoading} className="w-24">
+                  <span className={cn(isLoading && "animate-pulse")}>
+                    Anzeigen
+                  </span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!geoJson || isLoading || isSearching}
+                  onClick={handleEdit}
+                  className="w-24"
+                >
+                  Bearbeiten
+                </Button>
+              </div>
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
+                disabled={!geoJson || isLoading || isSearching}
+                onClick={handleReset}
                 className="w-24"
-                disabled={!geoJson}
               >
-                Bearbeiten
+                Entfernen
               </Button>
             </div>
-            <Button
-              type="button"
-              variant="destructive"
-              className="w-24"
-              disabled={!geoJson}
-              onClick={handleReset}
+            <Link
+              href="/faq#gebiet"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm w-fit"
             >
-              Entfernen
-            </Button>
+              Mehr erfahren
+            </Link>
           </div>
-          <Link showArrow={true} openInNewTab={true} className="text-sm">
-            Mehr erfahren
-          </Link>
         </form>
       </Form>
     </div>

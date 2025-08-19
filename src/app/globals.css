@@ -49,7 +49,7 @@
 
   @keyframes throb {
     0% {
-      box-shadow: 0 0 0 0 var(--ring);
+      box-shadow: 0 0 0 0 var(--primary);
     }
     50% {
       box-shadow: 0 0 0 8px transparent;
@@ -65,7 +65,7 @@
 }
 
 :root {
-  --radius: 0.375rem;
+  --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -139,12 +139,27 @@
   --yaml-comment: oklch(0.707 0.165 254.624);
 }
 
+/* https://github.com/shadcn-ui/ui/issues/4227 */
+html body[data-scroll-locked] {
+  overflow: visible !important;
+  margin-right: 0 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --animate-throb: none;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+  :where([id]) {
+    @apply scroll-mt-16;
   }
 }
 

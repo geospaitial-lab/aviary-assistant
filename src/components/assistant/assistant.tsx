@@ -4,8 +4,11 @@ import * as React from "react"
 
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
+import { AlreadyOpenAlert } from "@/components/assistant/already-open-alert"
 import { Area, AreaFormRef } from "@/components/assistant/area/area"
-import { Data } from "@/components/assistant/data/data"
+import { useFileStore } from "@/components/assistant/area/file/store"
+import { useNameStore } from "@/components/assistant/area/name/store"
+import { Data, DataFormRef } from "@/components/assistant/data/data"
 import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
 import { Model } from "@/components/assistant/model/model"
@@ -15,13 +18,22 @@ import { useAssistantStore } from "@/components/assistant/store"
 import { Summary } from "@/components/assistant/summary/summary"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
+import { useScrollDirection } from "@/hooks/use-scroll-direction"
+import { useTabLock } from "@/hooks/use-tab-lock"
 import { cn } from "@/lib/utils"
 
 export function Assistant() {
   const [isHydrated, setIsHydrated] = React.useState(false)
+  const [resetKey, setResetKey] = React.useState(0)
   const { activeStep, setActiveStep } = useAssistantStore()
+  const nameIsLoading = useNameStore((state) => state.isLoading)
+  const fileIsLoading = useFileStore((state) => state.isLoading)
+  const isLoading = nameIsLoading || fileIsLoading
   const modelRef = React.useRef<ModelFormRef>(null)
   const areaRef = React.useRef<AreaFormRef>(null)
+  const dataRef = React.useRef<DataFormRef>(null)
+  const { isVisible } = useScrollDirection()
+  const { isLocked } = useTabLock()
 
   React.useEffect(() => {
     setIsHydrated(true)
@@ -65,7 +77,12 @@ export function Assistant() {
         }
         break
       case "data":
-        setActiveStep("resources")
+        if (dataRef.current) {
+          const isValid = await dataRef.current.validate()
+          if (isValid) {
+            setActiveStep("resources")
+          }
+        }
         break
       case "resources":
         setActiveStep("export")
@@ -107,11 +124,11 @@ export function Assistant() {
 
     switch (activeStep) {
       case "model":
-        return <Model ref={modelRef} />
+        return <Model key={resetKey} ref={modelRef} />
       case "area":
         return <Area ref={areaRef} />
       case "data":
-        return <Data />
+        return <Data ref={dataRef} />
       case "resources":
         return <Resources />
       case "export":
@@ -123,34 +140,45 @@ export function Assistant() {
     }
   }
 
+  const handleReset = React.useCallback(() => {
+    setResetKey((prevKey) => prevKey + 1)
+  }, [])
+
   return (
     <div className="@container">
-      <ResumeAlert />
-      <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <div className="flex justify-between items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleBack}
-            disabled={activeStep === "model"}
-          >
-            <ArrowLeft aria-hidden="true" />
-            <span className="sr-only">Zurück</span>
-          </Button>
+      {isLocked ? <AlreadyOpenAlert /> : <ResumeAlert onReset={handleReset} />}
+      <div
+        className={cn(
+          "sticky top-13 z-49 -mt-8 pt-4 bg-background transition-all duration-500 transform",
+          isVisible ? "translate-y-0" : "-translate-y-full",
+        )}
+      >
+        <div className="@2xl:w-2/3 @2xl:mx-auto">
+          <div className="flex justify-between items-center gap-4 py-2">
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={handleBack}
+              disabled={activeStep === "model" || isLoading}
+            >
+              <ArrowLeft aria-hidden="true" />
+              <span className="sr-only">Zurück</span>
+            </Button>
 
-          <div className="flex-1 max-w-64 mx-4">
-            <Progress value={getProgressValue()} />
+            <div className="flex-1 max-w-64 mx-4">
+              <Progress value={getProgressValue()} />
+            </div>
+
+            <Button
+              size="icon"
+              onClick={handleNext}
+              disabled={activeStep === "summary" || isLoading}
+              className={cn(activeStep === "model" && "animate-throb")}
+            >
+              <ArrowRight aria-hidden="true" />
+              <span className="sr-only">Weiter</span>
+            </Button>
           </div>
-
-          <Button
-            size="icon"
-            onClick={handleNext}
-            disabled={activeStep === "summary"}
-            className={cn(activeStep === "model" && "animate-throb")}
-          >
-            <ArrowRight aria-hidden="true" />
-            <span className="sr-only">Weiter</span>
-          </Button>
         </div>
       </div>
       <div className="mt-8">{renderStep()}</div>

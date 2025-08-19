@@ -85,25 +85,37 @@ const getProjectionString = (epsgCode: string): string => {
 export const boundingBoxFormSchema = z
   .object({
     xMin: z.preprocess(
-      (value) => (value === "" ? undefined : value),
+      (value) => {
+        if (value === "") return undefined
+        return typeof value === "string" ? value.replace(/,/g, ".") : value
+      },
       z.coerce.number({
         invalid_type_error: ERROR_NUMBER,
       }),
     ),
     yMin: z.preprocess(
-      (value) => (value === "" ? undefined : value),
+      (value) => {
+        if (value === "") return undefined
+        return typeof value === "string" ? value.replace(/,/g, ".") : value
+      },
       z.coerce.number({
         invalid_type_error: ERROR_NUMBER,
       }),
     ),
     xMax: z.preprocess(
-      (value) => (value === "" ? undefined : value),
+      (value) => {
+        if (value === "") return undefined
+        return typeof value === "string" ? value.replace(/,/g, ".") : value
+      },
       z.coerce.number({
         invalid_type_error: ERROR_NUMBER,
       }),
     ),
     yMax: z.preprocess(
-      (value) => (value === "" ? undefined : value),
+      (value) => {
+        if (value === "") return undefined
+        return typeof value === "string" ? value.replace(/,/g, ".") : value
+      },
       z.coerce.number({
         invalid_type_error: ERROR_NUMBER,
       }),

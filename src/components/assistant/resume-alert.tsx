@@ -8,6 +8,9 @@ import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/st
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
+import { useDataStore } from "@/components/assistant/data/store"
+import { useVrtStore } from "@/components/assistant/data/vrt/store"
+import { useWmsStore } from "@/components/assistant/data/wms/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
@@ -25,31 +28,41 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
 
-export function ResumeAlert() {
+interface ResumeAlertProps {
+  onReset?: () => void
+}
+
+export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
   const resetBoundingBoxStore = useBoundingBoxStore((state) => state.reset)
   const resetCpuStore = useCpuStore((state) => state.reset)
+  const resetDataStore = useDataStore((state) => state.reset)
   const resetExportStore = useExportStore((state) => state.reset)
   const resetFileStore = useFileStore((state) => state.reset)
   const resetGpuStore = useGpuStore((state) => state.reset)
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
   const resetResourcesStore = useResourcesStore((state) => state.reset)
+  const resetVrtStore = useVrtStore((state) => state.reset)
+  const resetWmsStore = useWmsStore((state) => state.reset)
 
   const storeKeys = [
     "area-storage",
     "assistant-storage",
     "bounding-box-storage",
     "cpu-storage",
+    "data-storage",
     "export-storage",
     "file-storage",
     "gpu-storage",
     "model-storage",
     "name-storage",
     "resources-storage",
+    "vrt-storage",
+    "wms-storage",
   ]
 
   React.useEffect(() => {
@@ -81,19 +94,26 @@ export function ResumeAlert() {
 
   const handleReset = () => {
     resetAreaStore()
-    resetBoundingBoxStore()
-    resetNameStore()
-    resetFileStore()
-    resetExportStore()
     resetAssistantStore()
-    resetResourcesStore()
+    resetBoundingBoxStore()
     resetCpuStore()
+    resetDataStore()
+    resetExportStore()
+    resetFileStore()
     resetGpuStore()
     resetModelStore()
+    resetNameStore()
+    resetResourcesStore()
+    resetVrtStore()
+    resetWmsStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
     })
+
+    if (onReset) {
+      onReset()
+    }
 
     setIsOpen(false)
   }

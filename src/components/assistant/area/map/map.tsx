@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import maplibregl, { LayerSpecification } from "maplibre-gl"
+import maplibregl from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
 
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
@@ -14,120 +14,80 @@ import { AllGeoJSON } from "@turf/helpers"
 
 const CENTER: [number, number] = [10.4541231, 51.1846362]
 const DEFAULT_ZOOM = 4
-const GEOJSON_COLOR = "#155dfc"
+const GEOJSON_COLOR = "#155dfc" // blue-600
+const GEOJSON_LAYER_ID = "area-geojson-layer"
 const GEOJSON_LINE_WIDTH = 2
 const GEOJSON_OPACITY = 0.2
-const MIN_ZOOM = DEFAULT_ZOOM
+const GEOJSON_SOURCE_ID = "area-geojson-source"
+const MAX_FIT_ZOOM = 12
 const MAX_ZOOM = 18
+const MIN_ZOOM = DEFAULT_ZOOM
+const VECTOR_TILES_URL = `${process.env.NEXT_PUBLIC_BASE_PATH || ""}/data/map_style.json`
 
 export function Map() {
-  const nameGeoJson = useNameStore((state) => state.geoJson)
-  const fileGeoJson = useFileStore((state) => state.geoJson)
-  const boundingBoxGeoJson = useBoundingBoxStore((state) => state.geoJson)
-  const { activeTab } = useAreaStore()
   const mapContainer = React.useRef<HTMLDivElement>(null)
   const map = React.useRef<maplibregl.Map | null>(null)
-  const sourceAdded = React.useRef<boolean>(false)
-  const [prevActiveTab, setPrevActiveTab] = React.useState<string>(
-    activeTab || "name",
-  )
+  const [mapInitialized, setMapInitialized] = React.useState(false)
 
-  const getCurrentGeoJson = (): AllGeoJSON | null => {
-    switch (activeTab) {
-      case "name":
-        return nameGeoJson
-      case "file":
-        return fileGeoJson
-      case "bounding-box":
-        return boundingBoxGeoJson
-      default:
-        return null
-    }
-  }
+  const { activeTab } = useAreaStore()
+
+  const nameGeoJson = useNameStore((state) => state.geoJson)
+  const nameCenter = useNameStore((state) => state.center)
+  const fileGeoJson = useFileStore((state) => state.geoJson)
+  const boundingBoxGeoJson = useBoundingBoxStore((state) => state.geoJson)
 
   React.useEffect(() => {
     if (mapContainer.current && !map.current) {
-      const currentGeoJson = getCurrentGeoJson()
+      try {
+        const mapInstance = new maplibregl.Map({
+          container: mapContainer.current,
+          style: VECTOR_TILES_URL,
+          center: CENTER,
+          zoom: DEFAULT_ZOOM,
+          minZoom: MIN_ZOOM,
+          maxZoom: MAX_ZOOM,
+          keyboard: false,
+        })
 
-      const mapOptions: maplibregl.MapOptions = {
-        container: mapContainer.current,
-        style: {
-          version: 8,
-          sources: {
-            osm: {
-              type: "raster",
-              tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-              tileSize: 256,
-              attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors',
+        mapInstance.on("load", () => {
+          mapInstance.addSource(GEOJSON_SOURCE_ID, {
+            type: "geojson",
+            data: {
+              type: "FeatureCollection",
+              features: [],
             },
-            ...(currentGeoJson && {
-              geometry: {
-                type: "geojson",
-                data: currentGeoJson,
-              },
-            }),
-          },
-          layers: [
-            {
-              id: "osm-tiles",
-              type: "raster",
-              source: "osm",
+          })
+
+          mapInstance.addLayer({
+            id: `${GEOJSON_LAYER_ID}-fill`,
+            type: "fill",
+            source: GEOJSON_SOURCE_ID,
+            paint: {
+              "fill-color": GEOJSON_COLOR,
+              "fill-opacity": GEOJSON_OPACITY,
             },
-            ...(currentGeoJson
-              ? [
-                  {
-                    id: "geometry-fill",
-                    type: "fill",
-                    source: "geometry",
-                    paint: {
-                      "fill-color": GEOJSON_COLOR,
-                      "fill-opacity": GEOJSON_OPACITY,
-                    },
-                  } as LayerSpecification,
-                  {
-                    id: "geometry-line",
-                    type: "line",
-                    source: "geometry",
-                    paint: {
-                      "line-color": GEOJSON_COLOR,
-                      "line-width": GEOJSON_LINE_WIDTH,
-                    },
-                  } as LayerSpecification,
-                ]
-              : []),
-          ],
-        },
-        minZoom: MIN_ZOOM,
-        maxZoom: MAX_ZOOM,
-        keyboard: false,
-      }
+          })
 
-      if (currentGeoJson) {
-        try {
-          const bounds = bbox(currentGeoJson)
-          mapOptions.bounds = [
-            [bounds[0], bounds[1]],
-            [bounds[2], bounds[3]],
-          ]
-          mapOptions.fitBoundsOptions = {
-            padding: 128,
-          }
-          sourceAdded.current = true
-        } catch (error) {
-          console.error("Error calculating initial bounds:", error)
-          mapOptions.center = CENTER
-          mapOptions.zoom = DEFAULT_ZOOM
-        }
-      } else {
-        mapOptions.center = CENTER
-        mapOptions.zoom = DEFAULT_ZOOM
-      }
+          mapInstance.addLayer({
+            id: `${GEOJSON_LAYER_ID}-line`,
+            type: "line",
+            source: GEOJSON_SOURCE_ID,
+            paint: {
+              "line-color": GEOJSON_COLOR,
+              "line-width": GEOJSON_LINE_WIDTH,
+            },
+          })
 
-      map.current = new maplibregl.Map(mapOptions)
-      map.current.dragRotate.disable()
-      map.current.touchZoomRotate.disableRotation()
-      map.current.touchPitch.disable()
+          setMapInitialized(true)
+        })
+
+        map.current = mapInstance
+        map.current.dragRotate.disable()
+        map.current.touchZoomRotate.disableRotation()
+        map.current.touchPitch.disable()
+      } catch (error) {
+        console.error("Error initializing map:", error)
+      }
     }
 
     return () => {
@@ -138,71 +98,50 @@ export function Map() {
     }
   }, [])
 
-  React.useEffect(() => {
-    if (!map.current || !map.current.loaded()) return
-
-    const currentGeoJson = getCurrentGeoJson()
-    const tabChanged = prevActiveTab !== activeTab
-
-    if (tabChanged) {
-      setPrevActiveTab(activeTab)
+  const getCurrentGeoJson = React.useCallback((): AllGeoJSON | null => {
+    switch (activeTab) {
+      case "name":
+        return nameGeoJson
+      case "file":
+        return fileGeoJson
+      case "bounding-box":
+        return boundingBoxGeoJson
+      default:
+        return null
     }
+  }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson])
 
-    if (!currentGeoJson) {
-      if (sourceAdded.current && map.current.getSource("geometry")) {
-        const emptyGeoJson = {
-          type: "FeatureCollection",
-          features: [],
-        } as AllGeoJSON
+  const updateGeoJsonSource = React.useCallback(
+    (geoJson: AllGeoJSON | null) => {
+      if (!map.current || !mapInitialized) return
 
-        const source = map.current.getSource(
-          "geometry",
-        ) as maplibregl.GeoJSONSource
-        source.setData(emptyGeoJson)
-      }
-      return
-    }
-
-    if (!sourceAdded.current) {
-      map.current.addSource("geometry", {
-        type: "geojson",
-        data: currentGeoJson,
-      })
-
-      map.current.addLayer({
-        id: "geometry-fill",
-        type: "fill",
-        source: "geometry",
-        paint: {
-          "fill-color": GEOJSON_COLOR,
-          "fill-opacity": GEOJSON_OPACITY,
-        },
-      } as LayerSpecification)
-
-      map.current.addLayer({
-        id: "geometry-line",
-        type: "line",
-        source: "geometry",
-        paint: {
-          "line-color": GEOJSON_COLOR,
-          "line-width": GEOJSON_LINE_WIDTH,
-        },
-      } as LayerSpecification)
-
-      sourceAdded.current = true
-    } else {
       try {
         const source = map.current.getSource(
-          "geometry",
+          GEOJSON_SOURCE_ID,
         ) as maplibregl.GeoJSONSource
-        source.setData(currentGeoJson)
+
+        if (source) {
+          if (geoJson) {
+            source.setData(geoJson)
+          } else {
+            source.setData({
+              type: "FeatureCollection",
+              features: [],
+            })
+          }
+        }
       } catch (error) {
         console.error("Error updating source:", error)
       }
-    }
+    },
+    [mapInitialized],
+  )
+
+  const fitMapToGeometry = React.useCallback((geoJson: AllGeoJSON) => {
+    if (!map.current || !geoJson) return
 
     try {
-      const bounds = bbox(currentGeoJson)
+      const bounds = bbox(geoJson)
 
       map.current.fitBounds(
         [
@@ -211,14 +150,74 @@ export function Map() {
         ],
         {
           padding: 128,
+          maxZoom: MAX_FIT_ZOOM,
           duration: 1000,
           linear: false,
         },
       )
     } catch (error) {
-      console.error("Error calculating bounds:", error)
+      console.error("Error fitting map to geometry:", error)
     }
-  }, [activeTab, nameGeoJson, fileGeoJson, boundingBoxGeoJson, prevActiveTab])
+  }, [])
+
+  const flyToCenter = React.useCallback(
+    (center: { lat: number; lon: number }) => {
+      if (!map.current) return
+
+      try {
+        map.current.flyTo({
+          center: [center.lon, center.lat],
+          zoom: 8,
+          duration: 1000,
+        })
+      } catch (error) {
+        console.error("Error flying to center:", error)
+      }
+    },
+    [],
+  )
+
+  React.useEffect(() => {
+    if (!mapInitialized) return
+
+    const currentGeoJson = getCurrentGeoJson()
+    updateGeoJsonSource(currentGeoJson)
+
+    if (currentGeoJson) {
+      fitMapToGeometry(currentGeoJson)
+    }
+  }, [
+    activeTab,
+    mapInitialized,
+    getCurrentGeoJson,
+    updateGeoJsonSource,
+    fitMapToGeometry,
+  ])
+
+  React.useEffect(() => {
+    if (!mapInitialized) return
+
+    const currentGeoJson = getCurrentGeoJson()
+    updateGeoJsonSource(currentGeoJson)
+
+    if (currentGeoJson) {
+      fitMapToGeometry(currentGeoJson)
+    }
+  }, [
+    nameGeoJson,
+    fileGeoJson,
+    boundingBoxGeoJson,
+    mapInitialized,
+    getCurrentGeoJson,
+    updateGeoJsonSource,
+    fitMapToGeometry,
+  ])
+
+  React.useEffect(() => {
+    if (!mapInitialized || !nameCenter || activeTab !== "name") return
+
+    flyToCenter(nameCenter)
+  }, [nameCenter, mapInitialized, flyToCenter])
 
   return <div ref={mapContainer} className="h-full w-full rounded-lg" />
 }

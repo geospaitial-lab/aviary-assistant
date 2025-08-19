@@ -6,9 +6,9 @@ import { booleanContains } from "@turf/boolean-contains"
 import { type AllGeoJSON } from "@turf/helpers"
 
 const ERROR_BOUNDARY = "Muss in Deutschland liegen"
-const ERROR_PARSE = "Muss eine gültige .geojson Datei sein"
+const ERROR_PARSE = "Muss eine gültige .geojson-Datei sein"
 const ERROR_SIZE = "Muss kleiner als 1 MB sein"
-const ERROR_TYPE = "Muss eine .geojson Datei sein"
+const ERROR_TYPE = "Muss eine .geojson-Datei sein"
 const MAX_FILE_SIZE = 1024 * 1024
 
 const ajv = new Ajv()

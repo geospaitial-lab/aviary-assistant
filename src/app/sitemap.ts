@@ -14,5 +14,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${BASE_URL}/assistant`,
       lastModified: new Date(),
     },
+    {
+      url: `${BASE_URL}/faq`,
+      lastModified: new Date(),
+    },
   ]
 }

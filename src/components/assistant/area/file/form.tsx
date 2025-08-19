@@ -3,6 +3,9 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
+import { Upload } from "lucide-react"
+import { toast } from "sonner"
+
 import {
   type FileFormSchema,
   fileFormSchema,
@@ -14,6 +17,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,9 +27,53 @@ import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
+function truncateFileName(fileName: string, maxLength: number = 35): string {
+  if (!fileName || fileName.length <= maxLength) return fileName
+
+  const lastDotIndex = fileName.lastIndexOf(".")
+  if (lastDotIndex === -1) {
+    const charsToShow = maxLength - 3
+    const halfLength = Math.floor(charsToShow / 2)
+    return (
+      fileName.substring(0, halfLength) +
+      "..." +
+      fileName.substring(fileName.length - halfLength)
+    )
+  }
+
+  const extension = fileName.substring(lastDotIndex)
+  const nameWithoutExtension = fileName.substring(0, lastDotIndex)
+
+  const maxNameLength = maxLength - 3 - extension.length
+
+  if (maxNameLength <= 0) {
+    return fileName.substring(0, maxLength - 3) + "..."
+  }
+
+  const halfLength = Math.floor(maxNameLength / 2)
+  const startChars = nameWithoutExtension.substring(0, halfLength)
+  const endChars = nameWithoutExtension.substring(
+    nameWithoutExtension.length - halfLength,
+  )
+
+  return startChars + "..." + endChars + extension
+}
+
 export function FileForm() {
-  const { geoJson, setFormValues, setGeoJson, reset } = useFileStore()
-  const [isSubmitting, setIsSubmitting] = React.useState(false)
+  const {
+    fileName,
+    geoJson,
+    isLoading,
+    setFormValues,
+    setFileName,
+    setGeoJson,
+    setIsLoading,
+    reset,
+  } = useFileStore()
+
+  const [selectedFileName, setSelectedFileName] = React.useState<string | null>(
+    fileName,
+  )
 
   const form = useForm<FileFormSchema>({
     resolver: zodResolver(fileFormSchema),
@@ -40,20 +88,27 @@ export function FileForm() {
     void initBoundary()
   }, [])
 
+  React.useEffect(() => {
+    setSelectedFileName(fileName)
+  }, [fileName])
+
   async function onSubmit(values: FileFormSchema) {
-    setIsSubmitting(true)
+    setIsLoading(true)
 
     try {
       const text = await values.file.text()
       const geoJson = JSON.parse(text)
 
       setFormValues(values)
+      setFileName(values.file.name)
       setGeoJson(geoJson)
-
-      console.log(geoJson)
     } finally {
-      setIsSubmitting(false)
+      setIsLoading(false)
     }
+  }
+
+  function handleEdit() {
+    toast("TODO")
   }
 
   function handleReset() {
@@ -61,69 +116,133 @@ export function FileForm() {
       file: undefined,
     })
 
+    setSelectedFileName(null)
     reset()
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    if (fileName && geoJson && !form.getValues().file) {
+      e.preventDefault()
+
+      const geoJsonCopy = { ...geoJson }
+      setGeoJson(geoJsonCopy)
+      return
+    }
+
+    form.handleSubmit(onSubmit)(e)
   }
 
   return (
     <div className="@container">
       <Form {...form}>
-        <form
-          autoComplete="off"
-          noValidate
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grid gap-4"
-        >
-          <FormField
-            control={form.control}
-            name="file"
-            render={({ field: { onChange, value, ...field } }) => (
-              <FormItem>
-                <FormLabel>Datei</FormLabel>
-                <FormControl>
-                  <Input
-                    type="file"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0]
-                      onChange(file)
-                    }}
-                    {...field}
-                  />
-                </FormControl>
-                <div className="min-h-[1.25rem]">
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-            <div className="flex gap-4">
-              <Button type="submit" className="w-24" disabled={isSubmitting}>
-                <span className={cn(isSubmitting && "animate-pulse")}>
-                  Anzeigen
-                </span>
-              </Button>
+        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <p className="text-pretty mb-4">
+            Lade hier dein eigenes Gebiet hoch.
+          </p>
+
+          <div className="grid gap-4">
+            <FormField
+              control={form.control}
+              name="file"
+              render={({ field: { onChange, value, ...field } }) => (
+                <FormItem>
+                  <FormLabel>Datei</FormLabel>
+                  <FormControl>
+                    <div className="relative group">
+                      <Input
+                        type="file"
+                        accept=".geojson"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0]
+                          if (file) {
+                            setSelectedFileName(file.name)
+                          } else {
+                            setSelectedFileName(null)
+                          }
+                          onChange(file)
+                        }}
+                        className="absolute inset-0 opacity-0 cursor-pointer z-10 h-full"
+                        title=""
+                        {...field}
+                      />
+                      <div
+                        aria-invalid={
+                          form.formState.errors.file ? true : undefined
+                        }
+                        className="flex flex-col items-center justify-center h-36 p-4 text-center gap-2 cursor-pointer transition-all border rounded-md shadow-xs dark:bg-input/30 dark:border-input group-hover:bg-accent group-hover:text-accent-foreground dark:group-hover:bg-input/50 group-focus-within:border-ring group-focus-within:ring-ring/50 group-focus-within:ring-[3px] aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 dark:aria-invalid:border-destructive"
+                      >
+                        {selectedFileName ? (
+                          <>
+                            <Upload aria-hidden="true" />
+                            <p className="text-sm font-medium">
+                              {truncateFileName(selectedFileName)}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Klicke zum Ändern
+                            </p>
+                          </>
+                        ) : (
+                          <>
+                            <Upload aria-hidden="true" />
+                            <p className="text-sm font-medium">
+                              Datei auswählen
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              Max. 1 MB
+                            </p>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </FormControl>
+                  <div className="min-h-[1.25rem]">
+                    {form.formState.errors.file ? (
+                      <FormMessage />
+                    ) : (
+                      <FormDescription>
+                        .geojson-Datei mit Polygonen
+                      </FormDescription>
+                    )}
+                  </div>
+                </FormItem>
+              )}
+            />
+            <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
+              <div className="flex gap-4">
+                <Button type="submit" className="w-24" disabled={isLoading}>
+                  <span className={cn(isLoading && "animate-pulse")}>
+                    Anzeigen
+                  </span>
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  disabled={!geoJson || isLoading}
+                  onClick={handleEdit}
+                  className="w-24"
+                >
+                  Bearbeiten
+                </Button>
+              </div>
               <Button
                 type="button"
-                variant="outline"
+                variant="destructive"
+                disabled={!geoJson || isLoading}
+                onClick={handleReset}
                 className="w-24"
-                disabled={!geoJson}
               >
-                Bearbeiten
+                Entfernen
               </Button>
             </div>
-            <Button
-              type="button"
-              variant="destructive"
-              className="w-24"
-              disabled={!geoJson}
-              onClick={handleReset}
+            <Link
+              href="/faq#gebiet"
+              showArrow={true}
+              openInNewTab={true}
+              className="text-sm w-fit"
             >
-              Entfernen
-            </Button>
+              Mehr erfahren
+            </Link>
           </div>
-          <Link showArrow={true} openInNewTab={true} className="text-sm">
-            Mehr erfahren
-          </Link>
         </form>
       </Form>
     </div>
