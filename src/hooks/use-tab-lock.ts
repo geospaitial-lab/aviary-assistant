@@ -2,46 +2,59 @@
 
 import * as React from "react"
 
-const LOCK_KEY = "tab-lock"
+const CHANNEL_NAME = "aviary-assistant-tab-lock"
 
 export function useTabLock() {
   const [hasLock, setHasLock] = React.useState(false)
   const [isLocked, setIsLocked] = React.useState(false)
+  const channelRef = React.useRef<BroadcastChannel | null>(null)
+  const tabIdRef = React.useRef<string>(Date.now().toString())
 
   React.useEffect(() => {
-    const tabId = Date.now().toString()
-
-    const existingLock = localStorage.getItem(LOCK_KEY)
-
-    if (existingLock && existingLock !== tabId) {
-      setIsLocked(true)
+    if (typeof BroadcastChannel === "undefined") {
+      setHasLock(true)
       return
     }
 
-    localStorage.setItem(LOCK_KEY, tabId)
-    setHasLock(true)
+    const tabId = tabIdRef.current
+    const channel = new BroadcastChannel(CHANNEL_NAME)
+    channelRef.current = channel
 
-    const handleStorage = (e: StorageEvent) => {
-      if (e.key === LOCK_KEY && e.newValue !== tabId) {
+    channel.postMessage({ type: "REQUEST_LOCK", tabId })
+
+    channel.onmessage = (event) => {
+      const { type, tabId: senderTabId, hasActiveLock } = event.data
+
+      if (type === "REQUEST_LOCK" && hasLock) {
+        channel.postMessage({
+          type: "LOCK_RESPONSE",
+          tabId,
+          hasActiveLock: true,
+        })
+      } else if (
+        type === "LOCK_RESPONSE" &&
+        hasActiveLock &&
+        senderTabId !== tabId
+      ) {
         setIsLocked(true)
+        setHasLock(false)
       }
     }
 
-    window.addEventListener("storage", handleStorage)
-
-    const cleanup = () => {
-      if (localStorage.getItem(LOCK_KEY) === tabId) {
-        localStorage.removeItem(LOCK_KEY)
+    const lockTimeout = setTimeout(() => {
+      if (!isLocked) {
+        setHasLock(true)
       }
-    }
-    window.addEventListener("beforeunload", cleanup)
+    }, 100)
 
     return () => {
-      cleanup()
-      window.removeEventListener("storage", handleStorage)
-      window.removeEventListener("beforeunload", cleanup)
+      clearTimeout(lockTimeout)
+      if (hasLock && channel) {
+        channel.postMessage({ type: "RELEASE_LOCK", tabId })
+      }
+      channel.close()
     }
-  }, [])
+  }, [hasLock, isLocked])
 
   return { hasLock, isLocked }
 }
