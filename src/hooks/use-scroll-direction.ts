@@ -2,10 +2,12 @@ import * as React from "react"
 
 const UP_SCROLL_THRESHOLD = 32
 const DOWN_SCROLL_THRESHOLD = 32
+const TOP_POSITION_THRESHOLD = 8
 
 export interface ScrollDirectionOptions {
   upScrollThreshold?: number
   downScrollThreshold?: number
+  topPositionThreshold?: number
 }
 
 export function useScrollDirection(options: ScrollDirectionOptions = {}) {
@@ -19,11 +21,21 @@ export function useScrollDirection(options: ScrollDirectionOptions = {}) {
   const {
     upScrollThreshold = UP_SCROLL_THRESHOLD,
     downScrollThreshold = DOWN_SCROLL_THRESHOLD,
+    topPositionThreshold = TOP_POSITION_THRESHOLD,
   } = options
 
   React.useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY
+
+      if (currentScrollY <= topPositionThreshold) {
+        setIsVisible(true)
+        setUpScrollDistance(0)
+        setDownScrollDistance(0)
+        setPrevScrollY(currentScrollY)
+        return
+      }
+
       const isScrollingDown = currentScrollY > prevScrollY
       const isScrollingUp = currentScrollY < prevScrollY
 
@@ -80,6 +92,7 @@ export function useScrollDirection(options: ScrollDirectionOptions = {}) {
     upScrollThreshold,
     downScrollDistance,
     downScrollThreshold,
+    topPositionThreshold,
   ])
 
   return { isVisible, scrollDirection }
