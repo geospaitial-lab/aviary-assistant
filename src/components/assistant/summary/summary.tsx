@@ -17,6 +17,8 @@ import { useCpuStore } from "@/components/assistant/resources/cpu/store"
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { useResourcesStore } from "@/components/assistant/resources/store"
 import { useAssistantStore } from "@/components/assistant/store"
+import { parseConfig } from "@/components/assistant/summary/config-parser"
+import { CodeBlock } from "@/components/code-block"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -46,6 +48,10 @@ function SummaryHeadings() {
 export function Summary() {
   const [isHydrated, setIsHydrated] = React.useState(false)
   const [isDialogOpen, setIsDialogOpen] = React.useState(false)
+
+  const parsedConfig = React.useMemo(() => {
+    return parseConfig()
+  }, [])
 
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
@@ -125,6 +131,8 @@ export function Summary() {
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
         <SummaryHeadings />
+
+        <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
 
         <div className="mt-8 flex justify-center">
           <Button onClick={handleOpenDialog}>Neue Konfiguration</Button>
