@@ -49,9 +49,6 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
         layer: "",
         format: ".png",
         style: "",
-        epsgCode: "25832",
-        channels: "rgb",
-        groundSamplingDistance: "0.2",
       } as any),
     mode: "onBlur",
     reValidateMode: "onBlur",
@@ -204,100 +201,11 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="epsgCode"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>EPSG Code</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="z-[1000]">
-                        <SelectItem value="25832">25832</SelectItem>
-                        <SelectItem value="25833">25833</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.epsgCode ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>
-                        Koordinatenreferenzsystem
-                      </FormDescription>
-                    )}
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="channels"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Kanäle</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="z-[1000]">
-                        <SelectItem value="rgb">RGB</SelectItem>
-                        <SelectItem value="cir">CIR</SelectItem>
-                        <SelectItem value="nir">NIR</SelectItem>
-                        <SelectItem value="dom">DOM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.channels ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>TODO</FormDescription>
-                    )}
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="groundSamplingDistance"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Bodenauflösung</FormLabel>
-                  <FormControl>
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent className="z-[1000]">
-                        <SelectItem value="0.1">0.1 m/px</SelectItem>
-                        <SelectItem value="0.2">0.2 m/px</SelectItem>
-                        <SelectItem value="0.5">0.5 m/px</SelectItem>
-                        <SelectItem value="1.0">1.0 m/px</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.groundSamplingDistance ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>
-                        Räumliche Auflösung der Pixel
-                      </FormDescription>
-                    )}
-                  </div>
-                </FormItem>
-              )}
-            />
             <Link
               href="/faq#daten"
               showArrow={true}
               openInNewTab={true}
-              className="text-sm w-fit"
+              className="@md:col-span-2 text-sm w-fit"
             >
               Mehr erfahren
             </Link>

@@ -9,9 +9,6 @@ export const wmsFormSchema = z.object({
   layer: z.string().min(1, ERROR_LAYER),
   format: z.enum([".jpeg", ".png", ".tiff"]),
   style: z.string(),
-  epsgCode: z.enum(["25832", "25833"]),
-  channels: z.enum(["rgb", "cir", "nir", "dom"]),
-  groundSamplingDistance: z.enum(["0.1", "0.2", "0.5", "1.0"]),
 })
 
 export type WmsFormSchema = z.infer<typeof wmsFormSchema>
