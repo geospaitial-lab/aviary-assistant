@@ -47,7 +47,7 @@ export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
         path: "",
         epsgCode: "25832",
         channels: "rgb",
-        groundSamplingDistance: "",
+        groundSamplingDistance: "0.2",
       } as any),
     mode: "onBlur",
     reValidateMode: "onBlur",
@@ -172,19 +172,19 @@ export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Bodenauflösung</FormLabel>
-                  <div className="relative">
-                    <FormControl>
-                      <Input
-                        type="text"
-                        inputMode="numeric"
-                        className="pr-16"
-                        {...field}
-                      />
-                    </FormControl>
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-sm">
-                      m / px
-                    </span>
-                  </div>
+                  <FormControl>
+                    <Select value={field.value} onValueChange={field.onChange}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="z-[1000]">
+                        <SelectItem value="0.1">0.1 m / px</SelectItem>
+                        <SelectItem value="0.2">0.2 m / px</SelectItem>
+                        <SelectItem value="0.5">0.5 m / px</SelectItem>
+                        <SelectItem value="1.0">1.0 m / px</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <div className="min-h-[1.25rem]">
                     {form.formState.errors.groundSamplingDistance ? (
                       <FormMessage />
