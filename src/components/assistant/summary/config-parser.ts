@@ -1,7 +1,7 @@
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 
-export function parseAreaConfig(): string {
+function parseAreaConfig(): string {
   const TILE_SIZE = 128
   const SNAP = true
 
