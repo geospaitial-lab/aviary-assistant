@@ -48,7 +48,9 @@ export function Summary() {
 
         <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
 
-        <NewConfigButton />
+        <div className="mt-8 flex justify-center">
+          <NewConfigButton />
+        </div>
       </div>
     </div>
   )
