@@ -125,13 +125,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.version ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>TODO</FormDescription>
-                    )}
-                  </div>
+                  <FormDescription>TODO</FormDescription>
                 </FormItem>
               )}
             />
@@ -172,13 +166,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.format ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>Bildformat</FormDescription>
-                    )}
-                  </div>
+                  <FormDescription>Bildformat</FormDescription>
                 </FormItem>
               )}
             />
@@ -191,13 +179,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
                   <FormControl>
                     <Input type="text" placeholder="optional" {...field} />
                   </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.style ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>Darstellungsstil</FormDescription>
-                    )}
-                  </div>
+                  <FormDescription>Darstellungsstil</FormDescription>
                 </FormItem>
               )}
             />

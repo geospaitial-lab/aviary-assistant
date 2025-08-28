@@ -18,7 +18,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -87,13 +86,7 @@ export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
                   <FormControl>
                     <Input type="text" placeholder="optional" {...field} />
                   </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.path ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>Pfad zur .vrt-Datei</FormDescription>
-                    )}
-                  </div>
+                  <FormDescription>Pfad zur .vrt-Datei</FormDescription>
                 </FormItem>
               )}
             />
