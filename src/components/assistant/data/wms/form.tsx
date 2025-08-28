@@ -89,25 +89,27 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
           onSubmit={(e) => e.preventDefault()}
         >
           <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
-            <FormField
-              control={form.control}
-              name="url"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>URL</FormLabel>
-                  <FormControl>
-                    <Input type="text" {...field} />
-                  </FormControl>
-                  <div className="min-h-[1.25rem]">
-                    {form.formState.errors.url ? (
-                      <FormMessage />
-                    ) : (
-                      <FormDescription>TODO</FormDescription>
-                    )}
-                  </div>
-                </FormItem>
-              )}
-            />
+            <div className="@lg:col-span-2">
+              <FormField
+                control={form.control}
+                name="url"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL</FormLabel>
+                    <FormControl>
+                      <Input type="text" {...field} />
+                    </FormControl>
+                    <div className="min-h-[1.25rem]">
+                      {form.formState.errors.url ? (
+                        <FormMessage />
+                      ) : (
+                        <FormDescription>TODO</FormDescription>
+                      )}
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="version"
@@ -187,7 +189,7 @@ export const WmsForm = React.forwardRef<WmsFormRef>(function WmsForm(_, ref) {
               href="/faq#daten"
               showArrow={true}
               openInNewTab={true}
-              className="@md:col-span-2 text-sm w-fit"
+              className="@lg:col-span-2 text-sm w-fit"
             >
               Mehr erfahren
             </Link>
