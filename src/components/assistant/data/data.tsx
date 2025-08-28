@@ -2,6 +2,7 @@
 
 import * as React from "react"
 
+import { GlobalForm } from "@/components/assistant/data/global/form"
 import { useDataStore } from "@/components/assistant/data/store"
 import { VrtForm, VrtFormRef } from "@/components/assistant/data/vrt/form"
 import { WmsForm, WmsFormRef } from "@/components/assistant/data/wms/form"
@@ -66,6 +67,9 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
         <DataHeadings />
+
+        <GlobalForm />
+
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList className="mb-2">
             <TabsTrigger value="wms">WMS</TabsTrigger>
