@@ -8,6 +8,7 @@ import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/st
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
+import { useGlobalStore } from "@/components/assistant/data/global/store"
 import { useDataStore } from "@/components/assistant/data/store"
 import { useVrtStore } from "@/components/assistant/data/vrt/store"
 import { useWmsStore } from "@/components/assistant/data/wms/store"
@@ -42,6 +43,7 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const resetDataStore = useDataStore((state) => state.reset)
   const resetExportStore = useExportStore((state) => state.reset)
   const resetFileStore = useFileStore((state) => state.reset)
+  const resetGlobalStore = useGlobalStore((state) => state.reset)
   const resetGpuStore = useGpuStore((state) => state.reset)
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
@@ -57,6 +59,7 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
     "data-storage",
     "export-storage",
     "file-storage",
+    "global-storage",
     "gpu-storage",
     "model-storage",
     "name-storage",
@@ -100,6 +103,7 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
     resetDataStore()
     resetExportStore()
     resetFileStore()
+    resetGlobalStore()
     resetGpuStore()
     resetModelStore()
     resetNameStore()
