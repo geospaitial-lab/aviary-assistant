@@ -15,7 +15,7 @@ import { useAreaStore } from "@/components/assistant/area/store"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { AllGeoJSON } from "@turf/helpers"
 
-const ERROR_AREA = "Ein Gebiet muss ausgewählt sein"
+const ERROR_AREA = "Wähle mindestens ein Gebiet"
 
 function AreaHeadings() {
   return (
