@@ -28,12 +28,12 @@ export function VrtBadge() {
   return <Badge className="font-mono select-none">VRT</Badge>
 }
 
-export interface ChannelBadgeProps {
-  channel: "rgb" | "cir" | "nir" | "rgbi" | "dom"
+export interface ChannelsBadgeProps {
+  channels: "rgb" | "cir" | "nir" | "rgbi" | "dom"
 }
 
-export function ChannelBadge({ channel }: ChannelBadgeProps) {
-  const channelMap = {
+export function ChannelsBadge({ channels }: ChannelsBadgeProps) {
+  const channelsMap = {
     rgb: <RgbBadge />,
     cir: <CirBadge />,
     nir: <NirBadge />,
@@ -41,18 +41,18 @@ export function ChannelBadge({ channel }: ChannelBadgeProps) {
     dom: <DomBadge />,
   }
 
-  return channelMap[channel]
+  return channelsMap[channels]
 }
 
-export interface DataBadgeProps {
-  data: "wms" | "vrt"
+export interface TypeBadgeProps {
+  type: "wms" | "vrt"
 }
 
-export function DataBadge({ data }: DataBadgeProps) {
-  const dataMap = {
+export function TypeBadge({ type }: TypeBadgeProps) {
+  const typeMap = {
     wms: <WmsBadge />,
     vrt: <VrtBadge />,
   }
 
-  return dataMap[data]
+  return typeMap[type]
 }
