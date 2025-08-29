@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const ERROR_MODEL = "Mindestens ein Modell muss ausgewählt sein"
+const ERROR_MODEL = "Wähle mindestens ein Modell"
 
 export const modelFormSchema = z
   .object({

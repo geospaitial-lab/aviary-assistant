@@ -17,7 +17,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-const ERROR_MODEL = "Mindestens ein Modell muss ausgewählt sein"
+const ERROR_MODEL = "Wähle mindestens ein Modell"
 
 export interface ModelFormRef {
   validate: () => Promise<boolean>
