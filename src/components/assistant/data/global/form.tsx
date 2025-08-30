@@ -53,6 +53,11 @@ export function GlobalForm() {
           noValidate
           onSubmit={(e) => e.preventDefault()}
         >
+          <p className="text-pretty mb-4">
+            Gib hier an, welcher EPSG Code und welche Bodenauflösung für deine
+            Daten verwendet werden sollen.
+          </p>
+
           <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
             <FormField
               control={form.control}

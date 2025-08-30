@@ -92,6 +92,10 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
             noValidate
             onSubmit={(e) => e.preventDefault()}
           >
+            <p className="text-pretty mb-4">
+              Gib hier an, welchen Web Map Service du nutzen möchtest.
+            </p>
+
             <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
               <div className="@lg:col-span-2">
                 <FormField
