@@ -162,6 +162,8 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
           <GlobalForm />
 
           <div className="mt-8">
+            <Label className="mb-4">Datenquellen</Label>
+
             {dataSources.map((dataSource, index) => (
               <DataSourceItem
                 key={dataSource.id}
