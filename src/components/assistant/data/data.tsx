@@ -161,7 +161,7 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
         <div className="p-4 border-2 rounded-lg">
           <GlobalForm />
 
-          <div className="mt-6">
+          <div className="mt-8">
             {dataSources.map((dataSource, index) => (
               <DataSourceItem
                 key={dataSource.id}
@@ -176,11 +176,7 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
 
             {shouldShowAddButton && (
               <div className="flex justify-center w-full">
-                <Button
-                  onClick={() => setDialogOpen(true)}
-                  size="icon"
-                  className="mt-2"
-                >
+                <Button onClick={() => setDialogOpen(true)} size="icon">
                   <Plus />
                 </Button>
               </div>
