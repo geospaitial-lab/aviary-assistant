@@ -1,18 +1,18 @@
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 
-function parseAreaConfig(): string {
+function parseAreaConfig(): string[] {
   const TILE_SIZE = 128
   const SNAP = true
 
   const activeTab = useAreaStore.getState().activeTab
 
-  let areaConfig = "grid_config:\n"
+  const areaConfigLines: string[] = []
 
   switch (activeTab) {
     case "name":
     case "file": {
-      areaConfig += `  geojson_path: "area.geojson"\n`
+      areaConfigLines.push(`  geojson_path: 'area.geojson'`)
       break
     }
 
@@ -21,11 +21,11 @@ function parseAreaConfig(): string {
       const formValues = boundingBoxState.formValues
 
       if (formValues) {
-        areaConfig += "  bounding_box_coordinates:\n"
-        areaConfig += `    - ${formValues.xMin}\n`
-        areaConfig += `    - ${formValues.yMin}\n`
-        areaConfig += `    - ${formValues.xMax}\n`
-        areaConfig += `    - ${formValues.yMax}\n`
+        areaConfigLines.push("  bounding_box_coordinates:")
+        areaConfigLines.push(`    - ${formValues.xMin}`)
+        areaConfigLines.push(`    - ${formValues.yMin}`)
+        areaConfigLines.push(`    - ${formValues.xMax}`)
+        areaConfigLines.push(`    - ${formValues.yMax}`)
       }
       break
     }
@@ -34,16 +34,25 @@ function parseAreaConfig(): string {
       break
   }
 
-  areaConfig += `  tile_size: ${TILE_SIZE}\n`
-  areaConfig += `  snap: ${SNAP}\n`
+  areaConfigLines.push(`  tile_size: ${TILE_SIZE}`)
+  areaConfigLines.push(`  snap: ${SNAP}`)
 
-  return areaConfig
+  return areaConfigLines
 }
 
 export function parseConfig(): string {
-  const areaConfig = parseAreaConfig()
+  const configLines: string[] = []
 
-  let config = areaConfig
+  configLines.push("grid_config:")
 
-  return config
+  const areaConfigLines = parseAreaConfig()
+  configLines.push(...areaConfigLines)
+
+  configLines.push("")
+  configLines.push("tiles_processor_config:")
+  configLines.push("  name: 'SequentialCompositeProcessor'")
+  configLines.push("  config:")
+  configLines.push("    tiles_processor_configs:")
+
+  return configLines.join("\n")
 }
