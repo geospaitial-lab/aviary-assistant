@@ -5,6 +5,8 @@ import { useFileStore } from "@/components/assistant/area/file/store"
 import { type NameFormSchema } from "@/components/assistant/area/name/schema"
 import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
+import { type GlobalFormSchema } from "@/components/assistant/data/global/schema"
+import { useGlobalStore } from "@/components/assistant/data/global/store"
 import { useDataStore } from "@/components/assistant/data/store"
 import { type DataSource } from "@/components/assistant/data/store"
 import { type ExportFormSchema } from "@/components/assistant/export/schema"
@@ -35,6 +37,9 @@ interface Store {
   }
   data: {
     dataSources: DataSource[]
+    global: {
+      formValues: GlobalFormSchema | null
+    }
   }
   resources: {
     activeTab: string
@@ -69,6 +74,9 @@ export function getStore(): Store {
     },
     data: {
       dataSources: useDataStore.getState().dataSources,
+      global: {
+        formValues: useGlobalStore.getState().formValues,
+      },
     },
     resources: {
       activeTab: useResourcesStore.getState().activeTab,
@@ -85,31 +93,55 @@ export function getStore(): Store {
   }
 }
 
-function parseAreaConfig(): string[] {
-  const TILE_SIZE = 128
+function mapGroundSamplingDistanceToTileSize(
+  groundSamplingDistance?: string,
+): number {
+  switch (groundSamplingDistance) {
+    case "0.1":
+      return 96
+    case "0.2":
+      return 192
+    case "0.5":
+      return 480
+    case "1.0":
+      return 960
+    default:
+      return 192
+  }
+}
+
+function parseAreaConfig(store: Store): string[] {
   const SNAP = true
 
-  const activeTab = useAreaStore.getState().activeTab
+  const activeTab = store.area.activeTab
+  const tileSize = mapGroundSamplingDistanceToTileSize(
+    store.data.global.formValues?.groundSamplingDistance,
+  )
 
   const areaConfigLines: string[] = []
 
   switch (activeTab) {
     case "name":
     case "file": {
+      const epsgCode = store.data.global.formValues?.epsgCode
+
       areaConfigLines.push(`  geojson_path: 'area.geojson'`)
+      areaConfigLines.push(`  epsg_code: ${epsgCode}`)
       break
     }
 
     case "bounding-box": {
-      const boundingBoxState = useBoundingBoxStore.getState()
-      const formValues = boundingBoxState.formValues
+      const xMin = store.area.boundingBox.formValues?.xMin
+      const yMin = store.area.boundingBox.formValues?.yMin
+      const xMax = store.area.boundingBox.formValues?.xMax
+      const yMax = store.area.boundingBox.formValues?.yMax
 
-      if (formValues) {
+      if (xMin && yMin && xMax && yMax) {
         areaConfigLines.push("  bounding_box_coordinates:")
-        areaConfigLines.push(`    - ${formValues.xMin}`)
-        areaConfigLines.push(`    - ${formValues.yMin}`)
-        areaConfigLines.push(`    - ${formValues.xMax}`)
-        areaConfigLines.push(`    - ${formValues.yMax}`)
+        areaConfigLines.push(`    - ${xMin}`)
+        areaConfigLines.push(`    - ${yMin}`)
+        areaConfigLines.push(`    - ${xMax}`)
+        areaConfigLines.push(`    - ${yMax}`)
       }
       break
     }
@@ -118,18 +150,20 @@ function parseAreaConfig(): string[] {
       break
   }
 
-  areaConfigLines.push(`  tile_size: ${TILE_SIZE}`)
+  areaConfigLines.push(`  tile_size: ${tileSize}`)
   areaConfigLines.push(`  snap: ${SNAP}`)
 
   return areaConfigLines
 }
 
 export function parseConfig(): string {
+  const store = getStore()
+
   const configLines: string[] = []
 
   configLines.push("grid_config:")
 
-  const areaConfigLines = parseAreaConfig()
+  const areaConfigLines = parseAreaConfig(store)
   configLines.push(...areaConfigLines)
 
   configLines.push("")
