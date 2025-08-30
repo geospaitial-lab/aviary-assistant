@@ -110,7 +110,37 @@ function mapGroundSamplingDistanceToTileSize(
   }
 }
 
-function parseAreaConfig(store: Store): string[] {
+function mapCpuRamToBatchSize(cpuRam: number): number {
+  switch (cpuRam) {
+    case 0:
+      return 1
+    case 1:
+      return 2
+    case 2:
+      return 4
+    case 3:
+      return 8
+    default:
+      return 1
+  }
+}
+
+function mapGpuVramToBatchSize(gpuVram: number): number {
+  switch (gpuVram) {
+    case 0:
+      return 1
+    case 1:
+      return 2
+    case 2:
+      return 4
+    case 3:
+      return 8
+    default:
+      return 1
+  }
+}
+
+function parseGridConfig(store: Store): string[] {
   const SNAP = true
 
   const activeTab = store.area.activeTab
@@ -118,31 +148,29 @@ function parseAreaConfig(store: Store): string[] {
     store.data.global.formValues?.groundSamplingDistance,
   )
 
-  const areaConfigLines: string[] = []
+  const gridConfigLines: string[] = []
 
   switch (activeTab) {
     case "name":
     case "file": {
       const epsgCode = store.data.global.formValues?.epsgCode
 
-      areaConfigLines.push(`  geojson_path: 'area.geojson'`)
-      areaConfigLines.push(`  epsg_code: ${epsgCode}`)
+      gridConfigLines.push(`  geojson_path: 'area.geojson'`)
+      gridConfigLines.push(`  epsg_code: ${epsgCode}`)
       break
     }
 
     case "bounding-box": {
-      const xMin = store.area.boundingBox.formValues?.xMin
-      const yMin = store.area.boundingBox.formValues?.yMin
-      const xMax = store.area.boundingBox.formValues?.xMax
-      const yMax = store.area.boundingBox.formValues?.yMax
+      const xMin = store.area.boundingBox.formValues?.xMin as number
+      const yMin = store.area.boundingBox.formValues?.yMin as number
+      const xMax = store.area.boundingBox.formValues?.xMax as number
+      const yMax = store.area.boundingBox.formValues?.yMax as number
 
-      if (xMin && yMin && xMax && yMax) {
-        areaConfigLines.push("  bounding_box_coordinates:")
-        areaConfigLines.push(`    - ${xMin}`)
-        areaConfigLines.push(`    - ${yMin}`)
-        areaConfigLines.push(`    - ${xMax}`)
-        areaConfigLines.push(`    - ${yMax}`)
-      }
+      gridConfigLines.push("  bounding_box_coordinates:")
+      gridConfigLines.push(`    - ${xMin}`)
+      gridConfigLines.push(`    - ${yMin}`)
+      gridConfigLines.push(`    - ${xMax}`)
+      gridConfigLines.push(`    - ${yMax}`)
       break
     }
 
@@ -150,10 +178,47 @@ function parseAreaConfig(store: Store): string[] {
       break
   }
 
-  areaConfigLines.push(`  tile_size: ${tileSize}`)
-  areaConfigLines.push(`  snap: ${SNAP}`)
+  gridConfigLines.push(`  tile_size: ${tileSize}`)
+  gridConfigLines.push(`  snap: ${SNAP}`)
 
-  return areaConfigLines
+  return gridConfigLines
+}
+
+function parseTileLoaderConfig(store: Store): string[] {
+  const MAX_NUM_THREADS = null
+  const NUM_PREFETCHED_TILES = 1
+
+  const activeTab = store.resources.activeTab
+
+  const tileLoaderConfigLines: string[] = []
+
+  switch (activeTab) {
+    case "cpu": {
+      const batchSize = mapCpuRamToBatchSize(
+        store.resources.cpu.formValues?.ram as number,
+      )
+
+      tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
+      break
+    }
+
+    case "gpu": {
+      const batchSize = mapGpuVramToBatchSize(
+        store.resources.gpu.formValues?.vram as number,
+      )
+
+      tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
+      break
+    }
+
+    default:
+      break
+  }
+
+  tileLoaderConfigLines.push(`  max_num_threads: ${MAX_NUM_THREADS}`)
+  tileLoaderConfigLines.push(`  num_prefetched_tiles: ${NUM_PREFETCHED_TILES}`)
+
+  return tileLoaderConfigLines
 }
 
 export function parseConfig(): string {
@@ -163,8 +228,17 @@ export function parseConfig(): string {
 
   configLines.push("grid_config:")
 
-  const areaConfigLines = parseAreaConfig(store)
-  configLines.push(...areaConfigLines)
+  const gridConfigLines = parseGridConfig(store)
+  configLines.push(...gridConfigLines)
+
+  configLines.push("")
+  configLines.push("tile_fetcher_config:")
+
+  configLines.push("")
+  configLines.push("tile_loader_config:")
+
+  const tileLoaderConfigLines = parseTileLoaderConfig(store)
+  configLines.push(...tileLoaderConfigLines)
 
   configLines.push("")
   configLines.push("tiles_processor_config:")
