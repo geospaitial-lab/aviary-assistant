@@ -5,12 +5,11 @@ import { useForm } from "react-hook-form"
 
 import { toast } from "sonner"
 
+import { useDataStore } from "@/components/assistant/data/store"
 import {
   type VrtFormSchema,
   vrtFormSchema,
 } from "@/components/assistant/data/vrt/schema"
-import { useVrtStore } from "@/components/assistant/data/vrt/store"
-import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
@@ -28,79 +27,79 @@ export interface VrtFormRef {
   validate: () => Promise<boolean>
 }
 
-export const VrtForm = React.forwardRef<VrtFormRef>(function VrtForm(_, ref) {
-  const { formValues, setFormValues } = useVrtStore()
+interface VrtFormProps {
+  dataSourceId: string
+}
 
-  const form = useForm<VrtFormSchema>({
-    resolver: zodResolver(vrtFormSchema) as any,
-    defaultValues:
-      formValues ||
-      ({
-        path: "",
-      } as any),
-    mode: "onBlur",
-    reValidateMode: "onBlur",
-  })
+export const VrtForm = React.forwardRef<VrtFormRef, VrtFormProps>(
+  function VrtForm({ dataSourceId }, ref) {
+    const { dataSources, updateDataSource } = useDataStore()
+    const dataSource = dataSources.find((ds) => ds.id === dataSourceId)
+    const formValues = dataSource?.formValues as VrtFormSchema | null
 
-  React.useEffect(() => {
-    const subscription = form.watch((value) => {
-      setFormValues(value as VrtFormSchema)
+    const form = useForm<VrtFormSchema>({
+      resolver: zodResolver(vrtFormSchema) as any,
+      defaultValues:
+        formValues ||
+        ({
+          path: "",
+        } as any),
+      mode: "onBlur",
+      reValidateMode: "onBlur",
     })
-    return () => subscription.unsubscribe()
-  }, [form, setFormValues])
 
-  const validateForm = React.useCallback(async () => {
-    return new Promise<boolean>((resolve) => {
-      form.trigger().then((isValid) => {
-        if (!isValid) {
-          toast.error(ERROR_VRT)
-        }
-        resolve(isValid)
+    React.useEffect(() => {
+      const subscription = form.watch((value) => {
+        updateDataSource(dataSourceId, value as VrtFormSchema)
       })
-    })
-  }, [form])
+      return () => subscription.unsubscribe()
+    }, [form, updateDataSource, dataSourceId])
 
-  React.useImperativeHandle(
-    ref,
-    () => ({
-      validate: validateForm,
-    }),
-    [validateForm],
-  )
+    const validateForm = React.useCallback(async () => {
+      return new Promise<boolean>((resolve) => {
+        form.trigger().then((isValid) => {
+          if (!isValid) {
+            toast.error(ERROR_VRT)
+          }
+          resolve(isValid)
+        })
+      })
+    }, [form])
 
-  return (
-    <div className="@container">
-      <Form {...form}>
-        <form
-          autoComplete="off"
-          noValidate
-          onSubmit={(e) => e.preventDefault()}
-        >
-          <div className="grid gap-4 grid-cols-1">
-            <FormField
-              control={form.control}
-              name="path"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pfad</FormLabel>
-                  <FormControl>
-                    <Input type="text" placeholder="optional" {...field} />
-                  </FormControl>
-                  <FormDescription>Pfad zur .vrt-Datei</FormDescription>
-                </FormItem>
-              )}
-            />
-            <Link
-              href="/faq#daten"
-              showArrow={true}
-              openInNewTab={true}
-              className="text-sm w-fit"
-            >
-              Mehr erfahren
-            </Link>
-          </div>
-        </form>
-      </Form>
-    </div>
-  )
-})
+    React.useImperativeHandle(
+      ref,
+      () => ({
+        validate: validateForm,
+      }),
+      [validateForm],
+    )
+
+    return (
+      <div className="@container">
+        <Form {...form}>
+          <form
+            autoComplete="off"
+            noValidate
+            onSubmit={(e) => e.preventDefault()}
+          >
+            <div className="grid gap-4 grid-cols-1">
+              <FormField
+                control={form.control}
+                name="path"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pfad</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="optional" {...field} />
+                    </FormControl>
+                    <FormDescription>Pfad zur .vrt-Datei</FormDescription>
+                  </FormItem>
+                )}
+              />
+            </div>
+          </form>
+        </Form>
+      </div>
+    )
+  },
+)

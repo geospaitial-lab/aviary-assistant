@@ -8,7 +8,6 @@ import {
   globalFormSchema,
 } from "@/components/assistant/data/global/schema"
 import { useGlobalStore } from "@/components/assistant/data/global/store"
-import { Link } from "@/components/link"
 import {
   Form,
   FormControl,
@@ -101,14 +100,6 @@ export function GlobalForm() {
                 </FormItem>
               )}
             />
-            <Link
-              href="/faq#daten"
-              showArrow={true}
-              openInNewTab={true}
-              className="text-sm w-fit"
-            >
-              Mehr erfahren
-            </Link>
           </div>
         </form>
       </Form>
