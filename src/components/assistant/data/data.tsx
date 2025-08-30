@@ -11,6 +11,7 @@ import { GlobalForm } from "@/components/assistant/data/global/form"
 import { DataSource, useDataStore } from "@/components/assistant/data/store"
 import { VrtForm, VrtFormRef } from "@/components/assistant/data/vrt/form"
 import { WmsForm, WmsFormRef } from "@/components/assistant/data/wms/form"
+import { Link } from "@/components/link"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 
@@ -184,6 +185,15 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
               </div>
             )}
           </div>
+
+          <Link
+            href="/faq#daten"
+            showArrow={true}
+            openInNewTab={true}
+            className="text-sm mt-4"
+          >
+            Mehr erfahren
+          </Link>
 
           <AddDataSourceDialog
             open={dialogOpen}
