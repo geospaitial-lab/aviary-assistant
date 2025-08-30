@@ -46,10 +46,12 @@ export function Summary() {
       <div className="@2xl:w-2/3 @2xl:mx-auto">
         <SummaryHeadings />
 
-        <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
+        <div className="p-4 border-2 rounded-lg">
+          <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
 
-        <div className="mt-8 flex justify-center">
-          <NewConfigButton />
+          <div className="mt-4 flex justify-center">
+            <NewConfigButton />
+          </div>
         </div>
       </div>
     </div>
