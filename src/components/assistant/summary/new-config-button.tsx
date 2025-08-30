@@ -49,20 +49,20 @@ export function NewConfigButton() {
   const resetWmsStore = useWmsStore((state) => state.reset)
 
   const storeKeys = [
+    "area-bounding-box-storage",
+    "area-file-storage",
+    "area-name-storage",
     "area-storage",
     "assistant-storage",
-    "bounding-box-storage",
-    "cpu-storage",
+    "data-global-storage",
     "data-storage",
+    "data-vrt-storage",
+    "data-wms-storage",
     "export-storage",
-    "file-storage",
-    "global-storage",
-    "gpu-storage",
     "model-storage",
-    "name-storage",
+    "resources-cpu-storage",
+    "resources-gpu-storage",
     "resources-storage",
-    "vrt-storage",
-    "wms-storage",
   ]
 
   const handleOpenDialog = () => {

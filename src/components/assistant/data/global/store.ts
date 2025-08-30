@@ -17,7 +17,7 @@ export const useGlobalStore = create<GlobalState>()(
       reset: () => set({ formValues: null }),
     }),
     {
-      name: "global-storage",
+      name: "data-global-storage",
     },
   ),
 )

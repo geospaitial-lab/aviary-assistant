@@ -17,7 +17,7 @@ export const useVrtStore = create<VrtState>()(
       reset: () => set({ formValues: null }),
     }),
     {
-      name: "vrt-storage",
+      name: "data-vrt-storage",
     },
   ),
 )

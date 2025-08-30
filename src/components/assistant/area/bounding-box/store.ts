@@ -25,23 +25,32 @@ export const useBoundingBoxStore = create<BoundingBoxState>()(
         set({ geoJson })
         if (geoJson) {
           idbSet(GEOJSON_KEY, geoJson).catch((error) => {
-            console.error("Error saving bounding box GeoJSON to IndexedDB:", error)
+            console.error(
+              "Error saving bounding box GeoJSON to IndexedDB:",
+              error,
+            )
           })
         } else {
           idbDel(GEOJSON_KEY).catch((error) => {
-            console.error("Error deleting bounding box GeoJSON from IndexedDB:", error)
+            console.error(
+              "Error deleting bounding box GeoJSON from IndexedDB:",
+              error,
+            )
           })
         }
       },
       reset: () => {
         set({ formValues: null, geoJson: null })
         idbDel(GEOJSON_KEY).catch((error) => {
-          console.error("Error deleting bounding box GeoJSON during reset:", error)
+          console.error(
+            "Error deleting bounding box GeoJSON during reset:",
+            error,
+          )
         })
       },
     }),
     {
-      name: "bounding-box-storage",
+      name: "area-bounding-box-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         formValues: state.formValues,

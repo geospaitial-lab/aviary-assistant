@@ -17,7 +17,7 @@ export const useCpuStore = create<CpuState>()(
       reset: () => set({ formValues: null }),
     }),
     {
-      name: "cpu-storage",
+      name: "resources-cpu-storage",
     },
   ),
 )

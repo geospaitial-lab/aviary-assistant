@@ -59,7 +59,7 @@ export const useNameStore = create<NameState>()(
       },
     }),
     {
-      name: "name-storage",
+      name: "area-name-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         formValues: state.formValues,

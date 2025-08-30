@@ -17,7 +17,7 @@ export const useWmsStore = create<WmsState>()(
       reset: () => set({ formValues: null }),
     }),
     {
-      name: "wms-storage",
+      name: "data-wms-storage",
     },
   ),
 )

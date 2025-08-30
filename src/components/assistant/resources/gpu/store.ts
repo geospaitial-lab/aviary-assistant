@@ -17,7 +17,7 @@ export const useGpuStore = create<GpuState>()(
       reset: () => set({ formValues: null }),
     }),
     {
-      name: "gpu-storage",
+      name: "resources-gpu-storage",
     },
   ),
 )
