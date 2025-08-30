@@ -123,7 +123,7 @@ const CodeHeader: React.FC<{
   if (!title) return null
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b min-h-[3rem]">
+    <div className="flex items-center justify-between px-4 py-3 border-b dark:border-input min-h-[3rem]">
       <div
         className={cn("font-medium flex items-center gap-2", titleClassName)}
       >
@@ -259,7 +259,7 @@ export function CodeBlock({
 
           {codeVersions.map(([version, codeStr], index) => (
             <TabsContent key={version} value={version}>
-              <div className="rounded-md bg-muted">
+              <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input">
                 <CodeHeader
                   title={title}
                   titleClassName={titleClassName}
@@ -293,7 +293,7 @@ export function CodeBlock({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="rounded-md bg-muted">
+      <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input">
         <CodeHeader
           title={title}
           titleClassName={titleClassName}
