@@ -68,7 +68,7 @@ export const createGeoJson = (
   return polygon([coordinates])
 }
 
-const getProjectionString = (epsgCode: string): string => {
+export const getProjectionString = (epsgCode: string): string => {
   switch (epsgCode) {
     case "25832":
       return "+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs"

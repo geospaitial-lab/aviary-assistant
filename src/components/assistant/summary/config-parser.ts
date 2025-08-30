@@ -1,4 +1,9 @@
-import { type BoundingBoxFormSchema } from "@/components/assistant/area/bounding-box/schema"
+import proj4 from "proj4"
+
+import {
+  type BoundingBoxFormSchema,
+  getProjectionString,
+} from "@/components/assistant/area/bounding-box/schema"
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { type FileFormSchema } from "@/components/assistant/area/file/schema"
 import { useFileStore } from "@/components/assistant/area/file/store"
@@ -165,12 +170,27 @@ function parseGridConfig(store: Store): string[] {
       const yMin = store.area.boundingBox.formValues?.yMin as number
       const xMax = store.area.boundingBox.formValues?.xMax as number
       const yMax = store.area.boundingBox.formValues?.yMax as number
+      const sourceEpsgCode = store.area.boundingBox.formValues
+        ?.epsgCode as string
+      const targetEpsgCode = store.data.global.formValues?.epsgCode as string
+
+      const fromProjection = getProjectionString(sourceEpsgCode)
+      const toProjection = getProjectionString(targetEpsgCode)
+
+      const needTransform = fromProjection !== toProjection
+
+      const [txMin, tyMin] = needTransform
+        ? proj4(fromProjection, toProjection, [xMin, yMin])
+        : [xMin, yMin]
+      const [txMax, tyMax] = needTransform
+        ? proj4(fromProjection, toProjection, [xMax, yMax])
+        : [xMax, yMax]
 
       gridConfigLines.push("  bounding_box_coordinates:")
-      gridConfigLines.push(`    - ${xMin}`)
-      gridConfigLines.push(`    - ${yMin}`)
-      gridConfigLines.push(`    - ${xMax}`)
-      gridConfigLines.push(`    - ${yMax}`)
+      gridConfigLines.push(`    - ${txMin}`)
+      gridConfigLines.push(`    - ${tyMin}`)
+      gridConfigLines.push(`    - ${txMax}`)
+      gridConfigLines.push(`    - ${tyMax}`)
       break
     }
 
