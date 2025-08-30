@@ -107,7 +107,9 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                         {form.formState.errors.url ? (
                           <FormMessage />
                         ) : (
-                          <FormDescription>TODO</FormDescription>
+                          <FormDescription>
+                            URL des WMS-Dienstes
+                          </FormDescription>
                         )}
                       </div>
                     </FormItem>
@@ -134,7 +136,9 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormDescription>TODO</FormDescription>
+                    <FormDescription>
+                      Version des WMS-Protokolls
+                    </FormDescription>
                   </FormItem>
                 )}
               />
@@ -151,7 +155,7 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                       {form.formState.errors.layer ? (
                         <FormMessage />
                       ) : (
-                        <FormDescription>Name der Ebene</FormDescription>
+                        <FormDescription>Ebene</FormDescription>
                       )}
                     </div>
                   </FormItem>
