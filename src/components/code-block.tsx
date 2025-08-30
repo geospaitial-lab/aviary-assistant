@@ -125,7 +125,10 @@ const CodeHeader: React.FC<{
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b dark:border-input min-h-[3rem]">
       <div
-        className={cn("font-medium flex items-center gap-2", titleClassName)}
+        className={cn(
+          "text-sm font-medium flex items-center gap-2",
+          titleClassName,
+        )}
       >
         {titleIcon && <span className="flex-shrink-0">{titleIcon}</span>}
         <span>{title}</span>
