@@ -10,8 +10,6 @@ import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { useGlobalStore } from "@/components/assistant/data/global/store"
 import { useDataStore } from "@/components/assistant/data/store"
-import { useVrtStore } from "@/components/assistant/data/vrt/store"
-import { useWmsStore } from "@/components/assistant/data/wms/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
@@ -45,8 +43,6 @@ export function NewConfigButton() {
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
   const resetResourcesStore = useResourcesStore((state) => state.reset)
-  const resetVrtStore = useVrtStore((state) => state.reset)
-  const resetWmsStore = useWmsStore((state) => state.reset)
 
   const storeKeys = [
     "area-bounding-box-storage",
@@ -56,8 +52,6 @@ export function NewConfigButton() {
     "assistant-storage",
     "data-global-storage",
     "data-storage",
-    "data-vrt-storage",
-    "data-wms-storage",
     "export-storage",
     "model-storage",
     "resources-cpu-storage",
@@ -82,8 +76,6 @@ export function NewConfigButton() {
     resetModelStore()
     resetNameStore()
     resetResourcesStore()
-    resetVrtStore()
-    resetWmsStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)
