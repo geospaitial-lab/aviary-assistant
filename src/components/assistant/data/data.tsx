@@ -163,6 +163,11 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
           <GlobalForm />
 
           <div className="mt-8">
+            <p className="text-pretty mb-4">
+              Wähle bis zu drei Datenquellen mit verschiedenen Kanälen. Je mehr,
+              desto besser kann unsere KI die Luftbilder auswerten.
+            </p>
+
             <Label className="mb-4">Datenquellen</Label>
 
             {dataSources.map((dataSource, index) => (
