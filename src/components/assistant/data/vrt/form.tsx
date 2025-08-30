@@ -38,22 +38,13 @@ export const VrtForm = React.forwardRef<VrtFormRef, VrtFormProps>(
     const formValues = dataSource?.formValues as VrtFormSchema | null
 
     const form = useForm<VrtFormSchema>({
-      resolver: zodResolver(vrtFormSchema) as any,
-      defaultValues:
-        formValues ||
-        ({
-          path: "",
-        } as any),
+      resolver: zodResolver(vrtFormSchema),
+      defaultValues: formValues || {
+        path: "",
+      },
       mode: "onBlur",
       reValidateMode: "onBlur",
     })
-
-    React.useEffect(() => {
-      const subscription = form.watch((value) => {
-        updateDataSource(dataSourceId, value as VrtFormSchema)
-      })
-      return () => subscription.unsubscribe()
-    }, [form, updateDataSource, dataSourceId])
 
     const validateForm = React.useCallback(async () => {
       return new Promise<boolean>((resolve) => {
@@ -73,6 +64,13 @@ export const VrtForm = React.forwardRef<VrtFormRef, VrtFormProps>(
       }),
       [validateForm],
     )
+
+    React.useEffect(() => {
+      const subscription = form.watch((value) => {
+        updateDataSource(dataSourceId, value as VrtFormSchema)
+      })
+      return () => subscription.unsubscribe()
+    }, [form, updateDataSource, dataSourceId])
 
     return (
       <div className="@container">

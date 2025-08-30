@@ -46,26 +46,17 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
     const formValues = dataSource?.formValues as WmsFormSchema | null
 
     const form = useForm<WmsFormSchema>({
-      resolver: zodResolver(wmsFormSchema) as any,
-      defaultValues:
-        formValues ||
-        ({
-          url: "",
-          version: "1.3.0",
-          layer: "",
-          format: ".png",
-          style: "",
-        } as any),
+      resolver: zodResolver(wmsFormSchema),
+      defaultValues: formValues || {
+        url: "",
+        version: "1.3.0",
+        layer: "",
+        format: ".png",
+        style: "",
+      },
       mode: "onBlur",
       reValidateMode: "onBlur",
     })
-
-    React.useEffect(() => {
-      const subscription = form.watch((value) => {
-        updateDataSource(dataSourceId, value as WmsFormSchema)
-      })
-      return () => subscription.unsubscribe()
-    }, [form, updateDataSource, dataSourceId])
 
     const validateForm = React.useCallback(async () => {
       return new Promise<boolean>((resolve) => {
@@ -85,6 +76,13 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
       }),
       [validateForm],
     )
+
+    React.useEffect(() => {
+      const subscription = form.watch((value) => {
+        updateDataSource(dataSourceId, value as WmsFormSchema)
+      })
+      return () => subscription.unsubscribe()
+    }, [form, updateDataSource, dataSourceId])
 
     return (
       <div className="@container">
