@@ -264,7 +264,7 @@ export function BoundingBoxForm() {
                       <FormMessage />
                     ) : (
                       <FormDescription>
-                        Koordinatenreferenzssystem
+                        Koordinatenreferenzsystem
                       </FormDescription>
                     )}
                   </div>
