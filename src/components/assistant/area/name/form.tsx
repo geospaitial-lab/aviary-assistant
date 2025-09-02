@@ -104,7 +104,7 @@ export function NameForm() {
 
     try {
       const query = `[out:json];relation(${osmId});out geom;`
-      const url = `https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`
+      const url = `https://overpass.private.coffee/api/interpreter?data=${encodeURIComponent(query)}`
 
       const response = await fetch(url, {
         signal: controller.signal,
