@@ -25,9 +25,7 @@ export function ExportForm() {
 
   const form = useForm<ExportFormSchema>({
     resolver: zodResolver(exportFormSchema),
-    defaultValues: formValues || {
-      dirPath: "",
-    },
+    defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
   })

@@ -54,7 +54,7 @@ export const useFileStore = create<FileState>()(
       },
     }),
     {
-      name: "file-storage",
+      name: "area-file-storage",
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         formValues: state.formValues,

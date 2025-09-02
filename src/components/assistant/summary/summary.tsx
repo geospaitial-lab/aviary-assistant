@@ -2,32 +2,9 @@
 
 import * as React from "react"
 
-import { CircleAlert } from "lucide-react"
-
-import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
-import { useFileStore } from "@/components/assistant/area/file/store"
-import { useNameStore } from "@/components/assistant/area/name/store"
-import { useAreaStore } from "@/components/assistant/area/store"
-import { useDataStore } from "@/components/assistant/data/store"
-import { useVrtStore } from "@/components/assistant/data/vrt/store"
-import { useWmsStore } from "@/components/assistant/data/wms/store"
-import { useExportStore } from "@/components/assistant/export/store"
-import { useModelStore } from "@/components/assistant/model/store"
-import { useCpuStore } from "@/components/assistant/resources/cpu/store"
-import { useGpuStore } from "@/components/assistant/resources/gpu/store"
-import { useResourcesStore } from "@/components/assistant/resources/store"
-import { useAssistantStore } from "@/components/assistant/store"
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog"
-import { Button } from "@/components/ui/button"
+import { parseConfig } from "@/components/assistant/summary/config-parser"
+import { NewConfigButton } from "@/components/assistant/summary/new-config-button"
+import { CodeBlock } from "@/components/code-block"
 
 function SummaryHeadings() {
   return (
@@ -45,71 +22,14 @@ function SummaryHeadings() {
 
 export function Summary() {
   const [isHydrated, setIsHydrated] = React.useState(false)
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
 
-  const resetAreaStore = useAreaStore((state) => state.reset)
-  const resetAssistantStore = useAssistantStore((state) => state.reset)
-  const resetBoundingBoxStore = useBoundingBoxStore((state) => state.reset)
-  const resetCpuStore = useCpuStore((state) => state.reset)
-  const resetDataStore = useDataStore((state) => state.reset)
-  const resetExportStore = useExportStore((state) => state.reset)
-  const resetFileStore = useFileStore((state) => state.reset)
-  const resetGpuStore = useGpuStore((state) => state.reset)
-  const resetModelStore = useModelStore((state) => state.reset)
-  const resetNameStore = useNameStore((state) => state.reset)
-  const resetResourcesStore = useResourcesStore((state) => state.reset)
-  const resetVrtStore = useVrtStore((state) => state.reset)
-  const resetWmsStore = useWmsStore((state) => state.reset)
-
-  const storeKeys = [
-    "area-storage",
-    "assistant-storage",
-    "bounding-box-storage",
-    "cpu-storage",
-    "data-storage",
-    "export-storage",
-    "file-storage",
-    "gpu-storage",
-    "model-storage",
-    "name-storage",
-    "resources-storage",
-    "vrt-storage",
-    "wms-storage",
-  ]
+  const parsedConfig = React.useMemo(() => {
+    return parseConfig()
+  }, [])
 
   React.useEffect(() => {
     setIsHydrated(true)
   }, [])
-
-  const handleOpenDialog = () => {
-    setIsDialogOpen(true)
-  }
-
-  const handleConfirmReset = () => {
-    resetAreaStore()
-    resetAssistantStore()
-    resetBoundingBoxStore()
-    resetCpuStore()
-    resetDataStore()
-    resetExportStore()
-    resetFileStore()
-    resetGpuStore()
-    resetModelStore()
-    resetNameStore()
-    resetResourcesStore()
-    resetVrtStore()
-    resetWmsStore()
-
-    storeKeys.forEach((key) => {
-      localStorage.removeItem(key)
-    })
-
-    setIsDialogOpen(false)
-  }
-
-  const handleCancelReset = () => {
-    setIsDialogOpen(false)
-  }
 
   if (!isHydrated) {
     return (
@@ -126,34 +46,13 @@ export function Summary() {
       <div className="@2xl:w-2/3 @2xl:mx-auto">
         <SummaryHeadings />
 
-        <div className="mt-8 flex justify-center">
-          <Button onClick={handleOpenDialog}>Neue Konfiguration</Button>
-        </div>
+        <div className="p-4 border-2 rounded-lg">
+          <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
 
-        <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>
-                <div className="flex items-center gap-2 justify-center sm:justify-start">
-                  <CircleAlert aria-hidden="true" />
-                  Konfiguration zurücksetzen
-                </div>
-              </AlertDialogTitle>
-              <AlertDialogDescription>
-                Bist du sicher, dass du eine neue erstellen möchtest? Dabei geht
-                deine aktuelle Konfiguration verloren.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel onClick={handleCancelReset}>
-                Abbrechen
-              </AlertDialogCancel>
-              <AlertDialogAction onClick={handleConfirmReset}>
-                Bestätigen
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+          <div className="mt-4 flex justify-center">
+            <NewConfigButton />
+          </div>
+        </div>
       </div>
     </div>
   )

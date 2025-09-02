@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { History } from "lucide-react"
+import { CircleAlert } from "lucide-react"
 
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { useFileStore } from "@/components/assistant/area/file/store"
@@ -26,13 +26,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
 
-interface ResumeAlertProps {
-  onReset?: () => void
-}
-
-export function ResumeAlert({ onReset }: ResumeAlertProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
+export function NewConfigButton() {
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false)
 
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
@@ -62,34 +59,11 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
     "resources-storage",
   ]
 
-  React.useEffect(() => {
-    const hasExistingSession = storeKeys.some((key) => {
-      if (key === "assistant-storage") {
-        return false
-      }
+  const handleOpenDialog = () => {
+    setIsDialogOpen(true)
+  }
 
-      const item = localStorage.getItem(key)
-      if (!item) return false
-
-      if (key === "model-storage") {
-        const modelStore = JSON.parse(item)
-        if (
-          modelStore.state.formValues.model1 === false &&
-          modelStore.state.formValues.model2 === false
-        ) {
-          return false
-        }
-      }
-
-      return true
-    })
-
-    if (hasExistingSession) {
-      setIsOpen(true)
-    }
-  }, [])
-
-  const handleReset = () => {
+  const handleConfirmReset = () => {
     resetAreaStore()
     resetAssistantStore()
     resetBoundingBoxStore()
@@ -107,40 +81,41 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
       localStorage.removeItem(key)
     })
 
-    if (onReset) {
-      onReset()
-    }
-
-    setIsOpen(false)
+    setIsDialogOpen(false)
   }
 
-  const handleResume = () => {
-    setIsOpen(false)
+  const handleCancelReset = () => {
+    setIsDialogOpen(false)
   }
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            <div className="flex items-center gap-2 justify-center sm:justify-start">
-              <History aria-hidden="true" />
-              Konfiguration gefunden
-            </div>
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            Möchtest du sie fortsetzen oder eine neue erstellen?
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel onClick={handleReset}>
-            Neue Konfiguration
-          </AlertDialogCancel>
-          <AlertDialogAction onClick={handleResume}>
-            Fortsetzen
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <>
+      <Button onClick={handleOpenDialog}>Neue Konfiguration</Button>
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              <div className="flex items-center gap-2 justify-center sm:justify-start">
+                <CircleAlert aria-hidden="true" />
+                Konfiguration zurücksetzen
+              </div>
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Bist du sicher, dass du eine neue erstellen möchtest? Dabei geht
+              deine aktuelle Konfiguration verloren.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={handleCancelReset}>
+              Abbrechen
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmReset}>
+              Bestätigen
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   )
 }

@@ -1,39 +1,39 @@
 import { Badge } from "@/components/ui/badge"
 
 export function RgbBadge() {
-  return <Badge className="font-mono">RGB</Badge>
+  return <Badge className="font-mono select-none">RGB</Badge>
 }
 
 export function CirBadge() {
-  return <Badge className="font-mono">CIR</Badge>
+  return <Badge className="font-mono select-none">CIR</Badge>
 }
 
 export function NirBadge() {
-  return <Badge className="font-mono">NIR</Badge>
+  return <Badge className="font-mono select-none">NIR</Badge>
 }
 
 export function RgbiBadge() {
-  return <Badge className="font-mono">RGBI</Badge>
+  return <Badge className="font-mono select-none">RGBI</Badge>
 }
 
 export function DomBadge() {
-  return <Badge className="font-mono">DOM</Badge>
-}
-
-export function VrtBadge() {
-  return <Badge className="font-mono">VRT</Badge>
+  return <Badge className="font-mono select-none">DOM</Badge>
 }
 
 export function WmsBadge() {
-  return <Badge className="font-mono">WMS</Badge>
+  return <Badge className="font-mono select-none">WMS</Badge>
 }
 
-export interface ChannelBadgeProps {
-  channel: "rgb" | "cir" | "nir" | "rgbi" | "dom"
+export function VrtBadge() {
+  return <Badge className="font-mono select-none">VRT</Badge>
 }
 
-export function ChannelBadge({ channel }: ChannelBadgeProps) {
-  const channelMap = {
+export interface ChannelsBadgeProps {
+  channels: "rgb" | "cir" | "nir" | "rgbi" | "dom"
+}
+
+export function ChannelsBadge({ channels }: ChannelsBadgeProps) {
+  const channelsMap = {
     rgb: <RgbBadge />,
     cir: <CirBadge />,
     nir: <NirBadge />,
@@ -41,18 +41,18 @@ export function ChannelBadge({ channel }: ChannelBadgeProps) {
     dom: <DomBadge />,
   }
 
-  return channelMap[channel]
+  return channelsMap[channels]
 }
 
-export interface DataBadgeProps {
-  data: "vrt" | "wms"
+export interface TypeBadgeProps {
+  type: "wms" | "vrt"
 }
 
-export function DataBadge({ data }: DataBadgeProps) {
-  const dataMap = {
-    vrt: <VrtBadge />,
+export function TypeBadge({ type }: TypeBadgeProps) {
+  const typeMap = {
     wms: <WmsBadge />,
+    vrt: <VrtBadge />,
   }
 
-  return dataMap[data]
+  return typeMap[type]
 }

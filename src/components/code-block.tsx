@@ -123,9 +123,12 @@ const CodeHeader: React.FC<{
   if (!title) return null
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b min-h-[3rem]">
+    <div className="flex items-center justify-between px-4 py-3 border-b dark:border-input min-h-[3rem]">
       <div
-        className={cn("font-medium flex items-center gap-2", titleClassName)}
+        className={cn(
+          "text-sm font-medium flex items-center gap-2",
+          titleClassName,
+        )}
       >
         {titleIcon && <span className="flex-shrink-0">{titleIcon}</span>}
         <span>{title}</span>
@@ -179,7 +182,7 @@ const CollapsibleCodeBlock: React.FC<{
     <CollapsibleContent forceMount className="relative">
       {children}
       {!isOpen && shouldCollapse && (
-        <div className="absolute h-32 bottom-0 left-2 right-2 bg-gradient-to-t from-muted to-transparent rounded-b-lg z-10" />
+        <div className="absolute h-32 bottom-0 left-2 right-2 bg-gradient-to-t from-muted to-transparent rounded-b-md z-10" />
       )}
     </CollapsibleContent>
     {shouldCollapse && (
@@ -259,7 +262,7 @@ export function CodeBlock({
 
           {codeVersions.map(([version, codeStr], index) => (
             <TabsContent key={version} value={version}>
-              <div className="rounded-lg bg-muted">
+              <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input">
                 <CodeHeader
                   title={title}
                   titleClassName={titleClassName}
@@ -293,7 +296,7 @@ export function CodeBlock({
 
   return (
     <div className={cn("relative", className)}>
-      <div className="rounded-lg bg-muted">
+      <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input">
         <CodeHeader
           title={title}
           titleClassName={titleClassName}

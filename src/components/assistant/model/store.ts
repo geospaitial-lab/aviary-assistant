@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware"
 import { type ModelFormSchema } from "@/components/assistant/model/schema"
 
 interface ModelState {
-  formValues: ModelFormSchema | null
+  formValues: ModelFormSchema
   setFormValues: (values: ModelFormSchema) => void
   reset: () => void
 }
@@ -12,9 +12,18 @@ interface ModelState {
 export const useModelStore = create<ModelState>()(
   persist(
     (set) => ({
-      formValues: null,
+      formValues: {
+        model1: false,
+        model2: false,
+      },
       setFormValues: (values) => set({ formValues: values }),
-      reset: () => set({ formValues: null }),
+      reset: () =>
+        set({
+          formValues: {
+            model1: false,
+            model2: false,
+          },
+        }),
     }),
     {
       name: "model-storage",

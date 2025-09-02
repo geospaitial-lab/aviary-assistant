@@ -9,13 +9,7 @@ import {
 } from "@/components/assistant/resources/cpu/schema"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
 import { Link } from "@/components/link"
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormMessage,
-} from "@/components/ui/form"
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
 import { Slider } from "@/components/ui/slider"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -25,9 +19,7 @@ export function CpuForm() {
 
   const form = useForm<CpuFormSchema>({
     resolver: zodResolver(cpuFormSchema),
-    defaultValues: formValues || {
-      ram: 1,
-    },
+    defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
   })
@@ -111,9 +103,7 @@ export function CpuForm() {
                   }}
                 />
               </FormControl>
-              <div className="min-h-[1.25rem]">
-                <FormMessage />
-              </div>
+              <div className="min-h-[1.25rem]" />
             </FormItem>
           )}
         />
