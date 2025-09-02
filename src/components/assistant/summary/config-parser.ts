@@ -26,7 +26,7 @@ import { useResourcesStore } from "@/components/assistant/resources/store"
 
 interface Store {
   model: {
-    formValues: ModelFormSchema | null
+    formValues: ModelFormSchema
   }
   area: {
     activeTab: string
@@ -43,20 +43,20 @@ interface Store {
   data: {
     dataSources: DataSource[]
     global: {
-      formValues: GlobalFormSchema | null
+      formValues: GlobalFormSchema
     }
   }
   resources: {
     activeTab: string
     cpu: {
-      formValues: CpuFormSchema | null
+      formValues: CpuFormSchema
     }
     gpu: {
-      formValues: GpuFormSchema | null
+      formValues: GpuFormSchema
     }
   }
   export: {
-    formValues: ExportFormSchema | null
+    formValues: ExportFormSchema
   }
 }
 
@@ -99,7 +99,7 @@ export function getStore(): Store {
 }
 
 function mapGroundSamplingDistanceToTileSize(
-  groundSamplingDistance?: string,
+  groundSamplingDistance: string,
 ): number {
   switch (groundSamplingDistance) {
     case "0.1":
@@ -126,7 +126,7 @@ function mapCpuRamToBatchSize(cpuRam: number): number {
     case 3:
       return 8
     default:
-      return 1
+      return 2
   }
 }
 
@@ -141,7 +141,7 @@ function mapGpuVramToBatchSize(gpuVram: number): number {
     case 3:
       return 8
     default:
-      return 1
+      return 2
   }
 }
 
@@ -150,7 +150,7 @@ function parseGridConfig(store: Store): string[] {
 
   const activeTab = store.area.activeTab
   const tileSize = mapGroundSamplingDistanceToTileSize(
-    store.data.global.formValues?.groundSamplingDistance,
+    store.data.global.formValues.groundSamplingDistance,
   )
 
   const gridConfigLines: string[] = []
@@ -158,7 +158,7 @@ function parseGridConfig(store: Store): string[] {
   switch (activeTab) {
     case "name":
     case "file": {
-      const epsgCode = store.data.global.formValues?.epsgCode
+      const epsgCode = store.data.global.formValues.epsgCode
 
       gridConfigLines.push(`  geojson_path: 'area.geojson'`)
       gridConfigLines.push(`  epsg_code: ${epsgCode}`)
@@ -172,7 +172,7 @@ function parseGridConfig(store: Store): string[] {
       const yMax = store.area.boundingBox.formValues?.yMax as number
       const sourceEpsgCode = store.area.boundingBox.formValues
         ?.epsgCode as string
-      const targetEpsgCode = store.data.global.formValues?.epsgCode as string
+      const targetEpsgCode = store.data.global.formValues.epsgCode
 
       const fromProjection = getProjectionString(sourceEpsgCode)
       const toProjection = getProjectionString(targetEpsgCode)
@@ -214,9 +214,7 @@ function parseTileLoaderConfig(store: Store): string[] {
 
   switch (activeTab) {
     case "cpu": {
-      const batchSize = mapCpuRamToBatchSize(
-        store.resources.cpu.formValues?.ram as number,
-      )
+      const batchSize = mapCpuRamToBatchSize(store.resources.cpu.formValues.ram)
 
       tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
       break
@@ -224,7 +222,7 @@ function parseTileLoaderConfig(store: Store): string[] {
 
     case "gpu": {
       const batchSize = mapGpuVramToBatchSize(
-        store.resources.gpu.formValues?.vram as number,
+        store.resources.gpu.formValues.vram,
       )
 
       tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
