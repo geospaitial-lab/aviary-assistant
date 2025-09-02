@@ -115,6 +115,36 @@ function mapGroundSamplingDistanceToTileSize(
   }
 }
 
+function mapGroundSamplingDistanceToBufferSize(
+  groundSamplingDistance: string,
+): number {
+  switch (groundSamplingDistance) {
+    case "0.1":
+      return 16
+    case "0.2":
+      return 32
+    case "0.5":
+      return 80
+    case "1.0":
+      return 160
+    default:
+      return 32
+  }
+}
+
+function mapWmsFormatToMimeType(format: string | undefined): string {
+  switch (format) {
+    case ".jpeg":
+      return "image/jpeg"
+    case ".png":
+      return "image/png"
+    case ".tiff":
+      return "image/tiff"
+    default:
+      return "image/png"
+  }
+}
+
 function mapCpuRamToBatchSize(cpuRam: number): number {
   switch (cpuRam) {
     case 0:
