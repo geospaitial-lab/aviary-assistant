@@ -29,10 +29,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
 
     const form = useForm<ModelFormSchema>({
       resolver: zodResolver(modelFormSchema),
-      defaultValues: formValues || {
-        model1: false,
-        model2: false,
-      },
+      defaultValues: formValues,
       mode: "onSubmit",
       reValidateMode: "onSubmit",
     })
