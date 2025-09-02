@@ -145,6 +145,38 @@ function mapWmsFormatToMimeType(format: string | undefined): string {
   }
 }
 
+function mapWmsChannels(channels: string): string[] {
+  switch (channels) {
+    case "rgb":
+      return ["'r'", "'g'", "'b'"]
+    case "cir":
+      return ["'nir'", "'r'", "'g'"]
+    case "nir":
+      return ["'nir'", "null", "null"]
+    case "dom":
+      return ["'dsm'", "null", "null"]
+    default:
+      return ["'r'", "'g'", "'b'"]
+  }
+}
+
+function mapVrtChannels(channels: string): string[] {
+  switch (channels) {
+    case "rgb":
+      return ["'r'", "'g'", "'b'"]
+    case "cir":
+      return ["'nir'", "'r'", "'g'"]
+    case "nir":
+      return ["'nir'"]
+    case "rgbi":
+      return ["'r'", "'g'", "'b'", "'nir'"]
+    case "dom":
+      return ["'dsm'"]
+    default:
+      return ["'r'", "'g'", "'b'"]
+  }
+}
+
 function mapCpuRamToBatchSize(cpuRam: number): number {
   switch (cpuRam) {
     case 0:
