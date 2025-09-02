@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware"
 import { type ExportFormSchema } from "@/components/assistant/export/schema"
 
 interface ExportState {
-  formValues: ExportFormSchema | null
+  formValues: ExportFormSchema
   setFormValues: (values: ExportFormSchema) => void
   reset: () => void
 }
@@ -12,9 +12,16 @@ interface ExportState {
 export const useExportStore = create<ExportState>()(
   persist(
     (set) => ({
-      formValues: null,
+      formValues: {
+        dirPath: "",
+      },
       setFormValues: (values) => set({ formValues: values }),
-      reset: () => set({ formValues: null }),
+      reset: () =>
+        set({
+          formValues: {
+            dirPath: "",
+          },
+        }),
     }),
     {
       name: "export-storage",

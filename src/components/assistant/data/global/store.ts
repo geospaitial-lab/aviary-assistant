@@ -4,7 +4,7 @@ import { persist } from "zustand/middleware"
 import { type GlobalFormSchema } from "@/components/assistant/data/global/schema"
 
 interface GlobalState {
-  formValues: GlobalFormSchema | null
+  formValues: GlobalFormSchema
   setFormValues: (values: GlobalFormSchema) => void
   reset: () => void
 }
@@ -12,9 +12,18 @@ interface GlobalState {
 export const useGlobalStore = create<GlobalState>()(
   persist(
     (set) => ({
-      formValues: null,
+      formValues: {
+        epsgCode: "25832",
+        groundSamplingDistance: "0.2",
+      },
       setFormValues: (values) => set({ formValues: values }),
-      reset: () => set({ formValues: null }),
+      reset: () =>
+        set({
+          formValues: {
+            epsgCode: "25832",
+            groundSamplingDistance: "0.2",
+          },
+        }),
     }),
     {
       name: "data-global-storage",

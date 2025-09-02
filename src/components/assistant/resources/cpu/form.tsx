@@ -19,9 +19,7 @@ export function CpuForm() {
 
   const form = useForm<CpuFormSchema>({
     resolver: zodResolver(cpuFormSchema),
-    defaultValues: formValues || {
-      ram: 1,
-    },
+    defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
   })

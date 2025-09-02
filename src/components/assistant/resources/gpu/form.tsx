@@ -19,9 +19,7 @@ export function GpuForm() {
 
   const form = useForm<GpuFormSchema>({
     resolver: zodResolver(gpuFormSchema),
-    defaultValues: formValues || {
-      vram: 1,
-    },
+    defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
   })

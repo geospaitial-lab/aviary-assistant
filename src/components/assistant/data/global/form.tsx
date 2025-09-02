@@ -30,10 +30,7 @@ export function GlobalForm() {
 
   const form = useForm<GlobalFormSchema>({
     resolver: zodResolver(globalFormSchema),
-    defaultValues: formValues || {
-      epsgCode: "25832",
-      groundSamplingDistance: "0.2",
-    },
+    defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
   })
