@@ -103,15 +103,15 @@ function mapGroundSamplingDistanceToTileSize(
 ): number {
   switch (groundSamplingDistance) {
     case "0.1":
-      return 96
+      return 64
     case "0.2":
-      return 192
+      return 128
     case "0.5":
-      return 480
+      return 320
     case "1.0":
-      return 960
+      return 640
     default:
-      return 192
+      return 128
   }
 }
 
