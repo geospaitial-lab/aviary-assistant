@@ -14,6 +14,8 @@ import { type GlobalFormSchema } from "@/components/assistant/data/global/schema
 import { useGlobalStore } from "@/components/assistant/data/global/store"
 import { useDataStore } from "@/components/assistant/data/store"
 import { type DataSource } from "@/components/assistant/data/store"
+import { type VrtFormSchema } from "@/components/assistant/data/vrt/schema"
+import { type WmsFormSchema } from "@/components/assistant/data/wms/schema"
 import { type ExportFormSchema } from "@/components/assistant/export/schema"
 import { useExportStore } from "@/components/assistant/export/store"
 import { type ModelFormSchema } from "@/components/assistant/model/schema"
@@ -266,6 +268,77 @@ function parseGridConfig(store: Store): string[] {
   return gridConfigLines
 }
 
+function parseTileFetcherConfig(store: Store): string[] {
+  const dataSources = store.data.dataSources
+  const epsgCode = store.data.global.formValues.epsgCode
+  const groundSamplingDistance =
+    store.data.global.formValues.groundSamplingDistance
+  const tileSize = mapGroundSamplingDistanceToTileSize(groundSamplingDistance)
+  const bufferSize = mapGroundSamplingDistanceToBufferSize(
+    groundSamplingDistance,
+  )
+
+  const tileFetcherConfigLines: string[] = []
+
+  dataSources.forEach((dataSource) => {
+    if (!dataSource.formValues) return
+
+    if (dataSource.type === "wms") {
+      const formValues = dataSource.formValues as WmsFormSchema
+      const url = formValues.url
+      const version = formValues.version
+      const layer = formValues.layer
+      const format = mapWmsFormatToMimeType(formValues.format)
+      const style = formValues.style
+
+      tileFetcherConfigLines.push("      - name: 'WMSFetcher'")
+      tileFetcherConfigLines.push("        config:")
+      tileFetcherConfigLines.push(`          url: '${url}'`)
+      tileFetcherConfigLines.push(`          version: '${version}'`)
+      tileFetcherConfigLines.push(`          layer: '${layer}'`)
+      tileFetcherConfigLines.push(`          epsg_code: ${epsgCode}`)
+      tileFetcherConfigLines.push(`          response_format: '${format}'`)
+      tileFetcherConfigLines.push("          channel_keys:")
+      mapWmsChannels(dataSource.channels).forEach((channel) =>
+        tileFetcherConfigLines.push(`            - ${channel}`),
+      )
+      tileFetcherConfigLines.push(`          tile_size: ${tileSize}`)
+      tileFetcherConfigLines.push(
+        `          ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+      )
+      if (style.trim().length > 0) {
+        tileFetcherConfigLines.push(`          style: '${style}'`)
+      } else {
+        tileFetcherConfigLines.push("          style: null")
+      }
+      tileFetcherConfigLines.push(`          buffer_size: ${bufferSize}`)
+    } else if (dataSource.type === "vrt") {
+      const formValues = dataSource.formValues as VrtFormSchema
+      const path = formValues.path
+      const interpolation =
+        dataSource.channels === "dom" ? "nearest" : "bilinear"
+
+      tileFetcherConfigLines.push("      - name: 'VRTFetcher'")
+      tileFetcherConfigLines.push("        config:")
+      tileFetcherConfigLines.push(`          path: '${path}'`)
+      tileFetcherConfigLines.push("          channel_keys:")
+      mapVrtChannels(dataSource.channels).forEach((channel) =>
+        tileFetcherConfigLines.push(`            - ${channel}`),
+      )
+      tileFetcherConfigLines.push(`          tile_size: ${tileSize}`)
+      tileFetcherConfigLines.push(
+        `          ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+      )
+      tileFetcherConfigLines.push(
+        `          interpolation_mode: ${interpolation}`,
+      )
+      tileFetcherConfigLines.push(`          buffer_size: ${bufferSize}`)
+    }
+  })
+
+  return tileFetcherConfigLines
+}
+
 function parseTileLoaderConfig(store: Store): string[] {
   const MAX_NUM_THREADS = null
   const NUM_PREFETCHED_TILES = 1
@@ -313,6 +386,12 @@ export function parseConfig(): string {
 
   configLines.push("")
   configLines.push("tile_fetcher_config:")
+  configLines.push("  name: 'CompositeFetcher'")
+  configLines.push("  config:")
+  configLines.push("    tile_fetcher_configs:")
+
+  const tileFetcherConfigLines = parseTileFetcherConfig(store)
+  configLines.push(...tileFetcherConfigLines)
 
   configLines.push("")
   configLines.push("tile_loader_config:")
@@ -325,6 +404,7 @@ export function parseConfig(): string {
   configLines.push("  name: 'SequentialCompositeProcessor'")
   configLines.push("  config:")
   configLines.push("    tiles_processor_configs:")
+  configLines.push("      TODO")
 
   return configLines.join("\n")
 }
