@@ -315,12 +315,19 @@ function parseTileFetcherConfig(store: Store): string[] {
     } else if (dataSource.type === "vrt") {
       const formValues = dataSource.formValues as VrtFormSchema
       const path = formValues.path
+      const channelsComment = dataSource.channels.toUpperCase()
       const interpolation =
         dataSource.channels === "dom" ? "nearest" : "bilinear"
 
       tileFetcherConfigLines.push("      - name: 'VRTFetcher'")
       tileFetcherConfigLines.push("        config:")
-      tileFetcherConfigLines.push(`          path: '${path}'`)
+      if (path.trim().length > 0) {
+        tileFetcherConfigLines.push(`          path: '${path}'`)
+      } else {
+        tileFetcherConfigLines.push(
+          `          path: '' # Trage hier den Pfad zu der .vrt-Datei (${channelsComment}) ein`,
+        )
+      }
       tileFetcherConfigLines.push("          channel_keys:")
       mapVrtChannels(dataSource.channels).forEach((channel) =>
         tileFetcherConfigLines.push(`            - ${channel}`),
