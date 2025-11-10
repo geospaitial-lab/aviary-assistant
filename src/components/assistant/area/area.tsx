@@ -108,7 +108,6 @@ export const Area = React.forwardRef<AreaFormRef>(function Area(_, ref) {
               <TabsTrigger value="name">Name</TabsTrigger>
               <TabsTrigger value="file">Datei</TabsTrigger>
               <TabsTrigger value="bounding-box">Bounding Box</TabsTrigger>
-              <TabsTrigger value="draw">Zeichnen</TabsTrigger>
             </TabsList>
 
             <TabsContent value="name">
@@ -126,12 +125,6 @@ export const Area = React.forwardRef<AreaFormRef>(function Area(_, ref) {
             <TabsContent value="bounding-box">
               <div className="p-4 border-2 rounded-lg">
                 <BoundingBoxForm />
-              </div>
-            </TabsContent>
-
-            <TabsContent value="draw">
-              <div className="p-4 border-2 rounded-lg">
-                <p>TODO</p>
               </div>
             </TabsContent>
           </Tabs>

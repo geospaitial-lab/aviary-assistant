@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
-import { toast } from "sonner"
 
 import {
   type NameFormSchema,
@@ -43,6 +42,8 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+
+const ERROR_FETCH = "Ein Fehler ist aufgetreten – versuche es erneut"
 
 export function NameForm() {
   const {
@@ -149,16 +150,12 @@ export function NameForm() {
       } catch (error) {
         form.setError("name", {
           type: "manual",
-          message: "Ein Fehler ist aufgetreten",
+          message: ERROR_FETCH,
         })
       } finally {
         setIsLoading(false)
       }
     }
-  }
-
-  function handleEdit() {
-    toast("TODO")
   }
 
   function handleReset() {
@@ -308,22 +305,11 @@ export function NameForm() {
               )}
             />
             <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-              <div className="flex gap-4">
-                <Button type="submit" disabled={isLoading} className="w-24">
-                  <span className={cn(isLoading && "animate-pulse")}>
-                    Anzeigen
-                  </span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={!geoJson || isLoading || isSearching}
-                  onClick={handleEdit}
-                  className="w-24"
-                >
-                  Bearbeiten
-                </Button>
-              </div>
+              <Button type="submit" disabled={isLoading} className="w-24">
+                <span className={cn(isLoading && "animate-pulse")}>
+                  Anzeigen
+                </span>
+              </Button>
               <Button
                 type="button"
                 variant="destructive"

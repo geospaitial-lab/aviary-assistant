@@ -214,7 +214,6 @@ export function AddDataSourceDialog({
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <div className="min-h-[1.25rem]" />
                   </FormItem>
                 )}
               />
@@ -243,7 +242,6 @@ export function AddDataSourceDialog({
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <div className="min-h-[1.25rem]" />
                   </FormItem>
                 )}
               />
