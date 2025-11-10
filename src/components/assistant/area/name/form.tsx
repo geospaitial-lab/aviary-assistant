@@ -44,7 +44,7 @@ import {
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-const ERROR_FETCH = "Ein Fehler ist aufgetreten – versuch es erneut"
+const ERROR_FETCH = "Ein Fehler ist aufgetreten – versuche es erneut"
 
 export function NameForm() {
   const {
