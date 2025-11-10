@@ -107,10 +107,6 @@ export function FileForm() {
     }
   }
 
-  function handleEdit() {
-    toast("TODO")
-  }
-
   function handleReset() {
     form.reset({
       file: undefined,
@@ -208,22 +204,11 @@ export function FileForm() {
               )}
             />
             <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-              <div className="flex gap-4">
-                <Button type="submit" className="w-24" disabled={isLoading}>
-                  <span className={cn(isLoading && "animate-pulse")}>
-                    Anzeigen
-                  </span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={!geoJson || isLoading}
-                  onClick={handleEdit}
-                  className="w-24"
-                >
-                  Bearbeiten
-                </Button>
-              </div>
+              <Button type="submit" className="w-24" disabled={isLoading}>
+                <span className={cn(isLoading && "animate-pulse")}>
+                  Anzeigen
+                </span>
+              </Button>
               <Button
                 type="button"
                 variant="destructive"

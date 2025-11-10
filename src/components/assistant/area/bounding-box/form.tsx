@@ -78,10 +78,6 @@ export function BoundingBoxForm() {
     }
   }
 
-  function handleEdit() {
-    toast("TODO")
-  }
-
   function handleReset() {
     form.reset({
       xMin: "",
@@ -272,22 +268,11 @@ export function BoundingBoxForm() {
               )}
             />
             <div className="mt-4 @md:col-span-2 flex flex-col @md:flex-row @md:justify-between gap-4">
-              <div className="flex gap-4">
-                <Button type="submit" className="w-24" disabled={isSubmitting}>
-                  <span className={cn(isSubmitting && "animate-pulse")}>
-                    Anzeigen
-                  </span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={!geoJson}
-                  onClick={handleEdit}
-                  className="w-24"
-                >
-                  Bearbeiten
-                </Button>
-              </div>
+              <Button type="submit" className="w-24" disabled={isSubmitting}>
+                <span className={cn(isSubmitting && "animate-pulse")}>
+                  Anzeigen
+                </span>
+              </Button>
               <Button
                 type="button"
                 variant="destructive"

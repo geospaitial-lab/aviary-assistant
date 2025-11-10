@@ -159,10 +159,6 @@ export function NameForm() {
     }
   }
 
-  function handleEdit() {
-    toast("TODO")
-  }
-
   function handleReset() {
     form.reset({
       name: "",
@@ -310,22 +306,11 @@ export function NameForm() {
               )}
             />
             <div className="mt-4 flex flex-col @md:flex-row @md:justify-between gap-4">
-              <div className="flex gap-4">
-                <Button type="submit" disabled={isLoading} className="w-24">
-                  <span className={cn(isLoading && "animate-pulse")}>
-                    Anzeigen
-                  </span>
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  disabled={!geoJson || isLoading || isSearching}
-                  onClick={handleEdit}
-                  className="w-24"
-                >
-                  Bearbeiten
-                </Button>
-              </div>
+              <Button type="submit" disabled={isLoading} className="w-24">
+                <span className={cn(isLoading && "animate-pulse")}>
+                  Anzeigen
+                </span>
+              </Button>
               <Button
                 type="button"
                 variant="destructive"
