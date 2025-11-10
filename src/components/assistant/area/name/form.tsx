@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
-import { toast } from "sonner"
 
 import {
   type NameFormSchema,

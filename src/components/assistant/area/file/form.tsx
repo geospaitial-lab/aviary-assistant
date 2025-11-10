@@ -4,7 +4,6 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import { Upload } from "lucide-react"
-import { toast } from "sonner"
 
 import {
   type FileFormSchema,
