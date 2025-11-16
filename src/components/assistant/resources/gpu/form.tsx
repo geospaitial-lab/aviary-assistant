@@ -26,8 +26,7 @@ import {
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { Link } from "@/components/link"
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
-import { Slider } from "@/components/ui/slider"
-import { cn } from "@/lib/utils"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { zodResolver } from "@hookform/resolvers/zod"
 
 export function GpuForm() {
@@ -47,8 +46,6 @@ export function GpuForm() {
     return () => subscription.unsubscribe()
   }, [form, setFormValues])
 
-  const vramValue = form.watch("vram")
-
   return (
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
@@ -58,66 +55,35 @@ export function GpuForm() {
           aber nicht.
         </p>
 
-        <div className="mb-4 relative h-6">
-          <span
-            className={cn(
-              "absolute left-0 font-medium transition-color cursor-pointer",
-              {
-                "text-muted-foreground": vramValue !== 0,
-              },
-            )}
-            onClick={() => form.setValue("vram", 0)}
-          >
-            8 GB
-          </span>
-          <span
-            className={cn(
-              "absolute left-1/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
-              {
-                "text-muted-foreground": vramValue !== 1,
-              },
-            )}
-            onClick={() => form.setValue("vram", 1)}
-          >
-            12 GB
-          </span>
-          <span
-            className={cn(
-              "absolute left-2/3 transform -translate-x-1/2 font-medium transition-color cursor-pointer",
-              {
-                "text-muted-foreground": vramValue !== 2,
-              },
-            )}
-            onClick={() => form.setValue("vram", 2)}
-          >
-            16 GB
-          </span>
-          <span
-            className={cn(
-              "absolute right-0 text-right font-medium transition-color cursor-pointer",
-              {
-                "text-muted-foreground": vramValue !== 3,
-              },
-            )}
-            onClick={() => form.setValue("vram", 3)}
-          >
-            24 GB
-          </span>
-        </div>
         <FormField
           control={form.control}
           name="vram"
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Slider
-                  min={0}
-                  max={3}
-                  value={[field.value]}
-                  onValueChange={(values) => {
-                    field.onChange(values[0])
-                  }}
-                />
+                <ToggleGroup
+                  type="single"
+                  variant="outline"
+                  value={String(field.value)}
+                  onValueChange={(value) =>
+                    value && field.onChange(Number(value))
+                  }
+                  className="w-full justify-center"
+                  aria-label="VRAM auswählen"
+                >
+                  <ToggleGroupItem value="0" className="w-20">
+                    8 GB
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="1" className="w-20">
+                    12 GB
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="2" className="w-20">
+                    16 GB
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="3" className="w-20">
+                    24 GB
+                  </ToggleGroupItem>
+                </ToggleGroup>
               </FormControl>
               <div className="min-h-[1.25rem]" />
             </FormItem>
