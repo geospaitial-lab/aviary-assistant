@@ -67,7 +67,7 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
         url: "",
         version: "1.3.0",
         layer: "",
-        format: ".png",
+        format: "PNG",
         style: "",
       },
       mode: "onBlur",
@@ -196,9 +196,9 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent className="z-[1000]">
-                          <SelectItem value=".jpeg">.jpeg</SelectItem>
-                          <SelectItem value=".png">.png</SelectItem>
-                          <SelectItem value=".tiff">.tiff</SelectItem>
+                          <SelectItem value="JPEG">JPEG</SelectItem>
+                          <SelectItem value="PNG">PNG</SelectItem>
+                          <SelectItem value="TIFF">TIFF</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>

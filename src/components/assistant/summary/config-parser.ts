@@ -152,11 +152,11 @@ function mapGroundSamplingDistanceToBufferSize(
 
 function mapWmsFormatToMimeType(format: string | undefined): string {
   switch (format) {
-    case ".jpeg":
+    case "JPEG":
       return "image/jpeg"
-    case ".png":
+    case "PNG":
       return "image/png"
-    case ".tiff":
+    case "TIFF":
       return "image/tiff"
     default:
       return "image/png"
