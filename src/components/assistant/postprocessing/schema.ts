@@ -17,8 +17,7 @@
 import { z } from "zod"
 
 export const postprocessingFormSchema = z.object({
-  sieve: z.enum(["schwach", "moderat", "stark"]),
-  fill: z.enum(["schwach", "moderat", "stark"]),
+  sieveFillThreshold: z.enum(["schwach", "moderat", "stark"]),
   simplify: z.boolean(),
 })
 
