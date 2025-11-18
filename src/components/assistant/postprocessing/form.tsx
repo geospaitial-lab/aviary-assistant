@@ -57,15 +57,19 @@ export function PostprocessingForm() {
   return (
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
-        <p className="text-pretty mb-4">TODO</p>
+        <p className="text-pretty mb-4">
+          Gib hier an, wie die Ausgabe unserer KI nachverarbeitet werden soll.
+          Es werden Artefakte entfernt und optional die Polygone vereinfacht –
+          das reduziert die Datenmenge, kann aber feine Details glätten.
+        </p>
 
-        <div className="grid gap-4 grid-cols-1">
+        <div className="grid gap-4">
           <FormField
             control={form.control}
             name="sieveFillThreshold"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Schwellenwert (Sieben & Füllen)</FormLabel>
+                <FormLabel>Schwellenwert (Sieben und Füllen)</FormLabel>
                 <FormControl>
                   <ToggleGroup
                     type="single"
@@ -86,7 +90,10 @@ export function PostprocessingForm() {
                     </ToggleGroupItem>
                   </ToggleGroup>
                 </FormControl>
-                <FormDescription>TODO</FormDescription>
+                <FormDescription>
+                  Entfernen von kleinen Polygonen und kleinen Löchern in
+                  Polygonen
+                </FormDescription>
               </FormItem>
             )}
           />
@@ -103,7 +110,7 @@ export function PostprocessingForm() {
                   />
                 </FormControl>
                 <FormDescription>
-                  Die Anzahl der Stützpunkte der Polygone wird reduziert.
+                  Reduzieren von Stützpunkten der Polygone
                 </FormDescription>
               </FormItem>
             )}
@@ -112,7 +119,7 @@ export function PostprocessingForm() {
             href="/faq#nachverarbeitung"
             showArrow={true}
             openInNewTab={true}
-            className="text-sm w-fit"
+            className="text-sm"
           >
             Mehr erfahren
           </Link>

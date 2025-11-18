@@ -24,11 +24,12 @@ function PostprocessingHeadings() {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-        Postprocessing
+        Wie willst du nachverarbeiten?
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        TODO
+        Wähle die Einstellungen, mit denen die Ergebnisse bereinigt werden
+        sollen
       </h2>
     </>
   )
