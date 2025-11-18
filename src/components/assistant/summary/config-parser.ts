@@ -270,11 +270,16 @@ function parseGridConfig(store: Store): string[] {
         ? proj4(fromProjection, toProjection, [xMax, yMax])
         : [xMax, yMax]
 
+      const ixMin = Math.floor(txMin)
+      const iyMin = Math.floor(tyMin)
+      const ixMax = Math.ceil(txMax)
+      const iyMax = Math.ceil(tyMax)
+
       gridConfigLines.push(indent(5, "bounding_box_coordinates:"))
-      gridConfigLines.push(indent(6, `- ${txMin}`))
-      gridConfigLines.push(indent(6, `- ${tyMin}`))
-      gridConfigLines.push(indent(6, `- ${txMax}`))
-      gridConfigLines.push(indent(6, `- ${tyMax}`))
+      gridConfigLines.push(indent(6, `- ${ixMin}`))
+      gridConfigLines.push(indent(6, `- ${iyMin}`))
+      gridConfigLines.push(indent(6, `- ${ixMax}`))
+      gridConfigLines.push(indent(6, `- ${iyMax}`))
       break
     }
 
