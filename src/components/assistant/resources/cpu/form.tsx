@@ -25,7 +25,14 @@ import {
 } from "@/components/assistant/resources/cpu/schema"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
 import { Link } from "@/components/link"
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { zodResolver } from "@hookform/resolvers/zod"
 
@@ -51,52 +58,55 @@ export function CpuForm() {
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
         <p className="text-pretty mb-4">
           Gib hier an, wie viel RAM dein Prozessor zur Verfügung hat. Je mehr,
-          desto schneller – die Qualität der Ergebnisse beeinflusst das aber
-          nicht.
+          desto schneller ist unsere KI – die Qualität der Ergebnisse
+          beeinflusst das aber nicht.
         </p>
 
-        <FormField
-          control={form.control}
-          name="ram"
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <ToggleGroup
-                  type="single"
-                  variant="outline"
-                  value={String(field.value)}
-                  onValueChange={(value) =>
-                    value && field.onChange(Number(value))
-                  }
-                  className="w-full justify-center"
-                  aria-label="RAM auswählen"
-                >
-                  <ToggleGroupItem value="0" className="w-20">
-                    8 GB
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="1" className="w-20">
-                    16 GB
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="2" className="w-20">
-                    32 GB
-                  </ToggleGroupItem>
-                  <ToggleGroupItem value="3" className="w-20">
-                    64 GB
-                  </ToggleGroupItem>
-                </ToggleGroup>
-              </FormControl>
-              <div className="min-h-[1.25rem]" />
-            </FormItem>
-          )}
-        />
-        <Link
-          href="/faq#ressourcen"
-          showArrow={true}
-          openInNewTab={true}
-          className="text-sm"
-        >
-          Mehr erfahren
-        </Link>
+        <div className="grid gap-4">
+          <FormField
+            control={form.control}
+            name="ram"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>RAM</FormLabel>
+                <FormControl>
+                  <ToggleGroup
+                    type="single"
+                    variant="outline"
+                    value={String(field.value)}
+                    onValueChange={(value) =>
+                      value && field.onChange(Number(value))
+                    }
+                    className="w-full justify-center"
+                    aria-label="RAM auswählen"
+                  >
+                    <ToggleGroupItem value="0" className="w-20">
+                      8 GB
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="1" className="w-20">
+                      16 GB
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="2" className="w-20">
+                      32 GB
+                    </ToggleGroupItem>
+                    <ToggleGroupItem value="3" className="w-20">
+                      64 GB
+                    </ToggleGroupItem>
+                  </ToggleGroup>
+                </FormControl>
+                <FormDescription>Arbeitsspeicher</FormDescription>
+              </FormItem>
+            )}
+          />
+          <Link
+            href="/faq#ressourcen"
+            showArrow={true}
+            openInNewTab={true}
+            className="text-sm"
+          >
+            Mehr erfahren
+          </Link>
+        </div>
       </form>
     </Form>
   )
