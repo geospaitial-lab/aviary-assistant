@@ -20,6 +20,7 @@ import { AviaryFaq } from "@/components/faq/aviary-faq"
 import { DataFaq } from "@/components/faq/data-faq"
 import { ExportFaq } from "@/components/faq/export-faq"
 import { ModelFaq } from "@/components/faq/model-faq"
+import { PostprocessingFaq } from "@/components/faq/postprocessing-faq"
 import { ResourcesFaq } from "@/components/faq/resources-faq"
 
 export function Faq() {
@@ -39,6 +40,7 @@ export function Faq() {
           <AreaFaq />
           <DataFaq />
           <ResourcesFaq />
+          <PostprocessingFaq />
           <ExportFaq />
         </div>
       </div>
