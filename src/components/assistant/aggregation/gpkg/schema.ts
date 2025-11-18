@@ -18,9 +18,9 @@ import { z } from "zod"
 
 const ERROR_NAME = "Muss ein gültiger Name sein"
 
-export const sourceFormSchema = z.object({
+export const gpkgFormSchema = z.object({
   path: z.string(),
   name: z.string().min(1, ERROR_NAME),
 })
 
-export type sourceFormSchema = z.infer<typeof sourceFormSchema>
+export type GpkgFormSchema = z.infer<typeof gpkgFormSchema>
