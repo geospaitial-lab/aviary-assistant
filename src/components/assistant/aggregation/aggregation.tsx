@@ -189,8 +189,10 @@ export const Aggregation = React.forwardRef<AggregationFormRef>(
             <p className="text-pretty mb-4">
               Wähle bis zu drei Aggregationsquellen. Es werden für jedes Polygon
               Statistiken berechnet – das sind konkret die absoluten und
-              relativen Flächen der Ergebnisse. Du kannst so beispielsweise
-              Flurstücke mit diesen Attributen anreichern.
+              relativen Flächen der Ergebnisse.
+              <br />
+              Du kannst so beispielsweise Flurstücke mit diesen Attributen
+              anreichern.
             </p>
 
             <Label className="mb-4">Aggregationsquellen</Label>
