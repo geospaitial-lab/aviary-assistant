@@ -30,14 +30,14 @@ export const usePostprocessingStore = create<PostprocessingState>()(
     (set) => ({
       formValues: {
         sieveFillThreshold: "moderat",
-        simplify: true,
+        simplify: false,
       },
       setFormValues: (values) => set({ formValues: values }),
       reset: () =>
         set({
           formValues: {
             sieveFillThreshold: "moderat",
-            simplify: true,
+            simplify: false,
           },
         }),
     }),
