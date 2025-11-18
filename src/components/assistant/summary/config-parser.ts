@@ -42,6 +42,10 @@ import { type GpuFormSchema } from "@/components/assistant/resources/gpu/schema"
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { useResourcesStore } from "@/components/assistant/resources/store"
 
+function indent(level: number, text: string): string {
+  return "  ".repeat(level) + text
+}
+
 interface Store {
   model: {
     formValues: ModelFormSchema
@@ -240,8 +244,8 @@ function parseGridConfig(store: Store): string[] {
     case "file": {
       const epsgCode = store.data.global.formValues.epsgCode
 
-      gridConfigLines.push(`  geojson_path: 'area.geojson'`)
-      gridConfigLines.push(`  epsg_code: ${epsgCode}`)
+      gridConfigLines.push(indent(5, "geojson_path: 'area.geojson'"))
+      gridConfigLines.push(indent(5, `epsg_code: ${epsgCode}`))
       break
     }
 
@@ -266,11 +270,11 @@ function parseGridConfig(store: Store): string[] {
         ? proj4(fromProjection, toProjection, [xMax, yMax])
         : [xMax, yMax]
 
-      gridConfigLines.push("  bounding_box_coordinates:")
-      gridConfigLines.push(`    - ${txMin}`)
-      gridConfigLines.push(`    - ${tyMin}`)
-      gridConfigLines.push(`    - ${txMax}`)
-      gridConfigLines.push(`    - ${tyMax}`)
+      gridConfigLines.push(indent(5, "bounding_box_coordinates:"))
+      gridConfigLines.push(indent(6, `- ${txMin}`))
+      gridConfigLines.push(indent(6, `- ${tyMin}`))
+      gridConfigLines.push(indent(6, `- ${txMax}`))
+      gridConfigLines.push(indent(6, `- ${tyMax}`))
       break
     }
 
@@ -278,8 +282,8 @@ function parseGridConfig(store: Store): string[] {
       break
   }
 
-  gridConfigLines.push(`  tile_size: ${tileSize}`)
-  gridConfigLines.push(`  snap: ${SNAP}`)
+  gridConfigLines.push(indent(5, `tile_size: ${tileSize}`))
+  gridConfigLines.push(indent(5, `snap: ${SNAP}`))
 
   return gridConfigLines
 }
@@ -307,55 +311,64 @@ function parseTileFetcherConfig(store: Store): string[] {
       const format = mapWmsFormatToMimeType(formValues.format)
       const style = formValues.style
 
-      tileFetcherConfigLines.push("      - name: 'WMSFetcher'")
-      tileFetcherConfigLines.push("        config:")
-      tileFetcherConfigLines.push(`          url: '${url}'`)
-      tileFetcherConfigLines.push(`          version: '${version}'`)
-      tileFetcherConfigLines.push(`          layer: '${layer}'`)
-      tileFetcherConfigLines.push(`          epsg_code: ${epsgCode}`)
-      tileFetcherConfigLines.push(`          response_format: '${format}'`)
-      tileFetcherConfigLines.push("          channel_keys:")
+      tileFetcherConfigLines.push(indent(7, "- name: 'WMSFetcher'"))
+      tileFetcherConfigLines.push(indent(8, "config:"))
+      tileFetcherConfigLines.push(indent(9, `url: '${url}'`))
+      tileFetcherConfigLines.push(indent(9, `version: '${version}'`))
+      tileFetcherConfigLines.push(indent(9, `layer: '${layer}'`))
+      tileFetcherConfigLines.push(indent(9, `epsg_code: ${epsgCode}`))
+      tileFetcherConfigLines.push(indent(9, `response_format: '${format}'`))
+      tileFetcherConfigLines.push(indent(9, "channel_keys:"))
       mapWmsChannels(dataSource.channels).forEach((channel) =>
-        tileFetcherConfigLines.push(`            - ${channel}`),
+        tileFetcherConfigLines.push(indent(10, `- ${channel}`)),
       )
-      tileFetcherConfigLines.push(`          tile_size: ${tileSize}`)
+      tileFetcherConfigLines.push(indent(9, `tile_size: ${tileSize}`))
       tileFetcherConfigLines.push(
-        `          ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+        indent(
+          9,
+          `ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+        ),
       )
       if (style.trim().length > 0) {
-        tileFetcherConfigLines.push(`          style: '${style}'`)
+        tileFetcherConfigLines.push(indent(9, `style: '${style}'`))
       } else {
-        tileFetcherConfigLines.push("          style: null")
+        tileFetcherConfigLines.push(indent(9, "style: null"))
       }
-      tileFetcherConfigLines.push(`          buffer_size: ${bufferSize}`)
+      tileFetcherConfigLines.push(indent(9, `buffer_size: ${bufferSize}`))
     } else if (dataSource.type === "vrt") {
       const formValues = dataSource.formValues as VrtFormSchema
       const path = formValues.path
       const channelsComment = dataSource.channels.toUpperCase()
       const interpolation =
-        dataSource.channels === "dom" ? "nearest" : "bilinear"
+        dataSource.channels === "dom" ? "'nearest'" : "'bilinear'"
 
-      tileFetcherConfigLines.push("      - name: 'VRTFetcher'")
-      tileFetcherConfigLines.push("        config:")
+      tileFetcherConfigLines.push(indent(7, "- name: 'VRTFetcher'"))
+      tileFetcherConfigLines.push(indent(8, "config:"))
       if (path.trim().length > 0) {
-        tileFetcherConfigLines.push(`          path: '${path}'`)
+        tileFetcherConfigLines.push(indent(9, `path: '${path}'`))
       } else {
         tileFetcherConfigLines.push(
-          `          path: '' # Trage hier den Pfad zu der .vrt-Datei (${channelsComment}) ein`,
+          indent(
+            9,
+            `path: '' # Trage hier den Pfad zu der .vrt-Datei (${channelsComment}) ein`,
+          ),
         )
       }
-      tileFetcherConfigLines.push("          channel_keys:")
+      tileFetcherConfigLines.push(indent(9, "channel_keys:"))
       mapVrtChannels(dataSource.channels).forEach((channel) =>
-        tileFetcherConfigLines.push(`            - ${channel}`),
+        tileFetcherConfigLines.push(indent(10, `- ${channel}`)),
       )
-      tileFetcherConfigLines.push(`          tile_size: ${tileSize}`)
+      tileFetcherConfigLines.push(indent(9, `tile_size: ${tileSize}`))
       tileFetcherConfigLines.push(
-        `          ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+        indent(
+          9,
+          `ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
+        ),
       )
       tileFetcherConfigLines.push(
-        `          interpolation_mode: ${interpolation}`,
+        indent(9, `interpolation_mode: ${interpolation}`),
       )
-      tileFetcherConfigLines.push(`          buffer_size: ${bufferSize}`)
+      tileFetcherConfigLines.push(indent(9, `buffer_size: ${bufferSize}`))
     }
   })
 
@@ -374,7 +387,7 @@ function parseTileLoaderConfig(store: Store): string[] {
     case "cpu": {
       const batchSize = mapCpuRamToBatchSize(store.resources.cpu.formValues.ram)
 
-      tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
+      tileLoaderConfigLines.push(indent(5, `batch_size: ${batchSize}`))
       break
     }
 
@@ -383,7 +396,7 @@ function parseTileLoaderConfig(store: Store): string[] {
         store.resources.gpu.formValues.vram,
       )
 
-      tileLoaderConfigLines.push(`  batch_size: ${batchSize}`)
+      tileLoaderConfigLines.push(indent(5, `batch_size: ${batchSize}`))
       break
     }
 
@@ -391,8 +404,10 @@ function parseTileLoaderConfig(store: Store): string[] {
       break
   }
 
-  tileLoaderConfigLines.push(`  max_num_threads: ${MAX_NUM_THREADS}`)
-  tileLoaderConfigLines.push(`  num_prefetched_tiles: ${NUM_PREFETCHED_TILES}`)
+  tileLoaderConfigLines.push(indent(5, `max_num_threads: ${MAX_NUM_THREADS}`))
+  tileLoaderConfigLines.push(
+    indent(5, `num_prefetched_tiles: ${NUM_PREFETCHED_TILES}`),
+  )
 
   return tileLoaderConfigLines
 }
@@ -402,32 +417,44 @@ export function parseConfig(): string {
 
   const configLines: string[] = []
 
-  configLines.push("grid_config:")
+  configLines.push("name: 'CompositePipeline'")
+  configLines.push("config:")
+  configLines.push(indent(1, "pipeline_configs:"))
+  configLines.push(indent(2, "- name: 'TilePipeline'"))
+  configLines.push(indent(3, "config:"))
+  configLines.push(indent(4, "show_progress: true"))
+  configLines.push("")
+
+  configLines.push(indent(4, "grid_config:"))
 
   const gridConfigLines = parseGridConfig(store)
   configLines.push(...gridConfigLines)
 
   configLines.push("")
-  configLines.push("tile_fetcher_config:")
-  configLines.push("  name: 'CompositeFetcher'")
-  configLines.push("  config:")
-  configLines.push("    tile_fetcher_configs:")
+  configLines.push(indent(4, "tile_fetcher_config:"))
+  configLines.push(indent(5, "name: 'CompositeFetcher'"))
+  configLines.push(indent(5, "config:"))
+  configLines.push(indent(6, "tile_fetcher_configs:"))
 
   const tileFetcherConfigLines = parseTileFetcherConfig(store)
   configLines.push(...tileFetcherConfigLines)
 
   configLines.push("")
-  configLines.push("tile_loader_config:")
+  configLines.push(indent(4, "tile_loader_config:"))
 
   const tileLoaderConfigLines = parseTileLoaderConfig(store)
   configLines.push(...tileLoaderConfigLines)
 
   configLines.push("")
-  configLines.push("tiles_processor_config:")
-  configLines.push("  name: 'SequentialCompositeProcessor'")
-  configLines.push("  config:")
-  configLines.push("    tiles_processor_configs:")
-  configLines.push("      TODO")
+  configLines.push(indent(4, "tiles_processor_config:"))
+  configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
+  configLines.push(indent(5, "config:"))
+  configLines.push(indent(6, "tiles_processor_configs:"))
+  configLines.push(indent(7, "TODO"))
+
+  configLines.push("")
+  configLines.push(indent(2, "- name: 'VectorPipeline'"))
+  configLines.push(indent(3, "config:"))
 
   return configLines.join("\n")
 }

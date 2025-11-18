@@ -20,10 +20,10 @@ import * as React from "react"
 import { useForm } from "react-hook-form"
 
 import {
-  type CpuFormSchema,
-  cpuFormSchema,
-} from "@/components/assistant/resources/cpu/schema"
-import { useCpuStore } from "@/components/assistant/resources/cpu/store"
+  type PostprocessingFormSchema,
+  postprocessingFormSchema,
+} from "@/components/assistant/postprocessing/schema"
+import { usePostprocessingStore } from "@/components/assistant/postprocessing/store"
 import { Link } from "@/components/link"
 import {
   Form,
@@ -33,14 +33,15 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form"
+import { Switch } from "@/components/ui/switch"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-export function CpuForm() {
-  const { formValues, setFormValues } = useCpuStore()
+export function PostprocessingForm() {
+  const { formValues, setFormValues } = usePostprocessingStore()
 
-  const form = useForm<CpuFormSchema>({
-    resolver: zodResolver(cpuFormSchema),
+  const form = useForm<PostprocessingFormSchema>({
+    resolver: zodResolver(postprocessingFormSchema),
     defaultValues: formValues,
     mode: "onBlur",
     reValidateMode: "onBlur",
@@ -48,7 +49,7 @@ export function CpuForm() {
 
   React.useEffect(() => {
     const subscription = form.watch((value) => {
-      setFormValues(value as CpuFormSchema)
+      setFormValues(value as PostprocessingFormSchema)
     })
     return () => subscription.unsubscribe()
   }, [form, setFormValues])
@@ -57,49 +58,65 @@ export function CpuForm() {
     <Form {...form}>
       <form autoComplete="off" noValidate onSubmit={(e) => e.preventDefault()}>
         <p className="text-pretty mb-4">
-          Gib hier an, wie viel RAM dein Prozessor zur Verfügung hat. Je mehr,
-          desto schneller ist unsere KI – die Qualität der Ergebnisse
-          beeinflusst das aber nicht.
+          Gib hier an, wie die Ausgabe unserer KI nachverarbeitet werden soll.
+          Es werden Artefakte entfernt und optional die Polygone vereinfacht –
+          das reduziert die Datenmenge, kann aber feine Details glätten.
         </p>
 
         <div className="grid gap-4">
           <FormField
             control={form.control}
-            name="ram"
+            name="sieveFillThreshold"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>RAM</FormLabel>
+                <FormLabel>Schwellenwert (Sieben und Füllen)</FormLabel>
                 <FormControl>
                   <ToggleGroup
                     type="single"
                     variant="outline"
-                    value={String(field.value)}
-                    onValueChange={(value) =>
-                      value && field.onChange(Number(value))
-                    }
+                    value={field.value}
+                    onValueChange={(value) => value && field.onChange(value)}
                     className="w-full justify-center"
-                    aria-label="RAM auswählen"
+                    aria-label="Schwellenwert auswählen"
                   >
-                    <ToggleGroupItem value="0" className="w-20">
-                      8 GB
+                    <ToggleGroupItem value="schwach" className="w-24">
+                      schwach
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="1" className="w-20">
-                      16 GB
+                    <ToggleGroupItem value="moderat" className="w-24">
+                      moderat
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="2" className="w-20">
-                      32 GB
-                    </ToggleGroupItem>
-                    <ToggleGroupItem value="3" className="w-20">
-                      64 GB
+                    <ToggleGroupItem value="stark" className="w-24">
+                      stark
                     </ToggleGroupItem>
                   </ToggleGroup>
                 </FormControl>
-                <FormDescription>Arbeitsspeicher</FormDescription>
+                <FormDescription>
+                  Entfernen von kleinen Polygonen und kleinen Löchern in
+                  Polygonen
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="simplify"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vereinfachen</FormLabel>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Reduzieren von Stützpunkten der Polygone
+                </FormDescription>
               </FormItem>
             )}
           />
           <Link
-            href="/faq#ressourcen"
+            href="/faq#nachverarbeitung"
             showArrow={true}
             openInNewTab={true}
             className="text-sm"

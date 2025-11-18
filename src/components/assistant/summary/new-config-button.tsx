@@ -28,6 +28,7 @@ import { useGlobalStore } from "@/components/assistant/data/global/store"
 import { useDataStore } from "@/components/assistant/data/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
+import { usePostprocessingStore } from "@/components/assistant/postprocessing/store"
 import { useCpuStore } from "@/components/assistant/resources/cpu/store"
 import { useGpuStore } from "@/components/assistant/resources/gpu/store"
 import { useResourcesStore } from "@/components/assistant/resources/store"
@@ -58,6 +59,9 @@ export function NewConfigButton() {
   const resetGpuStore = useGpuStore((state) => state.reset)
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
+  const resetPostprocessingStore = usePostprocessingStore(
+    (state) => state.reset,
+  )
   const resetResourcesStore = useResourcesStore((state) => state.reset)
 
   const storeKeys = [
@@ -70,6 +74,7 @@ export function NewConfigButton() {
     "data-storage",
     "export-storage",
     "model-storage",
+    "postprocessing-storage",
     "resources-cpu-storage",
     "resources-gpu-storage",
     "resources-storage",
@@ -91,6 +96,7 @@ export function NewConfigButton() {
     resetGpuStore()
     resetModelStore()
     resetNameStore()
+    resetPostprocessingStore()
     resetResourcesStore()
 
     storeKeys.forEach((key) => {

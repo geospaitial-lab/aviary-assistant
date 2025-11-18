@@ -28,6 +28,7 @@ import { Data, DataFormRef } from "@/components/assistant/data/data"
 import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
 import { Model } from "@/components/assistant/model/model"
+import { Postprocessing } from "@/components/assistant/postprocessing/postprocessing"
 import { Resources } from "@/components/assistant/resources/resources"
 import { ResumeAlert } from "@/components/assistant/resume-alert"
 import { useAssistantStore } from "@/components/assistant/store"
@@ -56,22 +57,23 @@ export function Assistant() {
   }, [])
 
   const getProgressValue = () => {
-    switch (activeStep) {
-      case "model":
-        return 0
-      case "area":
-        return 20
-      case "data":
-        return 40
-      case "resources":
-        return 60
-      case "export":
-        return 80
-      case "summary":
-        return 100
-      default:
-        return 0
-    }
+    const steps = [
+      "model",
+      "area",
+      "data",
+      "resources",
+      "postprocessing",
+      "export",
+      "summary",
+    ] as const
+
+    const index = steps.indexOf(activeStep as (typeof steps)[number])
+
+    if (index <= 0) return 0
+    if (index === steps.length - 1) return 100
+
+    const value = (index / (steps.length - 1)) * 100
+    return Math.round(value)
   }
 
   const handleNext = async () => {
@@ -101,6 +103,9 @@ export function Assistant() {
         }
         break
       case "resources":
+        setActiveStep("postprocessing")
+        break
+      case "postprocessing":
         setActiveStep("export")
         break
       case "export":
@@ -122,8 +127,11 @@ export function Assistant() {
       case "resources":
         setActiveStep("data")
         break
-      case "export":
+      case "postprocessing":
         setActiveStep("resources")
+        break
+      case "export":
+        setActiveStep("postprocessing")
         break
       case "summary":
         setActiveStep("export")
@@ -147,6 +155,8 @@ export function Assistant() {
         return <Data ref={dataRef} />
       case "resources":
         return <Resources />
+      case "postprocessing":
+        return <Postprocessing />
       case "export":
         return <Export />
       case "summary":
