@@ -80,16 +80,16 @@ export function CpuForm() {
                     className="w-full justify-center"
                     aria-label="RAM auswählen"
                   >
-                    <ToggleGroupItem value="0" className="w-20">
+                    <ToggleGroupItem value="0" className="w-16">
                       8 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="1" className="w-20">
+                    <ToggleGroupItem value="1" className="w-16">
                       16 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="2" className="w-20">
+                    <ToggleGroupItem value="2" className="w-16">
                       32 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="3" className="w-20">
+                    <ToggleGroupItem value="3" className="w-16">
                       64 GB
                     </ToggleGroupItem>
                   </ToggleGroup>

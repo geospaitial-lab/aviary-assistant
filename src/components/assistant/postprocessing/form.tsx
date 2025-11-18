@@ -101,17 +101,19 @@ export function PostprocessingForm() {
             control={form.control}
             name="simplify"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel>Vereinfachen</FormLabel>
+              <FormItem className="flex items-center justify-between gap-4">
+                <div className="flex-1">
+                  <FormLabel>Vereinfachen</FormLabel>
+                  <FormDescription>
+                    Reduzieren von Stützpunkten der Polygone
+                  </FormDescription>
+                </div>
                 <FormControl>
                   <Switch
                     checked={field.value}
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormDescription>
-                  Reduzieren von Stützpunkten der Polygone
-                </FormDescription>
               </FormItem>
             )}
           />

@@ -80,16 +80,16 @@ export function GpuForm() {
                     className="w-full justify-center"
                     aria-label="VRAM auswählen"
                   >
-                    <ToggleGroupItem value="0" className="w-20">
+                    <ToggleGroupItem value="0" className="w-16">
                       8 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="1" className="w-20">
+                    <ToggleGroupItem value="1" className="w-16">
                       12 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="2" className="w-20">
+                    <ToggleGroupItem value="2" className="w-16">
                       16 GB
                     </ToggleGroupItem>
-                    <ToggleGroupItem value="3" className="w-20">
+                    <ToggleGroupItem value="3" className="w-16">
                       24 GB
                     </ToggleGroupItem>
                   </ToggleGroup>
