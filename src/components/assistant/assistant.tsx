@@ -29,6 +29,7 @@ import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
 import { Model } from "@/components/assistant/model/model"
 import { Postprocessing } from "@/components/assistant/postprocessing/postprocessing"
+import { Aggregation, AggregationFormRef } from "@/components/assistant/aggregation/aggregation"
 import { Resources } from "@/components/assistant/resources/resources"
 import { ResumeAlert } from "@/components/assistant/resume-alert"
 import { useAssistantStore } from "@/components/assistant/store"
@@ -49,6 +50,7 @@ export function Assistant() {
   const modelRef = React.useRef<ModelFormRef>(null)
   const areaRef = React.useRef<AreaFormRef>(null)
   const dataRef = React.useRef<DataFormRef>(null)
+  const aggregationRef = React.useRef<AggregationFormRef>(null)
   const { isVisible } = useScrollDirection()
   const { isLocked } = useTabLock()
 
@@ -63,6 +65,7 @@ export function Assistant() {
       "data",
       "resources",
       "postprocessing",
+      "aggregation",
       "export",
       "summary",
     ] as const
@@ -106,7 +109,15 @@ export function Assistant() {
         setActiveStep("postprocessing")
         break
       case "postprocessing":
-        setActiveStep("export")
+        setActiveStep("aggregation")
+        break
+      case "aggregation":
+        if (aggregationRef.current) {
+          const isValid = await aggregationRef.current.validate()
+          if (isValid) {
+            setActiveStep("export")
+          }
+        }
         break
       case "export":
         setActiveStep("summary")
@@ -130,8 +141,11 @@ export function Assistant() {
       case "postprocessing":
         setActiveStep("resources")
         break
-      case "export":
+      case "aggregation":
         setActiveStep("postprocessing")
+        break
+      case "export":
+        setActiveStep("aggregation")
         break
       case "summary":
         setActiveStep("export")
@@ -157,6 +171,8 @@ export function Assistant() {
         return <Resources />
       case "postprocessing":
         return <Postprocessing />
+      case "aggregation":
+        return <Aggregation ref={aggregationRef} />
       case "export":
         return <Export />
       case "summary":

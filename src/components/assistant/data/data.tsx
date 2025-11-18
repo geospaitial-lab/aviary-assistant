@@ -200,7 +200,11 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
 
             {shouldShowAddButton && (
               <div className="flex justify-center w-full">
-                <Button onClick={() => setDialogOpen(true)} size="icon">
+                <Button
+                  onClick={() => setDialogOpen(true)}
+                  aria-label="Datenquelle hinzufügen"
+                  size="icon"
+                >
                   <Plus />
                 </Button>
               </div>

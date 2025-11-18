@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import { AggregationFaq } from "@/components/faq/aggregation-faq"
 import { AreaFaq } from "@/components/faq/area-faq"
 import { AssistantFaq } from "@/components/faq/assistant-faq"
 import { AviaryFaq } from "@/components/faq/aviary-faq"
@@ -41,6 +42,7 @@ export function Faq() {
           <DataFaq />
           <ResourcesFaq />
           <PostprocessingFaq />
+          <AggregationFaq />
           <ExportFaq />
         </div>
       </div>

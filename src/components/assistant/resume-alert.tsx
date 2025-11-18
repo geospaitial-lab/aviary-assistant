@@ -20,6 +20,7 @@ import * as React from "react"
 
 import { History } from "lucide-react"
 
+import { useAggregationStore } from "@/components/assistant/aggregation/store"
 import { useBoundingBoxStore } from "@/components/assistant/area/bounding-box/store"
 import { useFileStore } from "@/components/assistant/area/file/store"
 import { useNameStore } from "@/components/assistant/area/name/store"
@@ -51,6 +52,7 @@ interface ResumeAlertProps {
 export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const [isOpen, setIsOpen] = React.useState(false)
 
+  const resetAggregationStore = useAggregationStore((state) => state.reset)
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
   const resetBoundingBoxStore = useBoundingBoxStore((state) => state.reset)
@@ -68,6 +70,7 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const resetResourcesStore = useResourcesStore((state) => state.reset)
 
   const storeKeys = [
+    "aggregation-storage",
     "area-bounding-box-storage",
     "area-file-storage",
     "area-name-storage",
@@ -111,6 +114,7 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
   }, [])
 
   const handleReset = () => {
+    resetAggregationStore()
     resetAreaStore()
     resetAssistantStore()
     resetBoundingBoxStore()
