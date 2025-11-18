@@ -26,11 +26,11 @@ function SummaryHeadings() {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-        Zusammenfassung
+        Du hast es geschafft!
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        TODO
+        Lade die Konfiguration herunter und starte die Pipeline
       </h2>
     </>
   )
