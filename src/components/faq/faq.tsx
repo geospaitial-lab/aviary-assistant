@@ -28,10 +28,7 @@ export function Faq() {
   return (
     <div className="@container">
       <div className="@2xl:w-2/3 @2xl:mx-auto">
-        <h2
-          className="text-3xl font-bold tracking-tighter text-center mb-8"
-          id="assistant"
-        >
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
           FAQ
         </h2>
         <div className="space-y-16">
