@@ -29,17 +29,15 @@ export function AreaFaq() {
       </h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Gebiet 1</AccordionTrigger>
+          <AccordionTrigger>
+            Welche Koordinatenreferenzsysteme werden bei der Verwendung einer
+            Datei unterstützt?
+          </AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Es wird ausschließlich das Koordinatenreferenzsystem EPSG:4326
+            (siehe GeoJSON Spezifikation) unterstützt.
+            <br />
+            Bitte konvertiere deine .geojson-Datei gegebenenfalls entsprechend.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
