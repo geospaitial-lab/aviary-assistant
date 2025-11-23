@@ -32,31 +32,27 @@ export function PostprocessingFaq() {
       </h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Nachverarbeitung 1</AccordionTrigger>
+          <AccordionTrigger>
+            Was bedeuten die Auswahlmöglichkeiten beim Sieben und Füllen?
+          </AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Der Schwellenwert für das Sieben und Füllen ist abhängig von der
+            Bodenauflösung der Daten:
+            <ul className="my-4 ml-6 list-disc [&>li]:mt-2">
+              <li>schwach: TODO m²</li>
+              <li>moderat: TODO m²</li>
+              <li>stark: TODO m²</li>
+            </ul>
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Nachverarbeitung 2</AccordionTrigger>
+          <AccordionTrigger>
+            Wie funktioniert das Vereinfachen?
+          </AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Die Polygone der Ausgabe werden mit dem
+            Visvalingam-Whyatt-Algorithmus vereinfacht. Dabei werden die
+            Stützpunkte entfernt, die die Form nur minimal beeinflussen.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
