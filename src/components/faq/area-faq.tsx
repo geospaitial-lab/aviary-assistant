@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import { Link } from "@/components/link"
 import {
   Accordion,
   AccordionContent,
@@ -29,6 +30,23 @@ export function AreaFaq() {
       </h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
+          <AccordionTrigger>Wie groß kann ein Gebiet sein?</AccordionTrigger>
+          <AccordionContent>
+            Große Gebiete ({`>`} 1000 km²) funktionieren ebenso wie kleine – die
+            Laufzeit verlängert sich entsprechend.
+            <br />
+            Falls du mehrere Maschinen hast, kannst du das Gebiet in Chunks
+            zerlegen (siehe{" "}
+            <Link
+              href="https://geospaitial-lab.github.io/aviary/api_reference/core/grid/#aviary.GridConfig"
+              showArrow={true}
+            >
+              GridConfig
+            </Link>
+            ) und parallel ausführen.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2">
           <AccordionTrigger>
             Welche Koordinatenreferenzsysteme werden bei der Verwendung einer
             Datei unterstützt?
