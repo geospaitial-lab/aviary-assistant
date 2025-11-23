@@ -43,7 +43,7 @@ export function AreaFaq() {
             >
               GridConfig
             </Link>
-            ) und parallel ausführen.
+            ) und die Pipelines parallel starten.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
