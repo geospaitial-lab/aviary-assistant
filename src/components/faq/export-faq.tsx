@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import { Link } from "@/components/link"
 import {
   Accordion,
   AccordionContent,
@@ -29,31 +30,21 @@ export function ExportFaq() {
       </h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Export 1</AccordionTrigger>
+          <AccordionTrigger>Wo kann ich den Pfad nachtragen?</AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
-          </AccordionContent>
-        </AccordionItem>
-        <AccordionItem value="item-2">
-          <AccordionTrigger>Export 2</AccordionTrigger>
-          <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Du kannst den Pfad später direkt in die Konfigurationsdatei
+            eintragen oder{" "}
+            <code className="font-mono text-sm font-bold">--set</code> beim
+            Starten der Pipeline nutzen (siehe{" "}
+            <Link
+              href="https://geospaitial-lab.github.io/aviary/cli_reference/aviary_pipeline/pipeline_run"
+              showArrow={true}
+            >
+              <code className="font-mono text-sm font-bold">pipeline run</code>
+            </Link>
+            ).
+            <br />
+            Am Ende des Assistant wird das genau beschrieben.
           </AccordionContent>
         </AccordionItem>
       </Accordion>
