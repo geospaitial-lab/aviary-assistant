@@ -41,7 +41,7 @@ export function AreaFaq() {
               href="https://geospaitial-lab.github.io/aviary/api_reference/core/grid/#aviary.GridConfig"
               showArrow={true}
             >
-              GridConfig
+              <code className="font-mono text-sm font-bold">GridConfig</code>
             </Link>
             ) und die Pipelines parallel starten.
           </AccordionContent>
