@@ -107,17 +107,17 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         type="button"
                         variant="outline"
                         className={cn(
-                          "p-4 h-auto text-left flex flex-col items-start",
+                          "p-4 h-auto text-left flex flex-col items-start justify-start",
                           {
                             "border-primary dark:border-primary": field.value,
                           },
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="model-1 auswählen"
+                        aria-label="sursentia-landcover auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">model-1</h3>
+                          <h3 className="text-base">sursentia-landcover</h3>
                           {field.value && (
                             <>
                               <Check
@@ -125,16 +125,14 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                model-1 ausgewählt
+                                sursentia-landcover ausgewählt
                               </span>
                             </>
                           )}
                         </div>
                         <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
+                          Erkennt Gebäude, versiegelte Flächen, Vegetation und
+                          Gewässer.
                         </p>
                         <Link
                           showArrow={true}
@@ -159,17 +157,17 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         type="button"
                         variant="outline"
                         className={cn(
-                          "p-4 h-auto text-left flex flex-col items-start",
+                          "p-4 h-auto text-left flex flex-col items-start justify-start",
                           {
                             "border-primary dark:border-primary": field.value,
                           },
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="model-2 auswählen"
+                        aria-label="sursentia-solar auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">model-2</h3>
+                          <h3 className="text-base">sursentia-solar</h3>
                           {field.value && (
                             <>
                               <Check
@@ -177,16 +175,13 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                model-2 ausgewählt
+                                sursentia-solar ausgewählt
                               </span>
                             </>
                           )}
                         </div>
                         <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
+                          Erkennt Solaranlagen.
                         </p>
                         <Link
                           showArrow={true}
