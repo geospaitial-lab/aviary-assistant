@@ -16,6 +16,8 @@
  */
 import proj4 from "proj4"
 
+import { type AggregationSource } from "@/components/assistant/aggregation/store"
+import { useAggregationStore } from "@/components/assistant/aggregation/store"
 import {
   type BoundingBoxFormSchema,
   getProjectionString,
@@ -36,6 +38,8 @@ import { type ExportFormSchema } from "@/components/assistant/export/schema"
 import { useExportStore } from "@/components/assistant/export/store"
 import { type ModelFormSchema } from "@/components/assistant/model/schema"
 import { useModelStore } from "@/components/assistant/model/store"
+import { type PostprocessingFormSchema } from "@/components/assistant/postprocessing/schema"
+import { usePostprocessingStore } from "@/components/assistant/postprocessing/store"
 
 function indent(level: number, text: string): string {
   return "  ".repeat(level) + text
@@ -58,10 +62,16 @@ interface Store {
     }
   }
   data: {
-    dataSources: DataSource[]
     global: {
       formValues: GlobalFormSchema
     }
+    dataSources: DataSource[]
+  }
+  postprocessing: {
+    formValues: PostprocessingFormSchema
+  }
+  aggregation: {
+    aggregationSources: AggregationSource[]
   }
   export: {
     formValues: ExportFormSchema
@@ -86,10 +96,16 @@ export function getStore(): Store {
       },
     },
     data: {
-      dataSources: useDataStore.getState().dataSources,
       global: {
         formValues: useGlobalStore.getState().formValues,
       },
+      dataSources: useDataStore.getState().dataSources,
+    },
+    postprocessing: {
+      formValues: usePostprocessingStore.getState().formValues,
+    },
+    aggregation: {
+      aggregationSources: useAggregationStore.getState().aggregationSources,
     },
     export: {
       formValues: useExportStore.getState().formValues,
