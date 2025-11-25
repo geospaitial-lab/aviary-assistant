@@ -199,7 +199,7 @@ export function NameForm() {
             den Grenzen von{" "}
             <Link
               href="https://www.openstreetmap.org"
-              showUnderline={true}
+              showArrow={true}
               openInNewTab={true}
             >
               OpenStreetMap

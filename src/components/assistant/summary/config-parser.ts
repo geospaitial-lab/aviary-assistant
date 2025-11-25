@@ -36,11 +36,6 @@ import { type ExportFormSchema } from "@/components/assistant/export/schema"
 import { useExportStore } from "@/components/assistant/export/store"
 import { type ModelFormSchema } from "@/components/assistant/model/schema"
 import { useModelStore } from "@/components/assistant/model/store"
-import { type CpuFormSchema } from "@/components/assistant/resources/cpu/schema"
-import { useCpuStore } from "@/components/assistant/resources/cpu/store"
-import { type GpuFormSchema } from "@/components/assistant/resources/gpu/schema"
-import { useGpuStore } from "@/components/assistant/resources/gpu/store"
-import { useResourcesStore } from "@/components/assistant/resources/store"
 
 function indent(level: number, text: string): string {
   return "  ".repeat(level) + text
@@ -66,15 +61,6 @@ interface Store {
     dataSources: DataSource[]
     global: {
       formValues: GlobalFormSchema
-    }
-  }
-  resources: {
-    activeTab: string
-    cpu: {
-      formValues: CpuFormSchema
-    }
-    gpu: {
-      formValues: GpuFormSchema
     }
   }
   export: {
@@ -103,15 +89,6 @@ export function getStore(): Store {
       dataSources: useDataStore.getState().dataSources,
       global: {
         formValues: useGlobalStore.getState().formValues,
-      },
-    },
-    resources: {
-      activeTab: useResourcesStore.getState().activeTab,
-      cpu: {
-        formValues: useCpuStore.getState().formValues,
-      },
-      gpu: {
-        formValues: useGpuStore.getState().formValues,
       },
     },
     export: {
@@ -196,36 +173,6 @@ function mapVrtChannels(channels: string): string[] {
       return ["'dsm'"]
     default:
       return ["'r'", "'g'", "'b'"]
-  }
-}
-
-function mapCpuRamToBatchSize(cpuRam: number): number {
-  switch (cpuRam) {
-    case 0:
-      return 1
-    case 1:
-      return 2
-    case 2:
-      return 4
-    case 3:
-      return 8
-    default:
-      return 2
-  }
-}
-
-function mapGpuVramToBatchSize(gpuVram: number): number {
-  switch (gpuVram) {
-    case 0:
-      return 1
-    case 1:
-      return 2
-    case 2:
-      return 4
-    case 3:
-      return 8
-    default:
-      return 2
   }
 }
 
@@ -380,35 +327,14 @@ function parseTileFetcherConfig(store: Store): string[] {
   return tileFetcherConfigLines
 }
 
-function parseTileLoaderConfig(store: Store): string[] {
+function parseTileLoaderConfig(): string[] {
+  const BATCH_SIZE = 1
   const MAX_NUM_THREADS = null
-  const NUM_PREFETCHED_TILES = 1
-
-  const activeTab = store.resources.activeTab
+  const NUM_PREFETCHED_TILES = 0
 
   const tileLoaderConfigLines: string[] = []
 
-  switch (activeTab) {
-    case "cpu": {
-      const batchSize = mapCpuRamToBatchSize(store.resources.cpu.formValues.ram)
-
-      tileLoaderConfigLines.push(indent(5, `batch_size: ${batchSize}`))
-      break
-    }
-
-    case "gpu": {
-      const batchSize = mapGpuVramToBatchSize(
-        store.resources.gpu.formValues.vram,
-      )
-
-      tileLoaderConfigLines.push(indent(5, `batch_size: ${batchSize}`))
-      break
-    }
-
-    default:
-      break
-  }
-
+  tileLoaderConfigLines.push(indent(5, `batch_size: ${BATCH_SIZE}`))
   tileLoaderConfigLines.push(indent(5, `max_num_threads: ${MAX_NUM_THREADS}`))
   tileLoaderConfigLines.push(
     indent(5, `num_prefetched_tiles: ${NUM_PREFETCHED_TILES}`),
@@ -447,7 +373,7 @@ export function parseConfig(): string {
   configLines.push("")
   configLines.push(indent(4, "tile_loader_config:"))
 
-  const tileLoaderConfigLines = parseTileLoaderConfig(store)
+  const tileLoaderConfigLines = parseTileLoaderConfig()
   configLines.push(...tileLoaderConfigLines)
 
   configLines.push("")

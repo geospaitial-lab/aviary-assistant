@@ -20,6 +20,10 @@ import * as React from "react"
 
 import { ArrowLeft, ArrowRight } from "lucide-react"
 
+import {
+  Aggregation,
+  AggregationFormRef,
+} from "@/components/assistant/aggregation/aggregation"
 import { AlreadyOpenAlert } from "@/components/assistant/already-open-alert"
 import { Area, AreaFormRef } from "@/components/assistant/area/area"
 import { useFileStore } from "@/components/assistant/area/file/store"
@@ -29,8 +33,6 @@ import { Export } from "@/components/assistant/export/export"
 import { ModelFormRef } from "@/components/assistant/model/form"
 import { Model } from "@/components/assistant/model/model"
 import { Postprocessing } from "@/components/assistant/postprocessing/postprocessing"
-import { Aggregation, AggregationFormRef } from "@/components/assistant/aggregation/aggregation"
-import { Resources } from "@/components/assistant/resources/resources"
 import { ResumeAlert } from "@/components/assistant/resume-alert"
 import { useAssistantStore } from "@/components/assistant/store"
 import { Summary } from "@/components/assistant/summary/summary"
@@ -63,7 +65,6 @@ export function Assistant() {
       "model",
       "area",
       "data",
-      "resources",
       "postprocessing",
       "aggregation",
       "export",
@@ -101,12 +102,9 @@ export function Assistant() {
         if (dataRef.current) {
           const isValid = await dataRef.current.validate()
           if (isValid) {
-            setActiveStep("resources")
+            setActiveStep("postprocessing")
           }
         }
-        break
-      case "resources":
-        setActiveStep("postprocessing")
         break
       case "postprocessing":
         setActiveStep("aggregation")
@@ -135,11 +133,8 @@ export function Assistant() {
       case "data":
         setActiveStep("area")
         break
-      case "resources":
-        setActiveStep("data")
-        break
       case "postprocessing":
-        setActiveStep("resources")
+        setActiveStep("data")
         break
       case "aggregation":
         setActiveStep("postprocessing")
@@ -167,8 +162,6 @@ export function Assistant() {
         return <Area ref={areaRef} />
       case "data":
         return <Data ref={dataRef} />
-      case "resources":
-        return <Resources />
       case "postprocessing":
         return <Postprocessing />
       case "aggregation":
