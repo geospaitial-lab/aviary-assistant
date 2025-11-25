@@ -131,8 +131,8 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                           )}
                         </div>
                         <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
-                          Erkennt Gebäude, versiegelte Flächen, Vegetation und
-                          Gewässer.
+                          Erkennt Gebäude, Gründächer, versiegelte Flächen,
+                          nicht versiegelte Flächen und Gewässer.
                         </p>
                         <Link
                           showArrow={true}
