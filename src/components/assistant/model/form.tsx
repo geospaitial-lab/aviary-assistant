@@ -88,12 +88,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
           >
             <p className="text-pretty mb-4">
               Gib hier an, mit welchen Modellen du deine Daten auswerten
-              möchtest – welches Modell du für deinen Anwendungsfall brauchst,
-              findest du{" "}
-              <Link showUnderline={true} openInNewTab={true}>
-                hier
-              </Link>
-              .
+              möchtest.
             </p>
 
             <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
@@ -114,10 +109,10 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="sursentia-landcover auswählen"
+                        aria-label="Sursentia Landcover auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">sursentia-landcover</h3>
+                          <h3 className="text-base">Sursentia Landcover</h3>
                           {field.value && (
                             <>
                               <Check
@@ -125,7 +120,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                sursentia-landcover ausgewählt
+                                Sursentia Landcover ausgewählt
                               </span>
                             </>
                           )}
@@ -164,10 +159,10 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="sursentia-solar auswählen"
+                        aria-label="Sursentia Solar auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">sursentia-solar</h3>
+                          <h3 className="text-base">Sursentia Solar</h3>
                           {field.value && (
                             <>
                               <Check
@@ -175,7 +170,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                sursentia-solar ausgewählt
+                                Sursentia Solar ausgewählt
                               </span>
                             </>
                           )}
