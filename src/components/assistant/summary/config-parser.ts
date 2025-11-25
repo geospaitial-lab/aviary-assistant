@@ -386,6 +386,12 @@ export function parseConfig(): string {
   configLines.push("")
   configLines.push(indent(2, "- name: 'VectorPipeline'"))
   configLines.push(indent(3, "config:"))
+  configLines.push(indent(4, "vector_loader_config:"))
+  configLines.push(indent(5, "TODO"))
+
+  configLines.push("")
+  configLines.push(indent(4, "vector_processor_config:"))
+  configLines.push(indent(5, "TODO"))
 
   return configLines.join("\n")
 }
