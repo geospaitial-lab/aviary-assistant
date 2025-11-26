@@ -184,12 +184,73 @@ function mapVrtChannels(channels: string): string[] {
     case "nir":
       return ["'nir'"]
     case "rgbi":
-      return ["'r'", "'g'", "'b'", "'nir'"]
+      // return ["'r'", "'g'", "'b'", "'nir'"]
+      return ["'r'", "'g'", "'b'", "null"]
     case "dom":
       return ["'dsm'"]
     default:
       return ["'r'", "'g'", "'b'"]
   }
+}
+
+function parseGlobalConfig(store: Store): string[] {
+  const globalConfigLines: string[] = []
+
+  const dirPath = store.export.formValues?.dirPath?.trim() || ""
+
+  const hasEmptyVrtPath = store.data.dataSources.some((ds) => {
+    if (ds.type !== "vrt") return false
+    const formValues = ds.formValues as VrtFormSchema | null
+    const p = formValues?.path?.trim() || ""
+    return p.length === 0
+  })
+
+  const needsGeoJsonPath =
+    store.area.activeTab === "name" || store.area.activeTab === "file"
+
+  const emptyAggSources = (store.aggregation.aggregationSources || []).filter(
+    (as) => {
+      const path = (as.formValues?.path || "").trim()
+      return path.length === 0
+    },
+  )
+
+  const anchorsNeeded =
+    dirPath.length === 0 ||
+    hasEmptyVrtPath ||
+    needsGeoJsonPath ||
+    emptyAggSources.length > 0
+
+  if (anchorsNeeded) {
+    globalConfigLines.push(indent(0, "# Trage hier deine Pfade ein"))
+
+    if (dirPath.length === 0) {
+      globalConfigLines.push(indent(0, `output_dir_path: &output_dir_path ''`))
+    }
+
+    if (needsGeoJsonPath) {
+      globalConfigLines.push(indent(0, `geojson_path: &geojson_path ''`))
+    }
+
+    if (hasEmptyVrtPath) {
+      globalConfigLines.push(indent(0, `vrt_path: &vrt_path ''`))
+    }
+
+    if (emptyAggSources.length > 0) {
+      emptyAggSources.forEach((_, idx) => {
+        globalConfigLines.push(
+          indent(
+            0,
+            `aggregation_source_path_${idx + 1}: &aggregation_source_path_${idx + 1} ''`,
+          ),
+        )
+      })
+    }
+
+    globalConfigLines.push(indent(0, ""))
+  }
+
+  return globalConfigLines
 }
 
 function parseGridConfig(store: Store): string[] {
@@ -203,11 +264,17 @@ function parseGridConfig(store: Store): string[] {
   const gridConfigLines: string[] = []
 
   switch (activeTab) {
-    case "name":
+    case "name": {
+      const epsgCode = store.data.global.formValues.epsgCode
+
+      gridConfigLines.push(indent(5, "geojson_path: *geojson_path"))
+      gridConfigLines.push(indent(5, `epsg_code: ${epsgCode}`))
+      break
+    }
     case "file": {
       const epsgCode = store.data.global.formValues.epsgCode
 
-      gridConfigLines.push(indent(5, "geojson_path: 'area.geojson'"))
+      gridConfigLines.push(indent(5, "geojson_path: *geojson_path"))
       gridConfigLines.push(indent(5, `epsg_code: ${epsgCode}`))
       break
     }
@@ -279,7 +346,8 @@ function parseTileFetcherConfig(store: Store): string[] {
       const format = mapWmsFormatToMimeType(formValues.format)
       const style = formValues.style
 
-      tileFetcherConfigLines.push(indent(7, "- name: 'WMSFetcher'"))
+      tileFetcherConfigLines.push(indent(7, "- package: 'aviary'"))
+      tileFetcherConfigLines.push(indent(8, "name: 'WMSFetcher'"))
       tileFetcherConfigLines.push(indent(8, "config:"))
       tileFetcherConfigLines.push(indent(9, `url: '${url}'`))
       tileFetcherConfigLines.push(indent(9, `version: '${version}'`))
@@ -304,23 +372,18 @@ function parseTileFetcherConfig(store: Store): string[] {
       }
       tileFetcherConfigLines.push(indent(9, `buffer_size: ${bufferSize}`))
     } else if (dataSource.type === "vrt") {
+      const INTERPOLATION_MODE = "'bilinear'"
+
       const formValues = dataSource.formValues as VrtFormSchema
       const path = formValues.path
-      const channelsComment = dataSource.channels.toUpperCase()
-      const interpolation =
-        dataSource.channels === "dom" ? "'nearest'" : "'bilinear'"
 
-      tileFetcherConfigLines.push(indent(7, "- name: 'VRTFetcher'"))
+      tileFetcherConfigLines.push(indent(7, "- package: 'aviary'"))
+      tileFetcherConfigLines.push(indent(8, "name: 'VRTFetcher'"))
       tileFetcherConfigLines.push(indent(8, "config:"))
       if (path.trim().length > 0) {
         tileFetcherConfigLines.push(indent(9, `path: '${path}'`))
       } else {
-        tileFetcherConfigLines.push(
-          indent(
-            9,
-            `path: '' # Trage hier den Pfad zu der .vrt-Datei (${channelsComment}) ein`,
-          ),
-        )
+        tileFetcherConfigLines.push(indent(9, `path: *vrt_path`))
       }
       tileFetcherConfigLines.push(indent(9, "channel_keys:"))
       mapVrtChannels(dataSource.channels).forEach((channel) =>
@@ -334,7 +397,7 @@ function parseTileFetcherConfig(store: Store): string[] {
         ),
       )
       tileFetcherConfigLines.push(
-        indent(9, `interpolation_mode: ${interpolation}`),
+        indent(9, `interpolation_mode: ${INTERPOLATION_MODE}`),
       )
       tileFetcherConfigLines.push(indent(9, `buffer_size: ${bufferSize}`))
     }
@@ -359,15 +422,118 @@ function parseTileLoaderConfig(): string[] {
   return tileLoaderConfigLines
 }
 
+function parseTilesProcessorConfig(): string[] {
+  const R_MEAN = 0.392
+  const G_MEAN = 0.423
+  const B_MEAN = 0.373
+  const R_STD = 0.198
+  const G_STD = 0.173
+  const B_STD = 0.157
+
+  const tilesProcessorConfigLines: string[] = []
+
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+  tilesProcessorConfigLines.push(indent(9, "channel_name: 'r'"))
+  tilesProcessorConfigLines.push(indent(9, `mean_value: ${R_MEAN}`))
+  tilesProcessorConfigLines.push(indent(9, `std_value: ${R_STD}`))
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+  tilesProcessorConfigLines.push(indent(9, "channel_name: 'g'"))
+  tilesProcessorConfigLines.push(indent(9, `mean_value: ${G_MEAN}`))
+  tilesProcessorConfigLines.push(indent(9, `std_value: ${G_STD}`))
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+  tilesProcessorConfigLines.push(indent(9, "channel_name: 'b'"))
+  tilesProcessorConfigLines.push(indent(9, `mean_value: ${B_MEAN}`))
+  tilesProcessorConfigLines.push(indent(9, `std_value: ${B_STD}`))
+
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary-models'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+
+  const store = getStore()
+  const { model1, model2 } = store.model.formValues
+
+  tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
+  tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
+  tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
+  tilesProcessorConfigLines.push(
+    indent(
+      9,
+      `landcover_channel_name: ${model1 ? "'sursentia_landcover'" : "null"}`,
+    ),
+  )
+  tilesProcessorConfigLines.push(
+    indent(9, `solar_channel_name: ${model2 ? "'sursentia_solar'" : "null"}`),
+  )
+  tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
+  tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
+  tilesProcessorConfigLines.push(indent(9, "device: 'cpu'"))
+
+  const epsgCode = store.data.global.formValues.epsgCode
+  const dirPath = store.export.formValues.dirPath
+
+  const maybeAddVectorProcessors = (channelKey: string) => {
+    tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+    tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
+    tilesProcessorConfigLines.push(indent(8, "config:"))
+    tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
+    tilesProcessorConfigLines.push(indent(9, "field: 'class'"))
+    tilesProcessorConfigLines.push(indent(9, "background_value: null"))
+
+    tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+    tilesProcessorConfigLines.push(indent(8, "name: 'VectorExporter'"))
+    tilesProcessorConfigLines.push(indent(8, "config:"))
+    tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
+    tilesProcessorConfigLines.push(indent(9, `epsg_code: ${epsgCode}`))
+    if (dirPath && dirPath.trim().length > 0) {
+      tilesProcessorConfigLines.push(indent(9, `dir_path: '${dirPath}'`))
+    } else {
+      tilesProcessorConfigLines.push(indent(9, "dir_path: *output_dir_path"))
+    }
+    const gpkgName = `${channelKey}.gpkg`
+    tilesProcessorConfigLines.push(indent(9, `gpkg_name: '${gpkgName}'`))
+  }
+
+  if (model1) {
+    maybeAddVectorProcessors("sursentia_landcover")
+  }
+
+  if (model2) {
+    maybeAddVectorProcessors("sursentia_solar")
+  }
+
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'GridExporter'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+  if (dirPath && dirPath.trim().length > 0) {
+    tilesProcessorConfigLines.push(indent(9, `dir_path: '${dirPath}'`))
+  } else {
+    tilesProcessorConfigLines.push(indent(9, "dir_path: *output_dir_path"))
+  }
+  tilesProcessorConfigLines.push(indent(9, "json_name: 'processed_grid.json'"))
+
+  return tilesProcessorConfigLines
+}
+
 export function parseConfig(): string {
   const store = getStore()
 
   const configLines: string[] = []
 
+  const globalConfigLines = parseGlobalConfig(store)
+  configLines.push(...globalConfigLines)
+
+  configLines.push("package: 'aviary'")
   configLines.push("name: 'CompositePipeline'")
   configLines.push("config:")
   configLines.push(indent(1, "pipeline_configs:"))
-  configLines.push(indent(2, "- name: 'TilePipeline'"))
+  configLines.push(indent(2, "- package: 'aviary'"))
+  configLines.push(indent(3, "name: 'TilePipeline'"))
   configLines.push(indent(3, "config:"))
   configLines.push(indent(4, "show_progress: true"))
   configLines.push("")
@@ -379,6 +545,7 @@ export function parseConfig(): string {
 
   configLines.push("")
   configLines.push(indent(4, "tile_fetcher_config:"))
+  configLines.push(indent(5, "package: 'aviary'"))
   configLines.push(indent(5, "name: 'CompositeFetcher'"))
   configLines.push(indent(5, "config:"))
   configLines.push(indent(6, "tile_fetcher_configs:"))
@@ -394,13 +561,17 @@ export function parseConfig(): string {
 
   configLines.push("")
   configLines.push(indent(4, "tiles_processor_config:"))
+  configLines.push(indent(5, "package: 'aviary'"))
   configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
   configLines.push(indent(5, "config:"))
   configLines.push(indent(6, "tiles_processor_configs:"))
-  configLines.push(indent(7, "TODO"))
+
+  const tilesProcessorConfigLines = parseTilesProcessorConfig()
+  configLines.push(...tilesProcessorConfigLines)
 
   configLines.push("")
-  configLines.push(indent(2, "- name: 'VectorPipeline'"))
+  configLines.push(indent(2, "- package: 'aviary'"))
+  configLines.push(indent(3, "name: 'VectorPipeline'"))
   configLines.push(indent(3, "config:"))
   configLines.push(indent(4, "vector_loader_config:"))
   configLines.push(indent(5, "TODO"))
