@@ -123,8 +123,6 @@ function mapGroundSamplingDistanceToTileSize(
       return 128
     case "0.5":
       return 320
-    case "1.0":
-      return 640
     default:
       return 128
   }
@@ -140,8 +138,6 @@ function mapGroundSamplingDistanceToBufferSize(
       return 32
     case "0.5":
       return 80
-    case "1.0":
-      return 160
     default:
       return 32
   }

@@ -108,7 +108,6 @@ export function GlobalForm() {
                         <SelectItem value="0.1">0.1 m/px</SelectItem>
                         <SelectItem value="0.2">0.2 m/px</SelectItem>
                         <SelectItem value="0.5">0.5 m/px</SelectItem>
-                        <SelectItem value="1.0">1.0 m/px</SelectItem>
                       </SelectContent>
                     </Select>
                   </FormControl>

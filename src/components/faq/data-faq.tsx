@@ -34,8 +34,8 @@ export function DataFaq() {
             Werden andere Bodenauflösungen unterstützt?
           </AccordionTrigger>
           <AccordionContent>
-            Falls deine Datenquelle eine andere Bodenauflösung als 0.1, 0.2, 0.5
-            oder 1.0 m/px hat, werden die Daten automatisch auf die von dir
+            Falls deine Datenquelle eine andere Bodenauflösung als 0.1, 0.2 oder
+            0.5 m/px hat, werden die Daten automatisch auf die von dir
             eingestellte Bodenauflösung resampled. Achte dabei darauf, keine
             höhere Bodenauflösung als die deiner Datenquelle zu wählen.
           </AccordionContent>
