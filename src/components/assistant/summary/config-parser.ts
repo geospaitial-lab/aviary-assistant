@@ -453,7 +453,7 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, `mean_value: ${B_MEAN}`))
   tilesProcessorConfigLines.push(indent(9, `std_value: ${B_STD}`))
 
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary-models'"))
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
 
