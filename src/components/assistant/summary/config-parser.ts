@@ -224,17 +224,18 @@ function parseGlobalConfig(store: Store): string[] {
   if (anchorsNeeded) {
     globalConfigLines.push(indent(0, "# Trage hier deine Pfade ein"))
 
-    if (dirPath.length === 0) {
-      globalConfigLines.push(indent(0, `output_dir_path: &output_dir_path ''`))
-    }
-
     if (needsGeoJsonPath) {
-      globalConfigLines.push(indent(0, `geojson_path: &geojson_path ''`))
+      globalConfigLines.push(
+        indent(0, `geojson_path: &geojson_path '/pfad/zu/area.geojson'`),
+      )
     }
 
     if (hasEmptyVrtPath) {
       globalConfigLines.push(
-        indent(0, `data_source_path: &data_source_path ''`),
+        indent(
+          0,
+          `data_source_path: &data_source_path '/pfad/zu/datenquelle.vrt'`,
+        ),
       )
     }
 
@@ -243,10 +244,19 @@ function parseGlobalConfig(store: Store): string[] {
         globalConfigLines.push(
           indent(
             0,
-            `aggregation_source_path_${idx + 1}: &aggregation_source_path_${idx + 1} ''`,
+            `aggregation_source_path_${idx + 1}: &aggregation_source_path_${idx + 1} '/pfad/zu/aggregationsquelle_${idx + 1}.gpkg'`,
           ),
         )
       })
+    }
+
+    if (dirPath.length === 0) {
+      globalConfigLines.push(
+        indent(
+          0,
+          `output_dir_path: &output_dir_path '/pfad/zu/ausgabeverzeichnis'`,
+        ),
+      )
     }
 
     globalConfigLines.push(indent(0, ""))
