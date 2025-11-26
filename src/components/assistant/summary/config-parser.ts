@@ -118,13 +118,13 @@ function mapGroundSamplingDistanceToTileSize(
 ): number {
   switch (groundSamplingDistance) {
     case "0.1":
-      return 64
+      return 250
     case "0.2":
-      return 128
+      return 500
     case "0.5":
-      return 320
+      return 1250
     default:
-      return 128
+      return 500
   }
 }
 
@@ -133,13 +133,13 @@ function mapGroundSamplingDistanceToBufferSize(
 ): number {
   switch (groundSamplingDistance) {
     case "0.1":
-      return 16
+      return 52
     case "0.2":
-      return 32
+      return 104
     case "0.5":
-      return 80
+      return 260
     default:
-      return 32
+      return 105
   }
 }
 
