@@ -192,6 +192,10 @@ function mapVrtChannels(channels: string): string[] {
 function parseGlobalConfig(store: Store): string[] {
   const globalConfigLines: string[] = []
 
+  globalConfigLines.push(indent(0, "# Trage hier deine Hardware ein"))
+  globalConfigLines.push(indent(0, "device: &device 'cpu'"))
+  globalConfigLines.push(indent(0, ""))
+
   const dirPath = store.export.formValues?.dirPath?.trim() || ""
 
   const hasEmptyVrtPath = store.data.dataSources.some((ds) => {
@@ -229,7 +233,9 @@ function parseGlobalConfig(store: Store): string[] {
     }
 
     if (hasEmptyVrtPath) {
-      globalConfigLines.push(indent(0, `vrt_path: &vrt_path ''`))
+      globalConfigLines.push(
+        indent(0, `data_source_path: &data_source_path ''`),
+      )
     }
 
     if (emptyAggSources.length > 0) {
@@ -379,7 +385,7 @@ function parseTileFetcherConfig(store: Store): string[] {
       if (path.trim().length > 0) {
         tileFetcherConfigLines.push(indent(9, `path: '${path}'`))
       } else {
-        tileFetcherConfigLines.push(indent(9, `path: *vrt_path`))
+        tileFetcherConfigLines.push(indent(9, `path: *data_source_path`))
       }
       tileFetcherConfigLines.push(indent(9, "channel_keys:"))
       mapVrtChannels(dataSource.channels).forEach((channel) =>
@@ -468,18 +474,21 @@ function parseTilesProcessorConfig(): string[] {
   )
   tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
   tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
-  tilesProcessorConfigLines.push(indent(9, "device: 'cpu'"))
+  tilesProcessorConfigLines.push(indent(9, "device: *device"))
 
   const epsgCode = store.data.global.formValues.epsgCode
   const dirPath = store.export.formValues.dirPath
 
   const maybeAddVectorProcessors = (channelKey: string) => {
+    const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
     tilesProcessorConfigLines.push(indent(8, "config:"))
     tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
-    tilesProcessorConfigLines.push(indent(9, "field: 'class'"))
-    tilesProcessorConfigLines.push(indent(9, "background_value: null"))
+    tilesProcessorConfigLines.push(indent(9, "field: 'Klasse'"))
+    tilesProcessorConfigLines.push(
+      indent(9, `background_value: ${backgroundValue}`),
+    )
 
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorExporter'"))
