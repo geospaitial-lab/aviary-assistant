@@ -46,16 +46,7 @@ export function DataFaq() {
           </AccordionTrigger>
           <AccordionContent>
             Du kannst den Pfad später direkt in die Konfigurationsdatei
-            eintragen oder{" "}
-            <code className="font-mono text-sm font-bold">--set</code> beim
-            Starten der Pipeline nutzen (siehe{" "}
-            <Link
-              href="https://geospaitial-lab.github.io/aviary/cli_reference/aviary_pipeline/pipeline_run"
-              showArrow={true}
-            >
-              <code className="font-mono text-sm font-bold">pipeline run</code>
-            </Link>
-            ).
+            eintragen.
             <br />
             Am Ende des Assistant wird das genau beschrieben.
           </AccordionContent>
