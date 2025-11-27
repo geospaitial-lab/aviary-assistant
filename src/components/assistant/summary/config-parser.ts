@@ -329,11 +329,23 @@ function parseGridConfig(store: Store): string[] {
       break
   }
 
-  const dirPath = (store.export.formValues?.dirPath || '').trim()
+  const dirPath = (store.export.formValues?.dirPath || "").trim()
   if (dirPath.length > 0) {
-    gridConfigLines.push(indent(5, "ignore_json_path: !path_join ['" + dirPath + "', 'processed_coordinates.json']"))
+    gridConfigLines.push(
+      indent(
+        5,
+        "ignore_json_path: !path_join ['" +
+          dirPath +
+          "', 'processed_grid.json']",
+      ),
+    )
   } else {
-    gridConfigLines.push(indent(5, "ignore_json_path: !path_join [*output_dir_path, 'processed_coordinates.json']"))
+    gridConfigLines.push(
+      indent(
+        5,
+        "ignore_json_path: !path_join [*output_dir_path, 'processed_grid.json']",
+      ),
+    )
   }
   gridConfigLines.push(indent(5, "strict_ignore_json_path: false"))
   gridConfigLines.push(indent(5, `tile_size: ${tileSize}`))
@@ -492,6 +504,9 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
   tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
   tilesProcessorConfigLines.push(indent(9, "device: *device"))
+  tilesProcessorConfigLines.push(
+    indent(9, "cache_dir_path: !path_join [*output_dir_path, 'cache']"),
+  )
 
   const epsgCode = store.data.global.formValues.epsgCode
   const dirPath = store.export.formValues.dirPath
