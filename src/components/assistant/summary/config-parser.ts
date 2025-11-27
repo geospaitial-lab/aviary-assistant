@@ -329,6 +329,13 @@ function parseGridConfig(store: Store): string[] {
       break
   }
 
+  const dirPath = (store.export.formValues?.dirPath || '').trim()
+  if (dirPath.length > 0) {
+    gridConfigLines.push(indent(5, "ignore_json_path: !path_join ['" + dirPath + "', 'processed_coordinates.json']"))
+  } else {
+    gridConfigLines.push(indent(5, "ignore_json_path: !path_join [*output_dir_path, 'processed_coordinates.json']"))
+  }
+  gridConfigLines.push(indent(5, "strict_ignore_json_path: false"))
   gridConfigLines.push(indent(5, `tile_size: ${tileSize}`))
   gridConfigLines.push(indent(5, `snap: ${SNAP}`))
 
