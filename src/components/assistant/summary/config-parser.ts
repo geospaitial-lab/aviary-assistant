@@ -385,7 +385,7 @@ function parseTileFetcherConfig(store: Store): string[] {
       tileFetcherConfigLines.push(indent(9, `layer: '${layer}'`))
       tileFetcherConfigLines.push(indent(9, `epsg_code: ${epsgCode}`))
       tileFetcherConfigLines.push(indent(9, `response_format: '${format}'`))
-      tileFetcherConfigLines.push(indent(9, "channel_keys:"))
+      tileFetcherConfigLines.push(indent(9, "channel_names:"))
       mapWmsChannels(dataSource.channels).forEach((channel) =>
         tileFetcherConfigLines.push(indent(10, `- ${channel}`)),
       )
@@ -416,7 +416,7 @@ function parseTileFetcherConfig(store: Store): string[] {
       } else {
         tileFetcherConfigLines.push(indent(9, `path: *data_source_path`))
       }
-      tileFetcherConfigLines.push(indent(9, "channel_keys:"))
+      tileFetcherConfigLines.push(indent(9, "channel_names:"))
       mapVrtChannels(dataSource.channels).forEach((channel) =>
         tileFetcherConfigLines.push(indent(10, `- ${channel}`)),
       )
