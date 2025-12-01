@@ -14,10 +14,15 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { z } from "zod"
 
-export const gpuFormSchema = z.object({
-  vram: z.number().min(0).max(3),
-})
-
-export type GpuFormSchema = z.infer<typeof gpuFormSchema>
+export function WieEsFunktioniert() {
+  return (
+    <div className="@container">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+          Wie es funktioniert
+        </h2>
+      </div>
+    </div>
+  )
+}
