@@ -43,7 +43,7 @@ export function WieEsFunktioniert() {
             <p className="text-sm text-muted-foreground">
               Starte den Assistant und beantworte ein paar kurze Fragen. Am Ende
               bekommst du eine entsprechende Konfigurationsdatei, in der alle
-              nötigen Schritte deiner Pipeline beschrieben sind.
+              Schritte deiner Pipeline definiert sind.
             </p>
           </li>
           <li aria-hidden="true" className="flex justify-center">
