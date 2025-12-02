@@ -663,16 +663,10 @@ function parseVectorLoaderConfig(
   sources.forEach((src) => {
     const name = src.formValues?.name?.trim() || ""
     const path = src.formValues?.path?.trim() || ""
-    if (name.length === 0 && path.length === 0) return
+    if (name.length === 0) return
 
     const stripGpkg = (s: string) => s.replace(/\.gpkg$/i, "")
-    let layerName: string
-    if (path.length > 0) {
-      const base = path.split(/[/\\\\]/).pop() || name
-      layerName = stripGpkg(base)
-    } else {
-      layerName = stripGpkg(name)
-    }
+    const layerName = stripGpkg(name)
 
     if (path.length > 0) {
       pushGpkgLoader(`path: '${path}'`, layerName)
@@ -707,16 +701,9 @@ function parseVectorProcessorConfig(
   const sources = (store.aggregation.aggregationSources || [])
     .map((src) => {
       const name = src.formValues?.name?.trim() || ""
-      const path = src.formValues?.path?.trim() || ""
-      if (name.length === 0 && path.length === 0) return null
+      if (name.length === 0) return null
       const stripGpkg = (s: string) => s.replace(/\.gpkg$/i, "")
-      let layerName: string
-      if (path.length > 0) {
-        const base = path.split(/[/\\\\]/).pop() || name
-        layerName = stripGpkg(base)
-      } else {
-        layerName = stripGpkg(name)
-      }
+      const layerName = stripGpkg(name)
       return { layerName }
     })
     .filter((v): v is { layerName: string } => v !== null)

@@ -31,6 +31,14 @@ export function OutputDirectoryTree() {
     (state) => state.aggregationSources,
   )
 
+  const hasAggregations = React.useMemo(() => {
+    const sources = aggregationSources || []
+    return sources.some((src) => {
+      const name = src.formValues?.name?.trim() || ""
+      return name.length > 0
+    })
+  }, [aggregationSources])
+
   const directoryItems = React.useMemo<DirectoryNode[]>(() => {
     const children: DirectoryNode[] = []
 
@@ -55,12 +63,7 @@ export function OutputDirectoryTree() {
     const aggLayers = (aggregationSources || [])
       .map((src) => {
         const name = src.formValues?.name?.trim() || ""
-        const path = src.formValues?.path?.trim() || ""
-        if (name.length === 0 && path.length === 0) return null
-        if (path.length > 0) {
-          const base = path.split(/[\/\\]/).pop() || name
-          return stripGpkg(base)
-        }
+        if (name.length === 0) return null
         return stripGpkg(name)
       })
       .filter((v): v is string => !!v && v.length > 0)
@@ -96,8 +99,8 @@ export function OutputDirectoryTree() {
   return (
     <div>
       <p className="text-pretty my-8">
-        Am Ende findest du die Ergebnisse unserer KI und die aggregierten
-        Flächen in deinem Ausgabeverzeichnis.
+        Am Ende findest du die Ergebnisse unserer KI
+        {hasAggregations ? " und die aggregierten Flächen" : ""} in deinem Ausgabeverzeichnis.
       </p>
 
       <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input p-4">
