@@ -17,6 +17,8 @@ The Assistant is a web app that helps users configure their [aviary] pipeline.
 
   [aviary]: https://github.com/geospaitial-lab/aviary
 
+---
+
 ## Local Development
 
 Install the dependencies:
