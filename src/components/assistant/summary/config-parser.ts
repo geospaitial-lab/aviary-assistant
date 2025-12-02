@@ -551,12 +551,14 @@ function parseVectorLoaderConfig(store: Store): string[] {
 
   const { model1, model2 } = store.model.formValues
   const dirPath = (store.export.formValues?.dirPath || "").trim()
+  const epsgCode = store.data.global.formValues.epsgCode
 
   const pushGpkgLoader = (pathLine: string, layerName: string) => {
     lines.push(indent(7, "- package: 'aviary'"))
     lines.push(indent(8, "name: 'GPKGLoader'"))
     lines.push(indent(8, "config:"))
     lines.push(indent(9, pathLine))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
     lines.push(indent(9, `layer_name: '${layerName}'`))
   }
 
