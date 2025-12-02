@@ -26,8 +26,9 @@ export const gpkgFormSchema = z.object({
     .refine(
       (name) => {
         return (
-          name.trim().toLowerCase() !== "sursentia_landcover" &&
-          name.trim().toLowerCase() !== "sursentia_solar"
+          name.trim().toLowerCase() !== "area.geojson" &&
+          name.trim().toLowerCase() !== "sursentia_landcover.gpkg" &&
+          name.trim().toLowerCase() !== "sursentia_solar.gpkg"
         )
       },
       { message: ERROR_NAME },
