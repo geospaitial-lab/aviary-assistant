@@ -25,6 +25,7 @@ import { useNameStore } from "@/components/assistant/area/name/store"
 import { useAreaStore } from "@/components/assistant/area/store"
 import { parseConfig } from "@/components/assistant/summary/config-parser"
 import { NewConfigButton } from "@/components/assistant/summary/new-config-button"
+import { OutputDirectoryTree } from "@/components/assistant/summary/output-directory-tree"
 import { CodeBlock } from "@/components/code-block"
 import { Button } from "@/components/ui/button"
 
@@ -119,7 +120,7 @@ export function Summary() {
         <SummaryHeadings />
 
         <div className="p-4 border-2 rounded-lg">
-          <p className="text-pretty mb-4">
+          <p className="text-pretty mb-8">
             Hier ist deine Konfiguration – sie definiert alle Schritte der
             Pipeline und kann direkt mit aviary verwendet werden.
           </p>
@@ -131,8 +132,8 @@ export function Summary() {
             language="yaml"
           />
 
-          <p className="text-pretty my-4">
-            Lade dir die Konfiguration
+          <p className="text-pretty my-8">
+            Lade zuerst die Konfigurationsdatei
             {activeTab === "name" || activeTab === "file"
               ? " und das Gebiet"
               : ""}{" "}
@@ -151,7 +152,7 @@ export function Summary() {
             )}
           </div>
 
-          <p className="text-pretty my-4">
+          <p className="text-pretty my-8">
             Starte die Pipeline mit folgendem Befehl.
           </p>
 
@@ -165,7 +166,9 @@ export function Summary() {
             language="cli"
           />
 
-          <div className="mt-4 flex justify-center">
+          <OutputDirectoryTree />
+
+          <div className="flex justify-center mt-16">
             <NewConfigButton />
           </div>
         </div>
