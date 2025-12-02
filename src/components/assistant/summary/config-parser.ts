@@ -784,13 +784,13 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "mask_layer_name: 'area'"))
 
     lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
+    lines.push(indent(8, "name: 'SieveProcessor'"))
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, `threshold: ${threshold}`))
 
     lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
+    lines.push(indent(8, "name: 'FillProcessor'"))
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, `threshold: ${threshold}`))
@@ -819,13 +819,13 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "mask_layer_name: 'area'"))
 
     lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
+    lines.push(indent(8, "name: 'SieveProcessor'"))
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_solar'"))
     lines.push(indent(9, `threshold: ${threshold}`))
 
     lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
+    lines.push(indent(8, "name: 'FillProcessor'"))
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_solar'"))
     lines.push(indent(9, `threshold: ${threshold}`))
