@@ -456,33 +456,14 @@ function parseTileLoaderConfig(): string[] {
 }
 
 function parseTilesProcessorConfig(): string[] {
-  const R_MEAN = 0.392
-  const G_MEAN = 0.423
-  const B_MEAN = 0.373
-  const R_STD = 0.198
-  const G_STD = 0.173
-  const B_STD = 0.157
-
   const tilesProcessorConfigLines: string[] = []
 
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
-  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'SursentiaPreprocessor'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
-  tilesProcessorConfigLines.push(indent(9, "channel_name: 'r'"))
-  tilesProcessorConfigLines.push(indent(9, `mean_value: ${R_MEAN}`))
-  tilesProcessorConfigLines.push(indent(9, `std_value: ${R_STD}`))
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
-  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
-  tilesProcessorConfigLines.push(indent(8, "config:"))
-  tilesProcessorConfigLines.push(indent(9, "channel_name: 'g'"))
-  tilesProcessorConfigLines.push(indent(9, `mean_value: ${G_MEAN}`))
-  tilesProcessorConfigLines.push(indent(9, `std_value: ${G_STD}`))
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
-  tilesProcessorConfigLines.push(indent(8, "name: 'StandardizeProcessor'"))
-  tilesProcessorConfigLines.push(indent(8, "config:"))
-  tilesProcessorConfigLines.push(indent(9, "channel_name: 'b'"))
-  tilesProcessorConfigLines.push(indent(9, `mean_value: ${B_MEAN}`))
-  tilesProcessorConfigLines.push(indent(9, `std_value: ${B_STD}`))
+  tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
+  tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
+  tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
