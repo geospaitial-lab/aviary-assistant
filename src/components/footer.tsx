@@ -51,7 +51,9 @@ export function Footer() {
                 <h3 className="font-medium text-muted-foreground">Hilfe</h3>
                 <ul className="flex flex-col gap-1">
                   <li>
-                    <Link className="text-sm">Anleitungen</Link>
+                    <Link href="/anleitungen" className="text-sm">
+                      Anleitungen
+                    </Link>
                   </li>
                   <li>
                     <Link href="/faq" className="text-sm">
