@@ -510,13 +510,16 @@ function parseTilesProcessorConfig(): string[] {
     tilesProcessorConfigLines.push(indent(8, "config:"))
     tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
     tilesProcessorConfigLines.push(indent(9, `epsg_code: ${epsgCode}`))
-    if (dirPath && dirPath.trim().length > 0) {
-      tilesProcessorConfigLines.push(indent(9, `dir_path: '${dirPath}'`))
-    } else {
-      tilesProcessorConfigLines.push(indent(9, "dir_path: *output_dir_path"))
-    }
     const gpkgName = `${channelKey}.gpkg`
-    tilesProcessorConfigLines.push(indent(9, `gpkg_name: '${gpkgName}'`))
+    if (dirPath && dirPath.trim().length > 0) {
+      tilesProcessorConfigLines.push(
+        indent(9, "path: !path_join ['" + dirPath + "', '" + gpkgName + "']"),
+      )
+    } else {
+      tilesProcessorConfigLines.push(
+        indent(9, "path: !path_join [*output_dir_path, '" + gpkgName + "']"),
+      )
+    }
   }
 
   if (model1) {
@@ -531,11 +534,14 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(8, "name: 'GridExporter'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
   if (dirPath && dirPath.trim().length > 0) {
-    tilesProcessorConfigLines.push(indent(9, `dir_path: '${dirPath}'`))
+    tilesProcessorConfigLines.push(
+      indent(9, "path: !path_join ['" + dirPath + "', 'processed_grid.json']"),
+    )
   } else {
-    tilesProcessorConfigLines.push(indent(9, "dir_path: *output_dir_path"))
+    tilesProcessorConfigLines.push(
+      indent(9, "path: !path_join [*output_dir_path, 'processed_grid.json']"),
+    )
   }
-  tilesProcessorConfigLines.push(indent(9, "json_name: 'processed_grid.json'"))
 
   return tilesProcessorConfigLines
 }
