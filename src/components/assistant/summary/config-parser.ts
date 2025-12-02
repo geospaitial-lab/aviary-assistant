@@ -686,6 +686,9 @@ function parseVectorProcessorConfig(store: Store): string[] {
   const simplify = store.postprocessing.formValues.simplify
   const simplifyThreshold = mapSimplifyThreshold(gsd)
 
+  const epsgCode = store.data.global.formValues.epsgCode
+  const dirPath = (store.export.formValues?.dirPath || "").trim()
+
   if (model1) {
     lines.push(indent(7, "- package: 'aviary'"))
     lines.push(indent(8, "name: 'ClipProcessor'"))
@@ -711,6 +714,28 @@ function parseVectorProcessorConfig(store: Store): string[] {
       lines.push(indent(8, "config:"))
       lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
+    }
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'VectorExporter'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
+    const landcoverName = "sursentia_landcover_postprocessed.gpkg"
+    if (dirPath.length > 0) {
+      lines.push(
+        indent(
+          9,
+          "path: !path_join ['" + dirPath + "', '" + landcoverName + "']",
+        ),
+      )
+    } else {
+      lines.push(
+        indent(
+          9,
+          "path: !path_join [*output_dir_path, '" + landcoverName + "']",
+        ),
+      )
     }
   }
 
@@ -739,6 +764,22 @@ function parseVectorProcessorConfig(store: Store): string[] {
       lines.push(indent(8, "config:"))
       lines.push(indent(9, "layer_name: 'sursentia_solar'"))
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
+    }
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'VectorExporter'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
+    const solarName = "sursentia_solar_postprocessed.gpkg"
+    if (dirPath.length > 0) {
+      lines.push(
+        indent(9, "path: !path_join ['" + dirPath + "', '" + solarName + "']"),
+      )
+    } else {
+      lines.push(
+        indent(9, "path: !path_join [*output_dir_path, '" + solarName + "']"),
+      )
     }
   }
 
