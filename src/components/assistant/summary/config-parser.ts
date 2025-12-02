@@ -192,7 +192,9 @@ function mapVrtChannels(channels: string): string[] {
 function parseGlobalConfig(store: Store): string[] {
   const globalConfigLines: string[] = []
 
-  globalConfigLines.push(indent(0, "# Trage hier deine Hardware ein"))
+  globalConfigLines.push(
+    indent(0, "# Trage hier deine Hardware ein ('cpu' oder 'gpu')"),
+  )
   globalConfigLines.push(indent(0, "device: &device 'cpu'"))
   globalConfigLines.push(indent(0, ""))
 
@@ -557,6 +559,75 @@ function parseTilesProcessorConfig(): string[] {
   return tilesProcessorConfigLines
 }
 
+function parseVectorLoaderConfig(store: Store): string[] {
+  const lines: string[] = []
+
+  const { model1, model2 } = store.model.formValues
+  const dirPath = (store.export.formValues?.dirPath || "").trim()
+
+  const pushGpkgLoader = (pathLine: string, layerName: string) => {
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'GPKGLoader'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, pathLine))
+    lines.push(indent(9, `layer_name: '${layerName}'`))
+  }
+
+  if (dirPath.length > 0) {
+    if (model1) {
+      pushGpkgLoader(
+        "path: !path_join ['" + dirPath + "', 'sursentia_landcover.gpkg']",
+        "sursentia_landcover",
+      )
+    }
+    if (model2) {
+      pushGpkgLoader(
+        "path: !path_join ['" + dirPath + "', 'sursentia_solar.gpkg']",
+        "sursentia_solar",
+      )
+    }
+  } else {
+    if (model1) {
+      pushGpkgLoader(
+        "path: !path_join [*output_dir_path, 'sursentia_landcover.gpkg']",
+        "sursentia_landcover",
+      )
+    }
+    if (model2) {
+      pushGpkgLoader(
+        "path: !path_join [*output_dir_path, 'sursentia_solar.gpkg']",
+        "sursentia_solar",
+      )
+    }
+  }
+
+  const sources = store.aggregation.aggregationSources || []
+  let emptyIdx = 0
+  sources.forEach((src) => {
+    const name = src.formValues?.name?.trim() || ""
+    const path = src.formValues?.path?.trim() || ""
+    if (name.length === 0 && path.length === 0) return
+
+    const stripGpkg = (s: string) => s.replace(/\.gpkg$/i, "")
+    let layerName: string
+    if (path.length > 0) {
+      const base = path.split(/[/\\\\]/).pop() || name
+      layerName = stripGpkg(base)
+    } else {
+      layerName = stripGpkg(name)
+    }
+
+    if (path.length > 0) {
+      pushGpkgLoader(`path: '${path}'`, layerName)
+    } else {
+      emptyIdx += 1
+      pushGpkgLoader(`path: *aggregation_source_path_${emptyIdx}`, layerName)
+    }
+  })
+
+  return lines
+}
+
 export function parseConfig(): string {
   const store = getStore()
 
@@ -611,7 +682,13 @@ export function parseConfig(): string {
   configLines.push(indent(3, "name: 'VectorPipeline'"))
   configLines.push(indent(3, "config:"))
   configLines.push(indent(4, "vector_loader_config:"))
-  configLines.push(indent(5, "TODO"))
+  configLines.push(indent(5, "package: 'aviary'"))
+  configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+  configLines.push(indent(5, "config:"))
+  configLines.push(indent(6, "vector_loader_configs:"))
+
+  const vectorLoaderLines = parseVectorLoaderConfig(store)
+  configLines.push(...vectorLoaderLines)
 
   configLines.push("")
   configLines.push(indent(4, "vector_processor_config:"))
