@@ -560,12 +560,18 @@ function parseTilesProcessorConfig(): string[] {
   return tilesProcessorConfigLines
 }
 
-function parseVectorLoaderConfig(store: Store): string[] {
+function parseVectorLoaderConfig(
+  store: Store,
+  options?: { includeLandcover?: boolean; includeSolar?: boolean },
+): string[] {
   const lines: string[] = []
 
   const { model1, model2 } = store.model.formValues
   const dirPath = (store.export.formValues?.dirPath || "").trim()
   const epsgCode = store.data.global.formValues.epsgCode
+
+  const includeLandcover = options?.includeLandcover ?? true
+  const includeSolar = options?.includeSolar ?? true
 
   const activeTab = store.area.activeTab
   if (activeTab === "name" || activeTab === "file") {
@@ -621,27 +627,30 @@ function parseVectorLoaderConfig(store: Store): string[] {
     lines.push(indent(9, `layer_name: '${layerName}'`))
   }
 
+  const wantLandcover = includeLandcover && model1
+  const wantSolar = includeSolar && model2
+
   if (dirPath.length > 0) {
-    if (model1) {
+    if (wantLandcover) {
       pushGpkgLoader(
         "path: !path_join ['" + dirPath + "', 'sursentia_landcover.gpkg']",
         "sursentia_landcover",
       )
     }
-    if (model2) {
+    if (wantSolar) {
       pushGpkgLoader(
         "path: !path_join ['" + dirPath + "', 'sursentia_solar.gpkg']",
         "sursentia_solar",
       )
     }
   } else {
-    if (model1) {
+    if (wantLandcover) {
       pushGpkgLoader(
         "path: !path_join [*output_dir_path, 'sursentia_landcover.gpkg']",
         "sursentia_landcover",
       )
     }
-    if (model2) {
+    if (wantSolar) {
       pushGpkgLoader(
         "path: !path_join [*output_dir_path, 'sursentia_solar.gpkg']",
         "sursentia_solar",
@@ -676,7 +685,10 @@ function parseVectorLoaderConfig(store: Store): string[] {
   return lines
 }
 
-function parseVectorProcessorConfig(store: Store): string[] {
+function parseVectorProcessorConfig(
+  store: Store,
+  options?: { includeLandcover?: boolean; includeSolar?: boolean },
+): string[] {
   const lines: string[] = []
   const { model1, model2 } = store.model.formValues
 
@@ -689,7 +701,82 @@ function parseVectorProcessorConfig(store: Store): string[] {
   const epsgCode = store.data.global.formValues.epsgCode
   const dirPath = (store.export.formValues?.dirPath || "").trim()
 
-  if (model1) {
+  const includeLandcover = options?.includeLandcover ?? true
+  const includeSolar = options?.includeSolar ?? true
+
+  const sources = (store.aggregation.aggregationSources || [])
+    .map((src) => {
+      const name = src.formValues?.name?.trim() || ""
+      const path = src.formValues?.path?.trim() || ""
+      if (name.length === 0 && path.length === 0) return null
+      const stripGpkg = (s: string) => s.replace(/\.gpkg$/i, "")
+      let layerName: string
+      if (path.length > 0) {
+        const base = path.split(/[/\\\\]/).pop() || name
+        layerName = stripGpkg(base)
+      } else {
+        layerName = stripGpkg(name)
+      }
+      return { layerName }
+    })
+    .filter((v): v is { layerName: string } => v !== null)
+
+  const addPostprocessedExporter = (
+    layer: "sursentia_landcover" | "sursentia_solar",
+    filename: string,
+  ) => {
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'VectorExporter'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, `layer_name: '${layer}'`))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
+    if (dirPath.length > 0) {
+      lines.push(
+        indent(9, "path: !path_join ['" + dirPath + "', '" + filename + "']"),
+      )
+    } else {
+      lines.push(
+        indent(9, "path: !path_join [*output_dir_path, '" + filename + "']"),
+      )
+    }
+    if (sources.length > 0) {
+      lines.push(indent(9, `remove_layer: false`))
+    }
+  }
+
+  const addAggregationForEachSource = (
+    layer: "sursentia_landcover" | "sursentia_solar",
+  ) => {
+    sources.forEach(({ layerName: aggLayer }) => {
+      lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'AggregateProcessor'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, `layer_name: '${layer}'`))
+      lines.push(indent(9, `aggregation_layer_name: '${aggLayer}'`))
+      lines.push(indent(9, "field: 'Klasse'"))
+      if (layer === "sursentia_solar") {
+        lines.push(indent(9, `background_value: 0`))
+      }
+
+      lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'VectorExporter'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, `layer_name: '${aggLayer}'`))
+      lines.push(indent(9, `epsg_code: ${epsgCode}`))
+      const fname = `${layer}_aggregated_${aggLayer}.gpkg`
+      if (dirPath.length > 0) {
+        lines.push(
+          indent(9, "path: !path_join ['" + dirPath + "', '" + fname + "']"),
+        )
+      } else {
+        lines.push(
+          indent(9, "path: !path_join [*output_dir_path, '" + fname + "']"),
+        )
+      }
+    })
+  }
+
+  if (model1 && includeLandcover) {
     lines.push(indent(7, "- package: 'aviary'"))
     lines.push(indent(8, "name: 'ClipProcessor'"))
     lines.push(indent(8, "config:"))
@@ -716,30 +803,15 @@ function parseVectorProcessorConfig(store: Store): string[] {
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
     }
 
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'VectorExporter'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
-    lines.push(indent(9, `epsg_code: ${epsgCode}`))
     const landcoverName = "sursentia_landcover_postprocessed.gpkg"
-    if (dirPath.length > 0) {
-      lines.push(
-        indent(
-          9,
-          "path: !path_join ['" + dirPath + "', '" + landcoverName + "']",
-        ),
-      )
-    } else {
-      lines.push(
-        indent(
-          9,
-          "path: !path_join [*output_dir_path, '" + landcoverName + "']",
-        ),
-      )
+    addPostprocessedExporter("sursentia_landcover", landcoverName)
+
+    if (sources.length > 0) {
+      addAggregationForEachSource("sursentia_landcover")
     }
   }
 
-  if (model2) {
+  if (model2 && includeSolar) {
     lines.push(indent(7, "- package: 'aviary'"))
     lines.push(indent(8, "name: 'ClipProcessor'"))
     lines.push(indent(8, "config:"))
@@ -766,20 +838,11 @@ function parseVectorProcessorConfig(store: Store): string[] {
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
     }
 
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'VectorExporter'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
-    lines.push(indent(9, `epsg_code: ${epsgCode}`))
     const solarName = "sursentia_solar_postprocessed.gpkg"
-    if (dirPath.length > 0) {
-      lines.push(
-        indent(9, "path: !path_join ['" + dirPath + "', '" + solarName + "']"),
-      )
-    } else {
-      lines.push(
-        indent(9, "path: !path_join [*output_dir_path, '" + solarName + "']"),
-      )
+    addPostprocessedExporter("sursentia_solar", solarName)
+
+    if (sources.length > 0) {
+      addAggregationForEachSource("sursentia_solar")
     }
   }
 
@@ -835,28 +898,69 @@ export function parseConfig(): string {
   const tilesProcessorConfigLines = parseTilesProcessorConfig()
   configLines.push(...tilesProcessorConfigLines)
 
-  configLines.push("")
-  configLines.push(indent(2, "- package: 'aviary'"))
-  configLines.push(indent(3, "name: 'VectorPipeline'"))
-  configLines.push(indent(3, "config:"))
-  configLines.push(indent(4, "vector_loader_config:"))
-  configLines.push(indent(5, "package: 'aviary'"))
-  configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
-  configLines.push(indent(5, "config:"))
-  configLines.push(indent(6, "vector_loader_configs:"))
+  const { model1, model2 } = store.model.formValues
 
-  const vectorLoaderLines = parseVectorLoaderConfig(store)
-  configLines.push(...vectorLoaderLines)
+  if (model1) {
+    configLines.push("")
+    configLines.push(indent(2, "- package: 'aviary'"))
+    configLines.push(indent(3, "name: 'VectorPipeline'"))
+    configLines.push(indent(3, "config:"))
+    configLines.push(indent(4, "vector_loader_config:"))
+    configLines.push(indent(5, "package: 'aviary'"))
+    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "config:"))
+    configLines.push(indent(6, "vector_loader_configs:"))
 
-  configLines.push("")
-  configLines.push(indent(4, "vector_processor_config:"))
-  configLines.push(indent(5, "package: 'aviary'"))
-  configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
-  configLines.push(indent(5, "config:"))
-  configLines.push(indent(6, "vector_processor_configs:"))
+    const vectorLoaderLines1 = parseVectorLoaderConfig(store, {
+      includeLandcover: true,
+      includeSolar: false,
+    })
+    configLines.push(...vectorLoaderLines1)
 
-  const vectorProcessorLines = parseVectorProcessorConfig(store)
-  configLines.push(...vectorProcessorLines)
+    configLines.push("")
+    configLines.push(indent(4, "vector_processor_config:"))
+    configLines.push(indent(5, "package: 'aviary'"))
+    configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
+    configLines.push(indent(5, "config:"))
+    configLines.push(indent(6, "vector_processor_configs:"))
+
+    const vectorProcessorLines1 = parseVectorProcessorConfig(store, {
+      includeLandcover: true,
+      includeSolar: false,
+    })
+    configLines.push(...vectorProcessorLines1)
+  }
+
+  if (model2) {
+    configLines.push("")
+    configLines.push(indent(2, "- package: 'aviary'"))
+    configLines.push(indent(3, "name: 'VectorPipeline'"))
+    configLines.push(indent(3, "config:"))
+    configLines.push(indent(4, "vector_loader_config:"))
+    configLines.push(indent(5, "package: 'aviary'"))
+    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "config:"))
+    configLines.push(indent(6, "vector_loader_configs:"))
+
+    const vectorLoaderLines2 = parseVectorLoaderConfig(store, {
+      includeLandcover: false,
+      includeSolar: true,
+    })
+    configLines.push(...vectorLoaderLines2)
+
+    configLines.push("")
+    configLines.push(indent(4, "vector_processor_config:"))
+    configLines.push(indent(5, "package: 'aviary'"))
+    configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
+    configLines.push(indent(5, "config:"))
+    configLines.push(indent(6, "vector_processor_configs:"))
+
+    const vectorProcessorLines2 = parseVectorProcessorConfig(store, {
+      includeLandcover: false,
+      includeSolar: true,
+    })
+    configLines.push(...vectorProcessorLines2)
+  }
 
   return configLines.join("\n")
 }
