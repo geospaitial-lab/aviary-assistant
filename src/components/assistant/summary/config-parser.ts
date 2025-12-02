@@ -143,6 +143,20 @@ function mapGroundSamplingDistanceToBufferSize(
   }
 }
 
+function mapSieveFillStrengthToThreshold(
+  groundSamplingDistance: string,
+  strength: "schwach" | "moderat" | "stark",
+): number {
+  const gsd = parseFloat(groundSamplingDistance)
+  const factor = strength === "schwach" ? 5 : strength === "moderat" ? 10 : 20
+  return gsd * factor
+}
+
+function mapSimplifyThreshold(groundSamplingDistance: string): number {
+  const gsd = parseFloat(groundSamplingDistance)
+  return gsd * 5
+}
+
 function mapWmsFormatToMimeType(format: string | undefined): string {
   switch (format) {
     case "JPEG":
@@ -662,6 +676,75 @@ function parseVectorLoaderConfig(store: Store): string[] {
   return lines
 }
 
+function parseVectorProcessorConfig(store: Store): string[] {
+  const lines: string[] = []
+  const { model1, model2 } = store.model.formValues
+
+  const gsd = store.data.global.formValues.groundSamplingDistance
+  const strength = store.postprocessing.formValues.sieveFillThreshold
+  const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
+  const simplify = store.postprocessing.formValues.simplify
+  const simplifyThreshold = mapSimplifyThreshold(gsd)
+
+  if (model1) {
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'ClipProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
+    lines.push(indent(9, "mask_layer_name: 'area'"))
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'FillProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
+    lines.push(indent(9, `threshold: ${threshold}`))
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'SieveProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
+    lines.push(indent(9, `threshold: ${threshold}`))
+
+    if (simplify) {
+      lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'SimplifyProcessor'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
+      lines.push(indent(9, `threshold: ${simplifyThreshold}`))
+    }
+  }
+
+  if (model2) {
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'ClipProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, "mask_layer_name: 'area'"))
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'FillProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, `threshold: ${threshold}`))
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'SieveProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, `threshold: ${threshold}`))
+
+    if (simplify) {
+      lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'SimplifyProcessor'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, "layer_name: 'sursentia_solar'"))
+      lines.push(indent(9, `threshold: ${simplifyThreshold}`))
+    }
+  }
+
+  return lines
+}
+
 export function parseConfig(): string {
   const store = getStore()
 
@@ -726,7 +809,13 @@ export function parseConfig(): string {
 
   configLines.push("")
   configLines.push(indent(4, "vector_processor_config:"))
-  configLines.push(indent(5, "TODO"))
+  configLines.push(indent(5, "package: 'aviary'"))
+  configLines.push(indent(5, "name: 'SequentialCompositeProcessor'"))
+  configLines.push(indent(5, "config:"))
+  configLines.push(indent(6, "vector_processor_configs:"))
+
+  const vectorProcessorLines = parseVectorProcessorConfig(store)
+  configLines.push(...vectorProcessorLines)
 
   return configLines.join("\n")
 }
