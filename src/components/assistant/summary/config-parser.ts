@@ -553,6 +553,51 @@ function parseVectorLoaderConfig(store: Store): string[] {
   const dirPath = (store.export.formValues?.dirPath || "").trim()
   const epsgCode = store.data.global.formValues.epsgCode
 
+  const activeTab = store.area.activeTab
+  if (activeTab === "name" || activeTab === "file") {
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'GeoJSONLoader'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "path: *geojson_path"))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
+    lines.push(indent(9, "layer_name: 'area'"))
+  } else if (activeTab === "bounding-box") {
+    const xMin = store.area.boundingBox.formValues?.xMin as number
+    const yMin = store.area.boundingBox.formValues?.yMin as number
+    const xMax = store.area.boundingBox.formValues?.xMax as number
+    const yMax = store.area.boundingBox.formValues?.yMax as number
+    const sourceEpsgCode = store.area.boundingBox.formValues?.epsgCode as string
+    const targetEpsgCode = store.data.global.formValues.epsgCode
+
+    const fromProjection = getProjectionString(sourceEpsgCode)
+    const toProjection = getProjectionString(targetEpsgCode)
+
+    const needTransform = fromProjection !== toProjection
+
+    const [txMin, tyMin] = needTransform
+      ? proj4(fromProjection, toProjection, [xMin, yMin])
+      : [xMin, yMin]
+    const [txMax, tyMax] = needTransform
+      ? proj4(fromProjection, toProjection, [xMax, yMax])
+      : [xMax, yMax]
+
+    const ixMin = Math.floor(txMin)
+    const iyMin = Math.floor(tyMin)
+    const ixMax = Math.ceil(txMax)
+    const iyMax = Math.ceil(tyMax)
+
+    lines.push(indent(7, "- package: 'aviary'"))
+    lines.push(indent(8, "name: 'BoundingBoxLoader'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "bounding_box_coordinates:"))
+    lines.push(indent(10, `- ${ixMin}`))
+    lines.push(indent(10, `- ${iyMin}`))
+    lines.push(indent(10, `- ${ixMax}`))
+    lines.push(indent(10, `- ${iyMax}`))
+    lines.push(indent(9, `epsg_code: ${epsgCode}`))
+    lines.push(indent(9, "layer_name: 'area'"))
+  }
+
   const pushGpkgLoader = (pathLine: string, layerName: string) => {
     lines.push(indent(7, "- package: 'aviary'"))
     lines.push(indent(8, "name: 'GPKGLoader'"))
