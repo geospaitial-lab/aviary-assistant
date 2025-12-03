@@ -39,7 +39,10 @@ export function DirectoryTree({
 }: DirectoryTreeProps) {
   return (
     <ul
-      className={cn("list-none m-0 p-0 text-sm", className)}
+      className={cn(
+        "list-none m-0 p-0 text-sm inline-block min-w-fit whitespace-nowrap",
+        className,
+      )}
       role="tree"
       aria-label={ariaLabel}
     >

@@ -104,7 +104,7 @@ export function OutputDirectoryTree() {
         Ausgabeverzeichnis.
       </p>
 
-      <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input p-4">
+      <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input p-4 overflow-x-auto">
         <DirectoryTree
           items={directoryItems}
           ariaLabel="Ausgabe-Verzeichnisstruktur"
