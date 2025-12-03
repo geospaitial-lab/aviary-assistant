@@ -23,10 +23,10 @@ export const gpkgFormSchema = z.object({
   name: z
     .string()
     .min(1, ERROR_NAME)
+    .refine((name) => /\.gpkg$/i.test(name.trim()), { message: ERROR_NAME })
     .refine(
       (name) => {
         return (
-          name.trim().toLowerCase() !== "area.geojson" &&
           name.trim().toLowerCase() !== "sursentia_landcover.gpkg" &&
           name.trim().toLowerCase() !== "sursentia_solar.gpkg"
         )
