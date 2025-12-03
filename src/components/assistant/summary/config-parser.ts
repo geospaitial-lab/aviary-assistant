@@ -505,6 +505,10 @@ function parseTilesProcessorConfig(): string[] {
     indent(9, "cache_dir_path: !path_join [*output_dir_path, 'cache']"),
   )
 
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+
   const epsgCode = store.data.global.formValues.epsgCode
   const dirPath = store.export.formValues.dirPath
 
