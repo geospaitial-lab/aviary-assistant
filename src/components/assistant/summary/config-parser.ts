@@ -746,6 +746,12 @@ function parseVectorProcessorConfig(
   ) => {
     sources.forEach(({ layerName: aggLayer }) => {
       lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'ClipProcessor'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, `layer_name: '${aggLayer}'`))
+      lines.push(indent(9, "mask_layer_name: 'area'"))
+
+      lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'AggregateProcessor'"))
       lines.push(indent(8, "config:"))
       lines.push(indent(9, `layer_name: '${layer}'`))
