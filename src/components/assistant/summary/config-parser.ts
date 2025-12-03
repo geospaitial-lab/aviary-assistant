@@ -790,6 +790,13 @@ function parseVectorProcessorConfig(
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
     }
 
+    lines.push(indent(7, "- package: 'aviary_models'"))
+    lines.push(indent(8, "name: 'SursentiaMapFieldProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "field: 'Klasse'"))
+    lines.push(indent(9, "landcover_layer_name: 'sursentia_landcover'"))
+    lines.push(indent(9, "solar_layer_name: null"))
+
     const landcoverName = "sursentia_landcover_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_landcover", landcoverName)
 
@@ -824,6 +831,13 @@ function parseVectorProcessorConfig(
       lines.push(indent(9, "layer_name: 'sursentia_solar'"))
       lines.push(indent(9, `threshold: ${simplifyThreshold}`))
     }
+
+    lines.push(indent(7, "- package: 'aviary_models'"))
+    lines.push(indent(8, "name: 'SursentiaMapFieldProcessor'"))
+    lines.push(indent(8, "config:"))
+    lines.push(indent(9, "field: 'Klasse'"))
+    lines.push(indent(9, "landcover_layer_name: null"))
+    lines.push(indent(9, "solar_layer_name: 'sursentia_solar'"))
 
     const solarName = "sursentia_solar_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_solar", solarName)
