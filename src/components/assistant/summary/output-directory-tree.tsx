@@ -31,12 +31,9 @@ export function OutputDirectoryTree() {
     (state) => state.aggregationSources,
   )
 
-  const hasAggregations = React.useMemo(() => {
+  const hasAggregationSources = React.useMemo(() => {
     const sources = aggregationSources || []
-    return sources.some((src) => {
-      const name = src.formValues?.name?.trim() || ""
-      return name.length > 0
-    })
+    return sources.length > 0
   }, [aggregationSources])
 
   const directoryItems = React.useMemo<DirectoryNode[]>(() => {
@@ -60,23 +57,26 @@ export function OutputDirectoryTree() {
     }
 
     const stripGpkg = (s: string) => s.replace(/\.gpkg$/i, "")
-    const aggLayers = (aggregationSources || [])
-      .map((src) => {
-        const name = src.formValues?.name?.trim() || ""
+
+    const aggregationLayers = (aggregationSources || [])
+      .map((aggregationSource) => {
+        const name = aggregationSource.formValues?.name?.trim() || ""
         if (name.length === 0) return null
         return stripGpkg(name)
       })
       .filter((v): v is string => !!v && v.length > 0)
 
-    if (aggLayers.length > 0) {
+    if (aggregationLayers.length > 0) {
       if (model1) {
-        aggLayers.forEach((agg) => {
-          lcFiles.push(`sursentia_landcover_aggregated_${agg}.gpkg`)
+        aggregationLayers.forEach((aggregationLayer) => {
+          lcFiles.push(
+            `sursentia_landcover_aggregated_${aggregationLayer}.gpkg`,
+          )
         })
       }
       if (model2) {
-        aggLayers.forEach((agg) => {
-          solarFiles.push(`sursentia_solar_aggregated_${agg}.gpkg`)
+        aggregationLayers.forEach((aggregationLayer) => {
+          solarFiles.push(`sursentia_solar_aggregated_${aggregationLayer}.gpkg`)
         })
       }
     }
@@ -100,7 +100,8 @@ export function OutputDirectoryTree() {
     <div>
       <p className="text-pretty my-8">
         Am Ende findest du die Ergebnisse unserer KI
-        {hasAggregations ? " und die aggregierten Flächen" : ""} in deinem Ausgabeverzeichnis.
+        {hasAggregationSources ? " und die aggregierten Flächen" : ""} in deinem
+        Ausgabeverzeichnis.
       </p>
 
       <div className="rounded-md bg-background dark:bg-input/30 border dark:border-input p-4">
