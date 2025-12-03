@@ -745,9 +745,6 @@ function parseVectorProcessorConfig(
       lines.push(indent(9, `layer_name: '${layer}'`))
       lines.push(indent(9, `aggregation_layer_name: '${aggLayer}'`))
       lines.push(indent(9, "field: 'Klasse'"))
-      if (layer === "sursentia_solar") {
-        lines.push(indent(9, `background_value: 0`))
-      }
 
       lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'VectorExporter'"))
