@@ -45,7 +45,7 @@ function DataHeadings() {
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        Wähle die Datenquellen, die die Luftbilder enthalten
+        Wähle die Datenquelle, die die Luftbilder enthält
       </h2>
     </>
   )
@@ -154,10 +154,11 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
   )
 
   const shouldShowAddButton = React.useMemo(() => {
-    const hasRgbi = dataSources.some((ds) => ds.channels === "rgbi")
-    const hasDom = dataSources.some((ds) => ds.channels === "dom")
-
-    return dataSources.length < 3 && !(hasRgbi && hasDom)
+    // const hasRgbi = dataSources.some((ds) => ds.channels === "rgbi")
+    // const hasDom = dataSources.some((ds) => ds.channels === "dom")
+    //
+    // return dataSources.length < 3 && !(hasRgbi && hasDom)
+    return dataSources.length < 1
   }, [dataSources])
 
   if (!isHydrated) {
@@ -180,8 +181,7 @@ export const Data = React.forwardRef<DataFormRef>(function Data(_, ref) {
 
           <div className="mt-8">
             <p className="text-pretty mb-4">
-              Wähle bis zu drei Datenquellen mit verschiedenen Kanälen. Je mehr,
-              desto besser kann unsere KI die Luftbilder auswerten.
+              Wähle eine Datenquelle – die Modelle benötigen nur RGB-Kanäle.
             </p>
 
             <Label className="mb-4">Datenquellen</Label>

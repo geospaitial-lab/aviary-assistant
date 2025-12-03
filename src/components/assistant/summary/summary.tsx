@@ -18,19 +18,36 @@
  */
 import * as React from "react"
 
+import { FileCog, Terminal } from "lucide-react"
+
+import { useFileStore } from "@/components/assistant/area/file/store"
+import { useNameStore } from "@/components/assistant/area/name/store"
+import { useAreaStore } from "@/components/assistant/area/store"
 import { parseConfig } from "@/components/assistant/summary/config-parser"
 import { NewConfigButton } from "@/components/assistant/summary/new-config-button"
+import { OutputDirectoryTree } from "@/components/assistant/summary/output-directory-tree"
 import { CodeBlock } from "@/components/code-block"
+import { Button } from "@/components/ui/button"
+
+const RUN_COMMAND_LINUX_MACOS =
+  "aviary pipeline run \\\n  pfad/zu/config.yaml \\\n  --log-path pipeline.log"
+const RUN_COMMAND_WINDOWS =
+  "$params = @(\n" +
+  '  "pfad\\zu\\config.yaml",\n' +
+  '  "--log-path", "pipeline.log"\n' +
+  ")\n" +
+  "\n" +
+  "aviary pipeline run @params\n"
 
 function SummaryHeadings() {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tighter text-center text-balance mb-2">
-        Zusammenfassung
+        Du hast es geschafft!
       </h1>
 
       <h2 className="text-lg font-semibold text-muted-foreground text-center text-balance mb-8">
-        TODO
+        Lade die Konfiguration herunter und starte die Pipeline
       </h2>
     </>
   )
@@ -42,6 +59,46 @@ export function Summary() {
   const parsedConfig = React.useMemo(() => {
     return parseConfig()
   }, [])
+
+  const activeTab = useAreaStore((state) => state.activeTab)
+  const nameGeoJson = useNameStore((state) => state.geoJson)
+  const fileGeoJson = useFileStore((state) => state.geoJson)
+
+  const handleDownloadConfig = React.useCallback(() => {
+    const blob = new Blob([parsedConfig], { type: "text/yaml;charset=utf-8" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "config.yaml"
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }, [parsedConfig])
+
+  const handleDownloadGeoJson = React.useCallback(() => {
+    let geoJson = null as unknown as object | null
+
+    if (activeTab === "name") {
+      geoJson = nameGeoJson as unknown as object | null
+    } else if (activeTab === "file") {
+      geoJson = fileGeoJson as unknown as object | null
+    }
+
+    if (!geoJson) return
+
+    const blob = new Blob([JSON.stringify(geoJson, null, 2)], {
+      type: "application/geo+json;charset=utf-8",
+    })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = "area.geojson"
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    URL.revokeObjectURL(url)
+  }, [activeTab, nameGeoJson, fileGeoJson])
 
   React.useEffect(() => {
     setIsHydrated(true)
@@ -63,9 +120,55 @@ export function Summary() {
         <SummaryHeadings />
 
         <div className="p-4 border-2 rounded-lg">
-          <CodeBlock title="config.yaml" code={parsedConfig} language="yaml" />
+          <p className="text-pretty mb-8">
+            Hier ist deine Konfiguration – sie definiert alle Schritte der
+            Pipeline und kann direkt mit aviary verwendet werden.
+          </p>
 
-          <div className="mt-4 flex justify-center">
+          <CodeBlock
+            title="config.yaml"
+            titleIcon={<FileCog aria-hidden="true" />}
+            code={parsedConfig}
+            language="yaml"
+          />
+
+          <p className="text-pretty my-8">
+            Lade zuerst die Konfigurationsdatei
+            {activeTab === "name" || activeTab === "file"
+              ? " und das Gebiet"
+              : ""}{" "}
+            herunter.
+          </p>
+
+          <div className="flex flex-wrap gap-2 justify-center">
+            <Button onClick={handleDownloadConfig}>Download config.yaml</Button>
+            {(activeTab === "name" || activeTab === "file") && (
+              <Button
+                onClick={handleDownloadGeoJson}
+                disabled={activeTab === "name" ? !nameGeoJson : !fileGeoJson}
+              >
+                Download area.geojson
+              </Button>
+            )}
+          </div>
+
+          <p className="text-pretty my-8">
+            Starte die Pipeline mit folgendem Befehl.
+          </p>
+
+          <CodeBlock
+            title="Terminal"
+            titleIcon={<Terminal aria-hidden="true" />}
+            code={{
+              "Linux und macOS": RUN_COMMAND_LINUX_MACOS,
+              Windows: RUN_COMMAND_WINDOWS,
+            }}
+            language="cli"
+          />
+
+          <OutputDirectoryTree />
+
+          <div className="flex justify-center mt-16">
             <NewConfigButton />
           </div>
         </div>

@@ -69,7 +69,7 @@ export function PostprocessingForm() {
             name="sieveFillThreshold"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Schwellenwert (Sieben und Füllen)</FormLabel>
+                <FormLabel>Sieben und Füllen</FormLabel>
                 <FormControl>
                   <ToggleGroup
                     type="single"

@@ -14,24 +14,15 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
-interface ResourcesState {
-  activeTab: string
-  setActiveTab: (tab: string) => void
-  reset: () => void
+export function Modelle() {
+  return (
+    <div className="@container">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+          Modelle
+        </h2>
+      </div>
+    </div>
+  )
 }
-
-export const useResourcesStore = create<ResourcesState>()(
-  persist(
-    (set) => ({
-      activeTab: "cpu",
-      setActiveTab: (tab) => set({ activeTab: tab }),
-      reset: () => set({ activeTab: "cpu" }),
-    }),
-    {
-      name: "resources-storage",
-    },
-  ),
-)

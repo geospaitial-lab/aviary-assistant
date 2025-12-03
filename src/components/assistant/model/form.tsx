@@ -88,12 +88,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
           >
             <p className="text-pretty mb-4">
               Gib hier an, mit welchen Modellen du deine Daten auswerten
-              möchtest – welches Modell du für deinen Anwendungsfall brauchst,
-              findest du{" "}
-              <Link showUnderline={true} openInNewTab={true}>
-                hier
-              </Link>
-              .
+              möchtest.
             </p>
 
             <div className="grid gap-4 grid-cols-1 @lg:grid-cols-2">
@@ -107,17 +102,17 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         type="button"
                         variant="outline"
                         className={cn(
-                          "p-4 h-auto text-left flex flex-col items-start",
+                          "p-4 h-auto text-left flex flex-col items-start justify-start",
                           {
                             "border-primary dark:border-primary": field.value,
                           },
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="model-1 auswählen"
+                        aria-label="Sursentia Landcover auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">model-1</h3>
+                          <h3 className="text-base">Sursentia Landcover</h3>
                           {field.value && (
                             <>
                               <Check
@@ -125,16 +120,14 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                model-1 ausgewählt
+                                Sursentia Landcover ausgewählt
                               </span>
                             </>
                           )}
                         </div>
                         <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
+                          Erkennt Gebäude, Gründächer, versiegelte Flächen,
+                          nicht versiegelte Flächen und Gewässer.
                         </p>
                         <Link
                           showArrow={true}
@@ -159,17 +152,17 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                         type="button"
                         variant="outline"
                         className={cn(
-                          "p-4 h-auto text-left flex flex-col items-start",
+                          "p-4 h-auto text-left flex flex-col items-start justify-start",
                           {
                             "border-primary dark:border-primary": field.value,
                           },
                         )}
                         onClick={() => field.onChange(!field.value)}
                         aria-pressed={field.value}
-                        aria-label="model-2 auswählen"
+                        aria-label="Sursentia Solar auswählen"
                       >
                         <div className="w-full flex justify-between items-center">
-                          <h3 className="text-base">model-2</h3>
+                          <h3 className="text-base">Sursentia Solar</h3>
                           {field.value && (
                             <>
                               <Check
@@ -177,16 +170,13 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                                 aria-hidden="true"
                               />
                               <span className="sr-only">
-                                model-2 ausgewählt
+                                Sursentia Solar ausgewählt
                               </span>
                             </>
                           )}
                         </div>
                         <p className="mt-2 font-normal text-muted-foreground text-pretty whitespace-normal">
-                          Lorem ipsum dolor sit amet, consetetur sadipscing
-                          elitr, sed diam nonumy eirmod tempor invidunt ut
-                          labore et dolore magna aliquyam erat, sed diam
-                          voluptua.
+                          Erkennt Solaranlagen.
                         </p>
                         <Link
                           showArrow={true}

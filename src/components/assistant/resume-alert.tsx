@@ -30,9 +30,6 @@ import { useDataStore } from "@/components/assistant/data/store"
 import { useExportStore } from "@/components/assistant/export/store"
 import { useModelStore } from "@/components/assistant/model/store"
 import { usePostprocessingStore } from "@/components/assistant/postprocessing/store"
-import { useCpuStore } from "@/components/assistant/resources/cpu/store"
-import { useGpuStore } from "@/components/assistant/resources/gpu/store"
-import { useResourcesStore } from "@/components/assistant/resources/store"
 import { useAssistantStore } from "@/components/assistant/store"
 import {
   AlertDialog,
@@ -56,18 +53,15 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
   const resetAreaStore = useAreaStore((state) => state.reset)
   const resetAssistantStore = useAssistantStore((state) => state.reset)
   const resetBoundingBoxStore = useBoundingBoxStore((state) => state.reset)
-  const resetCpuStore = useCpuStore((state) => state.reset)
   const resetDataStore = useDataStore((state) => state.reset)
   const resetExportStore = useExportStore((state) => state.reset)
   const resetFileStore = useFileStore((state) => state.reset)
   const resetGlobalStore = useGlobalStore((state) => state.reset)
-  const resetGpuStore = useGpuStore((state) => state.reset)
   const resetModelStore = useModelStore((state) => state.reset)
   const resetNameStore = useNameStore((state) => state.reset)
   const resetPostprocessingStore = usePostprocessingStore(
     (state) => state.reset,
   )
-  const resetResourcesStore = useResourcesStore((state) => state.reset)
 
   const storeKeys = [
     "aggregation-storage",
@@ -81,9 +75,6 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
     "export-storage",
     "model-storage",
     "postprocessing-storage",
-    "resources-cpu-storage",
-    "resources-gpu-storage",
-    "resources-storage",
   ]
 
   React.useEffect(() => {
@@ -118,16 +109,13 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
     resetAreaStore()
     resetAssistantStore()
     resetBoundingBoxStore()
-    resetCpuStore()
     resetDataStore()
     resetExportStore()
     resetFileStore()
     resetGlobalStore()
-    resetGpuStore()
     resetModelStore()
     resetNameStore()
     resetPostprocessingStore()
-    resetResourcesStore()
 
     storeKeys.forEach((key) => {
       localStorage.removeItem(key)

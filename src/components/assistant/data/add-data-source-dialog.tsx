@@ -49,10 +49,12 @@ import {
 } from "@/components/ui/select"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-export type ChannelsType = "rgb" | "cir" | "nir" | "rgbi" | "dom"
+// export type ChannelsType = "rgb" | "cir" | "nir" | "rgbi" | "dom"
+export type ChannelsType = "rgb" | "rgbi"
 export type TypeType = "wms" | "vrt"
 
-const ALL_CHANNELS: ChannelsType[] = ["rgb", "cir", "nir", "rgbi", "dom"]
+// const ALL_CHANNELS: ChannelsType[] = ["rgb", "cir", "nir", "rgbi", "dom"]
+const ALL_CHANNELS: ChannelsType[] = ["rgb", "rgbi"]
 
 const VALID_CHANNELS_COMBINATIONS = [
   "rgb",
@@ -71,7 +73,8 @@ const VALID_CHANNELS_COMBINATIONS = [
 ]
 
 const formSchema = z.object({
-  channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
+  // channels: z.enum(["rgb", "cir", "nir", "rgbi", "dom"]),
+  channels: z.enum(["rgb", "rgbi"]),
   type: z.enum(["wms", "vrt"]),
 })
 
@@ -97,6 +100,11 @@ export function AddDataSourceDialog({
 
   const isChannelsDisabled = React.useCallback(
     (channels: ChannelsType) => {
+      // Temporarily restrict to a single data source
+      if (existingChannels.length >= 1) {
+        return true
+      }
+
       if (existingChannels.includes(channels)) {
         return true
       }
@@ -204,28 +212,10 @@ export function AddDataSourceDialog({
                             RGB
                           </SelectItem>
                           <SelectItem
-                            value="cir"
-                            disabled={isChannelsDisabled("cir")}
-                          >
-                            CIR
-                          </SelectItem>
-                          <SelectItem
-                            value="nir"
-                            disabled={isChannelsDisabled("nir")}
-                          >
-                            NIR
-                          </SelectItem>
-                          <SelectItem
                             value="rgbi"
                             disabled={isChannelsDisabled("rgbi")}
                           >
                             RGBI
-                          </SelectItem>
-                          <SelectItem
-                            value="dom"
-                            disabled={isChannelsDisabled("dom")}
-                          >
-                            DOM
                           </SelectItem>
                         </SelectContent>
                       </Select>

@@ -14,33 +14,15 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
-import { type GpuFormSchema } from "@/components/assistant/resources/gpu/schema"
-
-interface GpuState {
-  formValues: GpuFormSchema
-  setFormValues: (values: GpuFormSchema) => void
-  reset: () => void
+export function Home() {
+  return (
+    <div className="@container">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+          Home
+        </h2>
+      </div>
+    </div>
+  )
 }
-
-export const useGpuStore = create<GpuState>()(
-  persist(
-    (set) => ({
-      formValues: {
-        vram: 1,
-      },
-      setFormValues: (values) => set({ formValues: values }),
-      reset: () =>
-        set({
-          formValues: {
-            vram: 1,
-          },
-        }),
-    }),
-    {
-      name: "resources-gpu-storage",
-    },
-  ),
-)

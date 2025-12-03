@@ -14,33 +14,15 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { create } from "zustand"
-import { persist } from "zustand/middleware"
 
-import { type CpuFormSchema } from "@/components/assistant/resources/cpu/schema"
-
-interface CpuState {
-  formValues: CpuFormSchema
-  setFormValues: (values: CpuFormSchema) => void
-  reset: () => void
+export function Anleitungen() {
+  return (
+    <div className="@container">
+      <div className="@2xl:w-2/3 @2xl:mx-auto">
+        <h2 className="text-3xl font-bold tracking-tighter text-center mb-8">
+          Anleitungen
+        </h2>
+      </div>
+    </div>
+  )
 }
-
-export const useCpuStore = create<CpuState>()(
-  persist(
-    (set) => ({
-      formValues: {
-        ram: 1,
-      },
-      setFormValues: (values) => set({ formValues: values }),
-      reset: () =>
-        set({
-          formValues: {
-            ram: 1,
-          },
-        }),
-    }),
-    {
-      name: "resources-cpu-storage",
-    },
-  ),
-)

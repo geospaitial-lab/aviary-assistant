@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import { Link } from "@/components/link"
 import {
   Accordion,
   AccordionContent,
@@ -29,31 +30,32 @@ export function AreaFaq() {
       </h2>
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
-          <AccordionTrigger>Gebiet 1</AccordionTrigger>
+          <AccordionTrigger>Wie groß kann ein Gebiet sein?</AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Große Gebiete ({`>`} 1000 km²) funktionieren ebenso wie kleine – die
+            Laufzeit verlängert sich entsprechend.
+            <br />
+            Falls du mehrere Maschinen hast, kannst du das Gebiet in Chunks
+            zerlegen (siehe{" "}
+            <Link
+              href="https://geospaitial-lab.github.io/aviary/api_reference/core/grid/#aviary.GridConfig"
+              showArrow={true}
+            >
+              <code className="font-mono text-sm font-bold">GridConfig</code>
+            </Link>
+            ) und die Pipelines parallel starten.
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-2">
-          <AccordionTrigger>Gebiet 2</AccordionTrigger>
+          <AccordionTrigger>
+            Welche Koordinatenreferenzsysteme werden bei der Verwendung einer
+            Datei unterstützt?
+          </AccordionTrigger>
           <AccordionContent>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam
-            erat, sed diam voluptua. At vero eos et accusam et justo duo dolores
-            et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est
-            Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur
-            sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-            et dolore magna aliquyam erat, sed diam voluptua. At vero eos et
-            accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-            no sea takimata sanctus est Lorem ipsum dolor sit amet.
+            Es wird ausschließlich das Koordinatenreferenzsystem EPSG:4326
+            (siehe GeoJSON Spezifikation) unterstützt.
+            <br />
+            Bitte konvertiere deine .geojson-Datei gegebenenfalls entsprechend.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

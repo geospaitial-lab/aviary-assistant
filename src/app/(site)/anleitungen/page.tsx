@@ -14,10 +14,18 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import { z } from "zod"
+import type { Metadata } from "next"
 
-export const gpuFormSchema = z.object({
-  vram: z.number().min(0).max(3),
-})
+import { Anleitungen } from "@/components/anleitungen/anleitungen"
 
-export type GpuFormSchema = z.infer<typeof gpuFormSchema>
+export const metadata: Metadata = {
+  title: "Anleitungen",
+}
+
+export default function Page() {
+  return (
+    <div className="max-w-6xl mt-8 mx-auto px-4">
+      <Anleitungen />
+    </div>
+  )
+}

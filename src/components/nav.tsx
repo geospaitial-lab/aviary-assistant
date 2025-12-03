@@ -37,21 +37,21 @@ export function Nav({ onLinkClick, ...props }: NavProps) {
       <NavigationMenuList className="data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start">
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuLinkStyle()} asChild>
-            <NextLink href="/" onClick={onLinkClick}>
+            <NextLink href="/wie-es-funktioniert" onClick={onLinkClick}>
               Wie es funktioniert
             </NextLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuLinkStyle()} asChild>
-            <NextLink href="/" onClick={onLinkClick}>
+            <NextLink href="/modelle" onClick={onLinkClick}>
               Modelle
             </NextLink>
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink className={navigationMenuLinkStyle()} asChild>
-            <NextLink href="/" onClick={onLinkClick}>
+            <NextLink href="/anleitungen" onClick={onLinkClick}>
               Anleitungen
             </NextLink>
           </NavigationMenuLink>

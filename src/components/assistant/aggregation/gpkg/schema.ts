@@ -20,7 +20,19 @@ const ERROR_NAME = "Muss ein gültiger Name sein"
 
 export const gpkgFormSchema = z.object({
   path: z.string(),
-  name: z.string().min(1, ERROR_NAME),
+  name: z
+    .string()
+    .min(1, ERROR_NAME)
+    .refine((name) => /\.gpkg$/i.test(name.trim()), { message: ERROR_NAME })
+    .refine(
+      (name) => {
+        return (
+          name.trim().toLowerCase() !== "sursentia_landcover.gpkg" &&
+          name.trim().toLowerCase() !== "sursentia_solar.gpkg"
+        )
+      },
+      { message: ERROR_NAME },
+    ),
 })
 
 export type GpkgFormSchema = z.infer<typeof gpkgFormSchema>

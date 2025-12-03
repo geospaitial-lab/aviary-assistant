@@ -14,7 +14,18 @@
  * You should have received a copy of the GNU General Public License along with aviary-assistant.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import type { Metadata } from "next"
 
-export default function Home() {
-  return <div />
+import { Home } from "@/components/home/home"
+
+export const metadata: Metadata = {
+  title: "Home",
+}
+
+export default function Page() {
+  return (
+    <div className="max-w-6xl mt-8 mx-auto px-4">
+      <Home />
+    </div>
+  )
 }
