@@ -505,6 +505,10 @@ function parseTilesProcessorConfig(): string[] {
     indent(9, "cache_dir_path: !path_join [*output_dir_path, 'cache']"),
   )
 
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+
   const epsgCode = store.data.global.formValues.epsgCode
   const dirPath = store.export.formValues.dirPath
 
@@ -741,9 +745,6 @@ function parseVectorProcessorConfig(
       lines.push(indent(9, `layer_name: '${layer}'`))
       lines.push(indent(9, `aggregation_layer_name: '${aggLayer}'`))
       lines.push(indent(9, "field: 'Klasse'"))
-      if (layer === "sursentia_solar") {
-        lines.push(indent(9, `background_value: 0`))
-      }
 
       lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'VectorExporter'"))
@@ -908,7 +909,7 @@ export function parseConfig(): string {
     configLines.push(indent(3, "config:"))
     configLines.push(indent(4, "vector_loader_config:"))
     configLines.push(indent(5, "package: 'aviary'"))
-    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "name: 'CompositeLoader'"))
     configLines.push(indent(5, "config:"))
     configLines.push(indent(6, "vector_loader_configs:"))
 
@@ -939,7 +940,7 @@ export function parseConfig(): string {
     configLines.push(indent(3, "config:"))
     configLines.push(indent(4, "vector_loader_config:"))
     configLines.push(indent(5, "package: 'aviary'"))
-    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "name: 'CompositeLoader'"))
     configLines.push(indent(5, "config:"))
     configLines.push(indent(6, "vector_loader_configs:"))
 
