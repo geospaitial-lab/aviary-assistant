@@ -121,8 +121,6 @@ function mapGroundSamplingDistanceToTileSize(
       return 250
     case "0.2":
       return 500
-    case "0.5":
-      return 1250
     default:
       return 500
   }
@@ -136,8 +134,6 @@ function mapGroundSamplingDistanceToBufferSize(
       return 52
     case "0.2":
       return 104
-    case "0.5":
-      return 260
     default:
       return 105
   }
@@ -485,6 +481,7 @@ function parseTilesProcessorConfig(): string[] {
 
   const store = getStore()
   const { model1, model2 } = store.model.formValues
+  const dirPath = store.export.formValues.dirPath
 
   tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
   tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
@@ -501,16 +498,21 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
   tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
   tilesProcessorConfigLines.push(indent(9, "device: *device"))
-  tilesProcessorConfigLines.push(
-    indent(9, "cache_dir_path: !path_join [*output_dir_path, 'cache']"),
-  )
+  if (dirPath && dirPath.trim().length > 0) {
+    tilesProcessorConfigLines.push(
+      indent(9, "path: !path_join ['" + dirPath + "', 'cache']"),
+    )
+  } else {
+    tilesProcessorConfigLines.push(
+      indent(9, "cache_dir_path: !path_join [*output_dir_path, 'cache']"),
+    )
+  }
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
 
   const epsgCode = store.data.global.formValues.epsgCode
-  const dirPath = store.export.formValues.dirPath
 
   const maybeAddVectorProcessors = (channelKey: string) => {
     const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
@@ -739,6 +741,12 @@ function parseVectorProcessorConfig(
     layer: "sursentia_landcover" | "sursentia_solar",
   ) => {
     sources.forEach(({ layerName: aggLayer }) => {
+      lines.push(indent(7, "- package: 'aviary'"))
+      lines.push(indent(8, "name: 'ClipProcessor'"))
+      lines.push(indent(8, "config:"))
+      lines.push(indent(9, `layer_name: '${aggLayer}'`))
+      lines.push(indent(9, "mask_layer_name: 'area'"))
+
       lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'AggregateProcessor'"))
       lines.push(indent(8, "config:"))
