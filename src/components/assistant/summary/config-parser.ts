@@ -908,7 +908,7 @@ export function parseConfig(): string {
     configLines.push(indent(3, "config:"))
     configLines.push(indent(4, "vector_loader_config:"))
     configLines.push(indent(5, "package: 'aviary'"))
-    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "name: 'CompositeLoader'"))
     configLines.push(indent(5, "config:"))
     configLines.push(indent(6, "vector_loader_configs:"))
 
@@ -939,7 +939,7 @@ export function parseConfig(): string {
     configLines.push(indent(3, "config:"))
     configLines.push(indent(4, "vector_loader_config:"))
     configLines.push(indent(5, "package: 'aviary'"))
-    configLines.push(indent(5, "name: 'CompositeVectorLoader'"))
+    configLines.push(indent(5, "name: 'CompositeLoader'"))
     configLines.push(indent(5, "config:"))
     configLines.push(indent(6, "vector_loader_configs:"))
 
