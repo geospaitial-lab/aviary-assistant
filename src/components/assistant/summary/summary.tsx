@@ -141,11 +141,14 @@ export function Summary() {
           </p>
 
           <div className="flex flex-wrap gap-2 justify-center">
-            <Button onClick={handleDownloadConfig}>Download config.yaml</Button>
+            <Button onClick={handleDownloadConfig} className="w-56">
+              Download config.yaml
+            </Button>
             {(activeTab === "name" || activeTab === "file") && (
               <Button
                 onClick={handleDownloadGeoJson}
                 disabled={activeTab === "name" ? !nameGeoJson : !fileGeoJson}
+                className="w-56"
               >
                 Download area.geojson
               </Button>
