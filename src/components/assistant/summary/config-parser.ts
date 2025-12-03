@@ -500,7 +500,7 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "device: *device"))
   if (dirPath && dirPath.trim().length > 0) {
     tilesProcessorConfigLines.push(
-      indent(9, "path: !path_join ['" + dirPath + "', 'cache']"),
+      indent(9, "cache_dir_path: !path_join ['" + dirPath + "', 'cache']"),
     )
   } else {
     tilesProcessorConfigLines.push(
