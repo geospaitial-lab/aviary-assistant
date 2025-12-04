@@ -30,7 +30,7 @@ export function ModelFaq() {
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            Brauche ich mehr Ressourcen, wenn ich beide Modelle auswähle?
+            Benötige ich mehr Ressourcen, wenn ich beide Modelle auswähle?
           </AccordionTrigger>
           <AccordionContent>
             Die Ausführung der Modelle erfolgt sequentiell – es sind keine
