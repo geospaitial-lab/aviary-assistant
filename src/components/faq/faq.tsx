@@ -31,8 +31,8 @@ export function Faq() {
           FAQ
         </h2>
         <div className="space-y-16">
-          <AssistantFaq />
-          <AviaryFaq />
+          {/*<AssistantFaq />*/}
+          {/*<AviaryFaq />*/}
           <ModelFaq />
           <AreaFaq />
           <DataFaq />

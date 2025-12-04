@@ -42,7 +42,7 @@ export function Home() {
         </div>
 
         <div className="flex-1 order-1 @2xl:order-2">
-          <h1 className="text-3xl font-bold tracking-tighter text-pretty mb-8">
+          <h1 className="text-3xl font-bold tracking-tighter text-pretty text-center @2xl:text-left mb-8">
             Erkenne versiegelte Flächen, Gründächer und Solaranlagen deiner
             Kommune.
           </h1>
