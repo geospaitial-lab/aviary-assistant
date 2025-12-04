@@ -46,7 +46,7 @@ const INSTALL_UV_CPU =
 const INSTALL_UV_GPU =
   "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch xformers --index-url https://download.pytorch.org/whl/cu130"
 
-const VALIDATE = "aviary --help"
+const VALIDATE = "aviary plugins"
 
 export function Anleitungen() {
   return (
@@ -92,7 +92,7 @@ export function Anleitungen() {
                   <CodeBlock
                     title="Terminal"
                     titleIcon={<Terminal aria-hidden="true" />}
-                    code={CREATE_VENV_UV}
+                    code={CREATE_VENV_PIP}
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
@@ -118,8 +118,8 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du die CUDA-Version
-                    deiner GPU angeben – weitere Informationen findest du auf{" "}
+                    Wenn du eine GPU verwenden willst, musst du eine passende
+                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
@@ -148,6 +148,10 @@ export function Anleitungen() {
                     code={VALIDATE}
                     language="cli"
                   />
+                  <p className="text-sm text-muted-foreground my-4">
+                    Du solltest nun eine Auflistung der Plugins – darunter auch
+                    Sursentia – in deinem Terminal sehen.
+                  </p>
                 </div>
               </div>
             </AccordionContent>
@@ -162,7 +166,7 @@ export function Anleitungen() {
                   <p className="text-sm text-muted-foreground mb-4">
                     Installiere zuerst{" "}
                     <Link
-                      href="https://docs.astral.sh/uv/"
+                      href="https://docs.astral.sh/uv"
                       showArrow
                       className="hover:text-foreground"
                     >
@@ -200,8 +204,8 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du die CUDA-Version
-                    deiner GPU angeben – weitere Informationen findest du auf{" "}
+                    Wenn du eine GPU verwenden willst, musst du eine passende
+                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
@@ -230,6 +234,10 @@ export function Anleitungen() {
                     code={VALIDATE}
                     language="cli"
                   />
+                  <p className="text-sm text-muted-foreground my-4">
+                    Du solltest nun eine Auflistung der Plugins – darunter auch
+                    Sursentia – in deinem Terminal sehen.
+                  </p>
                 </div>
               </div>
             </AccordionContent>
