@@ -30,11 +30,11 @@ export function ModelFaq() {
       <Accordion type="single" collapsible>
         <AccordionItem value="item-1">
           <AccordionTrigger>
-            Brauche ich mehr Rechenleistung, wenn ich beide Modelle auswähle?
+            Brauche ich mehr Ressourcen, wenn ich beide Modelle auswähle?
           </AccordionTrigger>
           <AccordionContent>
-            Die Ausführung der Modelle erfolgt sequentiell – es ist keine
-            zusätzliche Rechenleistung nötig, die Laufzeit verlängert sich
+            Die Ausführung der Modelle erfolgt sequentiell – es sind keine
+            zusätzlichen Ressourcen nötig, die Laufzeit verlängert sich
             lediglich.
             <br />
             Gemeinsame Berechnungen werden dabei sogar geteilt. Daher ist die
