@@ -55,7 +55,9 @@ export function Modelle() {
             Flächen und Gewässer.
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Solar</p>
-          <p className="text-sm text-muted-foreground">Erkennt Solaranlagen.</p>
+          <p className="text-sm text-muted-foreground mb-4">
+            Erkennt Solaranlagen.
+          </p>
         </div>
       </div>
     </div>
