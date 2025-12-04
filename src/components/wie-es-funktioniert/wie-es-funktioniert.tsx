@@ -31,9 +31,9 @@ export function WieEsFunktioniert() {
             aviary ist ein Framework, mit dem man Luftbilder mit KI auswerten
             kann.
             <br />
-            Der Assistant nimmt dir die Einrichtung ab – er erstellt die
-            Konfigurationsdatei für die Pipeline automatisch anhand deiner
-            Angaben.
+            Der Assistant nimmt dir die Einrichtung für die Sursentia Modelle ab
+            – er erstellt die Konfigurationsdatei für die Pipeline automatisch
+            anhand deiner Angaben.
           </p>
         </div>
 
