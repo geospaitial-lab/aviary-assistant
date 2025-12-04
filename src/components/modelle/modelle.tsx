@@ -41,8 +41,7 @@ export function Modelle() {
         </div>
 
         <div className="flex-1 order-1 @2xl:order-2">
-          <h3 className="text-xl font-semibold mb-2">Sursentia</h3>
-          <p className="text-sm text-muted-foreground mb-8">
+          <p className="text-lg font-semibold text-muted-foreground mb-8">
             Die Sursentia-Modelle basieren auf einem Foundation-Model und wurden
             auf einem Datensatz mit Luftbildern aus ganz Deutschland trainiert –
             das macht die Modelle robust.
