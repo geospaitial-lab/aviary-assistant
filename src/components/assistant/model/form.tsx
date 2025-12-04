@@ -130,6 +130,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                           nicht versiegelte Flächen und Gewässer.
                         </p>
                         <Link
+                          href="/modelle"
                           showArrow={true}
                           openInNewTab={true}
                           className="font-normal"
@@ -179,6 +180,7 @@ export const ModelForm = React.forwardRef<ModelFormRef>(
                           Erkennt Solaranlagen.
                         </p>
                         <Link
+                          href="/modelle"
                           showArrow={true}
                           openInNewTab={true}
                           className="font-normal"
