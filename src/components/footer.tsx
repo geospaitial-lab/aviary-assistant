@@ -21,8 +21,11 @@ export function Footer() {
     <div className="max-w-6xl mx-auto px-4">
       <footer className="@container py-16">
         <div className="flex flex-col gap-24">
-          <div className="flex flex-col gap-16 @4xl:flex-row @4xl:justify-between">
+          <div className="flex flex-col gap-16 @2xl:flex-row @2xl:justify-between">
+            {/*
             <div className="grid grid-rows-2 grid-cols-2 grid-flow-col gap-4 @2xl:grid-rows-1 @2xl:grid-cols-4 @2xl:grid-flow-row">
+            */}
+            <div className="grid grid-cols-2 gap-4 @2xl:grid-cols-2">
               <div className="flex flex-col gap-2">
                 <h3 className="font-medium text-muted-foreground">aviary</h3>
                 <ul className="flex flex-col gap-1">
@@ -60,12 +63,10 @@ export function Footer() {
                       FAQ
                     </Link>
                   </li>
-                  <li>
-                    <Link className="text-sm">Community</Link>
-                  </li>
                 </ul>
               </div>
 
+              {/*
               <div className="flex flex-col gap-2">
                 <h3 className="font-medium text-muted-foreground">Mehr</h3>
                 <ul className="flex flex-col gap-1">
@@ -80,7 +81,9 @@ export function Footer() {
                   </li>
                 </ul>
               </div>
+              */}
 
+              {/*
               <div className="flex flex-col gap-2">
                 <h3 className="font-medium text-muted-foreground">
                   Rechtliches
@@ -97,13 +100,14 @@ export function Footer() {
                   </li>
                 </ul>
               </div>
+              */}
             </div>
 
-            <div className="text-2xl text-center @4xl:text-right">
+            <div className="text-2xl text-center @2xl:text-right">
               <span className="font-bold">
                 geosp<span className="text-success">ai</span>tial
               </span>
-              <span className="@4xl:block"> lab</span>
+              <span className="@2xl:block"> lab</span>
             </div>
           </div>
 

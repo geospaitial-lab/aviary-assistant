@@ -41,9 +41,18 @@ export function WieEsFunktioniert() {
           <li className="p-4 border rounded-md">
             <div className="font-semibold">Assistant verwenden</div>
             <p className="text-sm text-muted-foreground">
-              Starte den Assistant und beantworte ein paar kurze Fragen. Am Ende
-              bekommst du eine entsprechende Konfigurationsdatei, in der alle
-              Schritte deiner Pipeline definiert sind.
+              Starte den{" "}
+              <Link
+                href="/assistant"
+                showArrow={true}
+                openInNewTab={true}
+                className="hover:text-foreground"
+              >
+                Assistant
+              </Link>{" "}
+              und beantworte ein paar kurze Fragen. Am Ende bekommst du eine
+              entsprechende Konfigurationsdatei, in der alle Schritte deiner
+              Pipeline definiert sind.
             </p>
           </li>
           <li aria-hidden="true" className="flex justify-center">
