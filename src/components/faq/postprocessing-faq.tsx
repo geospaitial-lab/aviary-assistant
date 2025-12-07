@@ -39,9 +39,9 @@ export function PostprocessingFaq() {
             Der Schwellenwert für das Sieben und Füllen ist abhängig von der
             Bodenauflösung der Daten:
             <ul className="my-4 ml-6 list-disc [&>li]:mt-2">
-              <li>schwach: TODO m²</li>
-              <li>moderat: TODO m²</li>
-              <li>stark: TODO m²</li>
+              <li>schwach: (5 × Bodenauflösung) m²</li>
+              <li>moderat: (10 × Bodenauflösung) m²</li>
+              <li>stark: (20 × Bodenauflösung) m²</li>
             </ul>
           </AccordionContent>
         </AccordionItem>
