@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -38,13 +38,13 @@ const INSTALL_PIP_CPU =
   "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch"
 
 const INSTALL_PIP_GPU =
-  "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch xformers --index-url https://download.pytorch.org/whl/cu130"
+  "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch --index-url https://download.pytorch.org/whl/cu130"
 
 const INSTALL_UV_CPU =
   "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch"
 
 const INSTALL_UV_GPU =
-  "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch xformers --index-url https://download.pytorch.org/whl/cu130"
+  "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch --index-url https://download.pytorch.org/whl/cu130"
 
 const VALIDATE = "aviary plugins"
 
