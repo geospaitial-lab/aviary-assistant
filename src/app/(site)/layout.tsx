@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
