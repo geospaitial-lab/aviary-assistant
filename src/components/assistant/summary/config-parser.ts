@@ -480,6 +480,7 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
   tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
   tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
+  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
@@ -502,7 +503,7 @@ function parseTilesProcessorConfig(): string[] {
     indent(9, `solar_channel_name: ${model2 ? "'sursentia_solar'" : "null"}`),
   )
   tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
-  tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
+  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
   tilesProcessorConfigLines.push(indent(9, "device: *device"))
   if (dirPath && dirPath.trim().length > 0) {
     tilesProcessorConfigLines.push(
