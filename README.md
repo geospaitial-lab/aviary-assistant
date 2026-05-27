@@ -37,6 +37,23 @@ npm run dev
 
 ---
 
+## Overpass API Proxy
+
+Login to Cloudflare:
+
+```bash
+npx wrangler login
+```
+
+Deploy functions to Cloudflare Pages:
+
+```bash
+cd proxy
+npx wrangler pages deploy .
+```
+
+---
+
 ## License
 
 aviary-assistant is licensed under the [GPL-3.0 license].
