@@ -54,8 +54,8 @@ export function Modelle() {
             Erkennt verschiedene Arten von Gebäuden (Flach-, Schräg-, Gründach),
             versiegelten Flächen (Verkehrsfläche, Gleis, Pool, sonstige
             versiegelte Fläche) und nicht versiegelten Flächen (Vegetation,
-            Agrarfläche, unversiegelter Weg, Gewässer, sonstige unversiegelte
-            Fläche).
+            Agrarfläche, nicht versiegelter Weg, Gewässer, sonstige nicht
+            versiegelte Fläche).
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Solar</p>
           <p className="text-sm text-muted-foreground mb-4">
