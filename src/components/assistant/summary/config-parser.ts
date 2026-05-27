@@ -523,6 +523,13 @@ function parseTilesProcessorConfig(): string[] {
 
   const maybeAddVectorProcessors = (channelKey: string) => {
     const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
+
+    tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+    tilesProcessorConfigLines.push(indent(8, "name: 'SieveProcessor'"))
+    tilesProcessorConfigLines.push(indent(8, "config:"))
+    tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
+    tilesProcessorConfigLines.push(indent(9, `threshold: ${threshold}`))
+
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
     tilesProcessorConfigLines.push(indent(8, "config:"))
