@@ -387,6 +387,7 @@ function parseTileFetcherConfig(store: Store): string[] {
       const version = formValues.version
       const layer = formValues.layer
       const format = mapWmsFormatToMimeType(formValues.format)
+      const time = formValues.time
       const style = formValues.style
 
       tileFetcherConfigLines.push(indent(7, "- package: 'aviary'"))
@@ -408,6 +409,11 @@ function parseTileFetcherConfig(store: Store): string[] {
           `ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
         ),
       )
+      if (time.trim().length > 0) {
+        tileFetcherConfigLines.push(indent(9, `time: '${time}'`))
+      } else {
+        tileFetcherConfigLines.push(indent(9, "time: null"))
+      }
       if (style.trim().length > 0) {
         tileFetcherConfigLines.push(indent(9, `style: '${style}'`))
       } else {

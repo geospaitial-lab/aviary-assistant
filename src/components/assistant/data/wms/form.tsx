@@ -68,6 +68,7 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
         version: "1.3.0",
         layer: "",
         format: "PNG",
+        time: "",
         style: "",
       },
       mode: "onBlur",
@@ -203,6 +204,19 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                       </Select>
                     </FormControl>
                     <FormDescription>Bildformat</FormDescription>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Zeit</FormLabel>
+                    <FormControl>
+                      <Input type="text" placeholder="optional" {...field} />
+                    </FormControl>
+                    <FormDescription>Zeitparameter</FormDescription>
                   </FormItem>
                 )}
               />
