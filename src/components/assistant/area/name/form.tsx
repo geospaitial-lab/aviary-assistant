@@ -1,7 +1,7 @@
 "use client"
 
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -58,6 +58,8 @@ import {
 } from "@/components/ui/popover"
 import { cn } from "@/lib/utils"
 import { zodResolver } from "@hookform/resolvers/zod"
+
+const CF_PROXY_BASE = "https://842b7960.aviary-assistant.pages.dev"
 
 const ERROR_FETCH = "Ein Fehler ist aufgetreten – versuche es erneut"
 
@@ -120,8 +122,7 @@ export function NameForm() {
     const timeoutId = setTimeout(() => controller.abort(), 10000)
 
     try {
-      const query = `[out:json];relation(${osmId});out geom;`
-      const url = `https://overpass.private.coffee/api/interpreter?data=${encodeURIComponent(query)}`
+      const url = `${CF_PROXY_BASE}/overpass/${osmId}`
 
       const response = await fetch(url, {
         signal: controller.signal,
