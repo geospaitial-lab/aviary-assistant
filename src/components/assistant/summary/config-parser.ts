@@ -519,6 +519,10 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
 
+  const gsd = store.data.global.formValues.groundSamplingDistance
+  const strength = store.postprocessing.formValues.sieveFillThreshold
+  const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
+
   const epsgCode = store.data.global.formValues.epsgCode
 
   const maybeAddVectorProcessors = (channelKey: string) => {
