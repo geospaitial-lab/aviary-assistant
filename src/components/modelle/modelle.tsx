@@ -17,7 +17,7 @@
 
 export function Modelle() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ""
-  const imageSrc = `${basePath}/images/sursentia.webp`
+  const imageSrc = `${basePath}/images/sursentia_v2.webp`
 
   return (
     <div className="@container">
