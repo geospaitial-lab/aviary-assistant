@@ -51,8 +51,11 @@ export function Modelle() {
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Landcover</p>
           <p className="text-sm text-muted-foreground mb-4">
-            Erkennt Gebäude, Gründächer, versiegelte Flächen, nicht versiegelte
-            Flächen und Gewässer.
+            Erkennt verschiedene Arten von Gebäuden (Flach-, Schräg-, Gründach),
+            versiegelten Flächen (Verkehrsfläche, Gleis, Pool, sonstige
+            versiegelte Fläche) und nicht versiegelten Flächen (Vegetation,
+            Agrarfläche, unversiegelter Weg, Gewässer, sonstige unversiegelte
+            Fläche).
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Solar</p>
           <p className="text-sm text-muted-foreground mb-4">
