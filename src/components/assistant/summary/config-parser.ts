@@ -145,7 +145,7 @@ function mapSieveFillStrengthToThreshold(
 ): number {
   const gsd = parseFloat(groundSamplingDistance)
   const factor = strength === "schwach" ? 5 : strength === "moderat" ? 10 : 20
-  return gsd * factor
+  return factor / gsd
 }
 
 function mapSimplifyThreshold(groundSamplingDistance: string): number {
@@ -522,7 +522,6 @@ function parseTilesProcessorConfig(): string[] {
   const gsd = store.data.global.formValues.groundSamplingDistance
   const strength = store.postprocessing.formValues.sieveFillThreshold
   const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
-
   const epsgCode = store.data.global.formValues.epsgCode
 
   const maybeAddVectorProcessors = (channelKey: string) => {
