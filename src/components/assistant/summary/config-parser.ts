@@ -700,8 +700,6 @@ function parseVectorProcessorConfig(
   const { model1, model2 } = store.model.formValues
 
   const gsd = store.data.global.formValues.groundSamplingDistance
-  const strength = store.postprocessing.formValues.sieveFillThreshold
-  const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
   const simplify = store.postprocessing.formValues.simplify
   const simplifyThreshold = mapSimplifyThreshold(gsd)
 
@@ -786,18 +784,6 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, "mask_layer_name: 'area'"))
 
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
     if (simplify) {
       lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'SimplifyProcessor'"))
@@ -827,18 +813,6 @@ function parseVectorProcessorConfig(
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_solar'"))
     lines.push(indent(9, "mask_layer_name: 'area'"))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
 
     if (simplify) {
       lines.push(indent(7, "- package: 'aviary'"))
