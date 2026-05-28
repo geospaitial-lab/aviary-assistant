@@ -458,7 +458,7 @@ function parseTileFetcherConfig(store: Store): string[] {
 function parseTileLoaderConfig(): string[] {
   const BATCH_SIZE = 1
   const MAX_NUM_THREADS = null
-  const NUM_PREFETCHED_TILES = 0
+  const NUM_PREFETCHED_TILES = 1
 
   const tileLoaderConfigLines: string[] = []
 
