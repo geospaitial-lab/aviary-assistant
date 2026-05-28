@@ -132,8 +132,9 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du eine passende
-                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
+                    Wenn du eine GPU verwenden willst, musst du ggf. eine
+                    passende CUDA-Version angeben – weitere Informationen
+                    findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
@@ -228,8 +229,9 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du eine passende
-                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
+                    Wenn du eine GPU verwenden willst, musst du ggf. eine
+                    passende CUDA-Version angeben – weitere Informationen
+                    findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
