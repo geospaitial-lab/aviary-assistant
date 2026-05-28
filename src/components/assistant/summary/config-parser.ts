@@ -514,23 +514,21 @@ function parseTilesProcessorConfig(): string[] {
     )
   }
 
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
-  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
-  tilesProcessorConfigLines.push(indent(8, "config:"))
-
   const gsd = store.data.global.formValues.groundSamplingDistance
   const strength = store.postprocessing.formValues.sieveFillThreshold
   const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
   const epsgCode = store.data.global.formValues.epsgCode
 
-  const maybeAddVectorProcessors = (channelKey: string) => {
-    const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
-
+  const addSieve = (channelKey: string) => {
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'SieveProcessor'"))
     tilesProcessorConfigLines.push(indent(8, "config:"))
     tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
     tilesProcessorConfigLines.push(indent(9, `threshold: ${threshold}`))
+  }
+
+  const addVectorizeAndExport = (channelKey: string) => {
+    const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
 
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
@@ -559,11 +557,23 @@ function parseTilesProcessorConfig(): string[] {
   }
 
   if (model1) {
-    maybeAddVectorProcessors("sursentia_landcover")
+    addSieve("sursentia_landcover")
   }
 
   if (model2) {
-    maybeAddVectorProcessors("sursentia_solar")
+    addSieve("sursentia_solar")
+  }
+
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+
+  if (model1) {
+    addVectorizeAndExport("sursentia_landcover")
+  }
+
+  if (model2) {
+    addVectorizeAndExport("sursentia_solar")
   }
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
