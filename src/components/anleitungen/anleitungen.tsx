@@ -35,16 +35,20 @@ const ACTIVATE_VENV = {
 }
 
 const INSTALL_PIP_CPU =
-  "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch"
+  "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia]"
 
-const INSTALL_PIP_GPU =
-  "pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch --index-url https://download.pytorch.org/whl/cu130"
+const INSTALL_TORCH_PIP_CPU = "pip install torch"
+
+const INSTALL_TORCH_PIP_GPU =
+  "pip install torch --index-url https://download.pytorch.org/whl/cu130"
 
 const INSTALL_UV_CPU =
-  "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch"
+  "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia]"
 
-const INSTALL_UV_GPU =
-  "uv pip install geospaitial-lab-aviary[cli] geospaitial-lab-aviary-models[sursentia] torch --index-url https://download.pytorch.org/whl/cu130"
+const INSTALL_TORCH_UV_CPU = "uv pip install torch"
+
+const INSTALL_TORCH_UV_GPU =
+  "uv pip install torch --index-url https://download.pytorch.org/whl/cu130"
 
 const VALIDATE = "aviary plugins"
 
@@ -109,7 +113,8 @@ export function Anleitungen() {
                 <div>
                   <div className="font-semibold mb-2">Pakete installieren</div>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Installiere die Pakete in der virtuellen Umgebung.
+                    Installiere zuerst aviary und die Sursentia-Modelle in der
+                    virtuellen Umgebung.
                   </p>
                   <CodeBlock
                     title="Terminal"
@@ -118,8 +123,18 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du eine passende
-                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
+                    Installiere anschließend Torch.
+                  </p>
+                  <CodeBlock
+                    title="Terminal"
+                    titleIcon={<Terminal aria-hidden="true" />}
+                    code={INSTALL_TORCH_PIP_CPU}
+                    language="cli"
+                  />
+                  <p className="text-sm text-muted-foreground my-4">
+                    Wenn du eine GPU verwenden willst, musst du ggf. eine
+                    passende CUDA-Version angeben – weitere Informationen
+                    findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
@@ -132,7 +147,7 @@ export function Anleitungen() {
                   <CodeBlock
                     title="Terminal"
                     titleIcon={<Terminal aria-hidden="true" />}
-                    code={INSTALL_PIP_GPU}
+                    code={INSTALL_TORCH_PIP_GPU}
                     language="cli"
                   />
                 </div>
@@ -195,7 +210,8 @@ export function Anleitungen() {
                 <div>
                   <div className="font-semibold mb-2">Pakete installieren</div>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Installiere die Pakete in der virtuellen Umgebung.
+                    Installiere zuerst aviary und die Sursentia-Modelle in der
+                    virtuellen Umgebung.
                   </p>
                   <CodeBlock
                     title="Terminal"
@@ -204,8 +220,18 @@ export function Anleitungen() {
                     language="cli"
                   />
                   <p className="text-sm text-muted-foreground my-4">
-                    Wenn du eine GPU verwenden willst, musst du eine passende
-                    CUDA-Version angeben – weitere Informationen findest du auf{" "}
+                    Installiere anschließend Torch.
+                  </p>
+                  <CodeBlock
+                    title="Terminal"
+                    titleIcon={<Terminal aria-hidden="true" />}
+                    code={INSTALL_TORCH_UV_CPU}
+                    language="cli"
+                  />
+                  <p className="text-sm text-muted-foreground my-4">
+                    Wenn du eine GPU verwenden willst, musst du ggf. eine
+                    passende CUDA-Version angeben – weitere Informationen
+                    findest du auf{" "}
                     <Link
                       href="https://pytorch.org/get-started/locally"
                       showArrow
@@ -218,7 +244,7 @@ export function Anleitungen() {
                   <CodeBlock
                     title="Terminal"
                     titleIcon={<Terminal aria-hidden="true" />}
-                    code={INSTALL_UV_GPU}
+                    code={INSTALL_TORCH_UV_GPU}
                     language="cli"
                   />
                 </div>

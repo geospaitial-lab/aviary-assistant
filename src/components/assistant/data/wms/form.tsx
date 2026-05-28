@@ -1,7 +1,7 @@
 "use client"
 
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -212,7 +212,7 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                 name="time"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Zeit</FormLabel>
+                    <FormLabel>Time</FormLabel>
                     <FormControl>
                       <Input type="text" placeholder="optional" {...field} />
                     </FormControl>

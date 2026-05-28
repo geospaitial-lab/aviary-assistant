@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -480,7 +480,6 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
   tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
   tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
-  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
@@ -515,23 +514,21 @@ function parseTilesProcessorConfig(): string[] {
     )
   }
 
-  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
-  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
-  tilesProcessorConfigLines.push(indent(8, "config:"))
-
   const gsd = store.data.global.formValues.groundSamplingDistance
   const strength = store.postprocessing.formValues.sieveFillThreshold
   const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
   const epsgCode = store.data.global.formValues.epsgCode
 
-  const maybeAddVectorProcessors = (channelKey: string) => {
-    const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
-
+  const addSieve = (channelKey: string) => {
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'SieveProcessor'"))
     tilesProcessorConfigLines.push(indent(8, "config:"))
     tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
     tilesProcessorConfigLines.push(indent(9, `threshold: ${threshold}`))
+  }
+
+  const addVectorizeAndExport = (channelKey: string) => {
+    const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
 
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
@@ -560,11 +557,23 @@ function parseTilesProcessorConfig(): string[] {
   }
 
   if (model1) {
-    maybeAddVectorProcessors("sursentia_landcover")
+    addSieve("sursentia_landcover")
   }
 
   if (model2) {
-    maybeAddVectorProcessors("sursentia_solar")
+    addSieve("sursentia_solar")
+  }
+
+  tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+  tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
+  tilesProcessorConfigLines.push(indent(8, "config:"))
+
+  if (model1) {
+    addVectorizeAndExport("sursentia_landcover")
+  }
+
+  if (model2) {
+    addVectorizeAndExport("sursentia_solar")
   }
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
@@ -808,6 +817,7 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "field: 'Klasse'"))
     lines.push(indent(9, "landcover_layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, "solar_layer_name: null"))
+    lines.push(indent(9, "version: '2.0'"))
 
     const landcoverName = "sursentia_landcover_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_landcover", landcoverName)
@@ -838,6 +848,7 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "field: 'Klasse'"))
     lines.push(indent(9, "landcover_layer_name: null"))
     lines.push(indent(9, "solar_layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, "version: '2.0'"))
 
     const solarName = "sursentia_solar_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_solar", solarName)
