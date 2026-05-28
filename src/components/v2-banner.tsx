@@ -46,7 +46,7 @@ export function V2Banner() {
         <div className="flex-1 text-xs text-balance text-center sm:text-left">
           <div className="flex items-center gap-2 justify-center sm:justify-start">
             <Megaphone aria-hidden="true" />
-            <p>Neue Modelle (v2 – 31.05.26) verfügbar!</p>
+            <p>Neue Modelle (v2 – 01.06.26) verfügbar!</p>
           </div>
         </div>
         <Button variant="default" size="icon" onClick={handleClose}>
