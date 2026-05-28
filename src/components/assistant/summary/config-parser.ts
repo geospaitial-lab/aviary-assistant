@@ -480,7 +480,6 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
   tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
   tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
-  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
@@ -808,6 +807,7 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "field: 'Klasse'"))
     lines.push(indent(9, "landcover_layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, "solar_layer_name: null"))
+    lines.push(indent(9, "version: '2.0'"))
 
     const landcoverName = "sursentia_landcover_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_landcover", landcoverName)
@@ -838,6 +838,7 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "field: 'Klasse'"))
     lines.push(indent(9, "landcover_layer_name: null"))
     lines.push(indent(9, "solar_layer_name: 'sursentia_solar'"))
+    lines.push(indent(9, "version: '2.0'"))
 
     const solarName = "sursentia_solar_postprocessed.gpkg"
     addPostprocessedExporter("sursentia_solar", solarName)
