@@ -212,7 +212,7 @@ export const WmsForm = React.forwardRef<WmsFormRef, WmsFormProps>(
                 name="time"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Zeit</FormLabel>
+                    <FormLabel>Time</FormLabel>
                     <FormControl>
                       <Input type="text" placeholder="optional" {...field} />
                     </FormControl>
