@@ -21,6 +21,7 @@ import { useForm } from "react-hook-form"
 
 import { Check, ChevronDownIcon, Locate } from "lucide-react"
 import osm2geojson from "osm2geojson-lite"
+import { toast } from "sonner"
 
 import {
   type NameFormSchema,
@@ -62,6 +63,8 @@ import { zodResolver } from "@hookform/resolvers/zod"
 const CF_PROXY_BASE = "https://842b7960.aviary-assistant.pages.dev"
 
 const ERROR_FETCH = "Ein Fehler ist aufgetreten – versuche es erneut"
+const ERROR_OVERPASS_TOAST =
+  "Anfrage blockiert – deaktiviere ggf. deinen VPN und versuche es erneut"
 
 export function NameForm() {
   const {
@@ -137,6 +140,7 @@ export function NameForm() {
       return overpassData
     } catch (error) {
       console.error("Error fetching data from Overpass API: ", error)
+      toast.error(ERROR_OVERPASS_TOAST)
       throw error
     } finally {
       clearTimeout(timeoutId)
