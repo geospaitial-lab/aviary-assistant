@@ -145,7 +145,7 @@ function mapSieveFillStrengthToThreshold(
 ): number {
   const gsd = parseFloat(groundSamplingDistance)
   const factor = strength === "schwach" ? 5 : strength === "moderat" ? 10 : 20
-  return gsd * factor
+  return factor / gsd
 }
 
 function mapSimplifyThreshold(groundSamplingDistance: string): number {
@@ -387,6 +387,7 @@ function parseTileFetcherConfig(store: Store): string[] {
       const version = formValues.version
       const layer = formValues.layer
       const format = mapWmsFormatToMimeType(formValues.format)
+      const time = formValues.time
       const style = formValues.style
 
       tileFetcherConfigLines.push(indent(7, "- package: 'aviary'"))
@@ -408,6 +409,11 @@ function parseTileFetcherConfig(store: Store): string[] {
           `ground_sampling_distance: ${parseFloat(groundSamplingDistance)}`,
         ),
       )
+      if (time.trim().length > 0) {
+        tileFetcherConfigLines.push(indent(9, `time: '${time}'`))
+      } else {
+        tileFetcherConfigLines.push(indent(9, "time: null"))
+      }
       if (style.trim().length > 0) {
         tileFetcherConfigLines.push(indent(9, `style: '${style}'`))
       } else {
@@ -474,6 +480,7 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(9, "r_channel_name: 'r'"))
   tilesProcessorConfigLines.push(indent(9, "g_channel_name: 'g'"))
   tilesProcessorConfigLines.push(indent(9, "b_channel_name: 'b'"))
+  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
 
   tilesProcessorConfigLines.push(indent(7, "- package: 'aviary_models'"))
   tilesProcessorConfigLines.push(indent(8, "name: 'Sursentia'"))
@@ -496,7 +503,7 @@ function parseTilesProcessorConfig(): string[] {
     indent(9, `solar_channel_name: ${model2 ? "'sursentia_solar'" : "null"}`),
   )
   tilesProcessorConfigLines.push(indent(9, "batch_size: 1"))
-  tilesProcessorConfigLines.push(indent(9, "version: '1.0'"))
+  tilesProcessorConfigLines.push(indent(9, "version: '2.0'"))
   tilesProcessorConfigLines.push(indent(9, "device: *device"))
   if (dirPath && dirPath.trim().length > 0) {
     tilesProcessorConfigLines.push(
@@ -512,10 +519,20 @@ function parseTilesProcessorConfig(): string[] {
   tilesProcessorConfigLines.push(indent(8, "name: 'RemoveBufferProcessor'"))
   tilesProcessorConfigLines.push(indent(8, "config:"))
 
+  const gsd = store.data.global.formValues.groundSamplingDistance
+  const strength = store.postprocessing.formValues.sieveFillThreshold
+  const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
   const epsgCode = store.data.global.formValues.epsgCode
 
   const maybeAddVectorProcessors = (channelKey: string) => {
     const backgroundValue = channelKey === "sursentia_solar" ? 0 : "null"
+
+    tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
+    tilesProcessorConfigLines.push(indent(8, "name: 'SieveProcessor'"))
+    tilesProcessorConfigLines.push(indent(8, "config:"))
+    tilesProcessorConfigLines.push(indent(9, `channel_name: '${channelKey}'`))
+    tilesProcessorConfigLines.push(indent(9, `threshold: ${threshold}`))
+
     tilesProcessorConfigLines.push(indent(7, "- package: 'aviary'"))
     tilesProcessorConfigLines.push(indent(8, "name: 'VectorizeProcessor'"))
     tilesProcessorConfigLines.push(indent(8, "config:"))
@@ -693,8 +710,6 @@ function parseVectorProcessorConfig(
   const { model1, model2 } = store.model.formValues
 
   const gsd = store.data.global.formValues.groundSamplingDistance
-  const strength = store.postprocessing.formValues.sieveFillThreshold
-  const threshold = mapSieveFillStrengthToThreshold(gsd, strength)
   const simplify = store.postprocessing.formValues.simplify
   const simplifyThreshold = mapSimplifyThreshold(gsd)
 
@@ -779,18 +794,6 @@ function parseVectorProcessorConfig(
     lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
     lines.push(indent(9, "mask_layer_name: 'area'"))
 
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_landcover'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
     if (simplify) {
       lines.push(indent(7, "- package: 'aviary'"))
       lines.push(indent(8, "name: 'SimplifyProcessor'"))
@@ -820,18 +823,6 @@ function parseVectorProcessorConfig(
     lines.push(indent(8, "config:"))
     lines.push(indent(9, "layer_name: 'sursentia_solar'"))
     lines.push(indent(9, "mask_layer_name: 'area'"))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'SieveProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
-
-    lines.push(indent(7, "- package: 'aviary'"))
-    lines.push(indent(8, "name: 'FillProcessor'"))
-    lines.push(indent(8, "config:"))
-    lines.push(indent(9, "layer_name: 'sursentia_solar'"))
-    lines.push(indent(9, `threshold: ${threshold}`))
 
     if (simplify) {
       lines.push(indent(7, "- package: 'aviary'"))

@@ -22,6 +22,7 @@ import "@/app/globals.css"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 import { Toaster } from "@/components/ui/sonner"
+import { V2Banner } from "@/components/v2-banner"
 
 export default function AssistantLayout({
   children,
@@ -37,6 +38,7 @@ export default function AssistantLayout({
           ),
         }}
       />
+      <V2Banner />
       <Header />
       <div className="min-h-screen flex flex-col">
         <main className="flex-1 mb-32">{children}</main>

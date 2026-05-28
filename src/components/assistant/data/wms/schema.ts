@@ -24,6 +24,7 @@ export const wmsFormSchema = z.object({
   version: z.enum(["1.1.1", "1.3.0"]),
   layer: z.string().min(1, ERROR_LAYER),
   format: z.enum(["JPEG", "PNG", "TIFF"]),
+  time: z.string(),
   style: z.string(),
 })
 

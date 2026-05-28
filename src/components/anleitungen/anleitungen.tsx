@@ -27,7 +27,7 @@ import {
 
 const CREATE_VENV_PIP = "python -m venv venv"
 
-const CREATE_VENV_UV = "uv venv venv --python 3.12"
+const CREATE_VENV_UV = "uv venv venv --python 3.13"
 
 const ACTIVATE_VENV = {
   "Linux und macOS": "source venv/bin/activate",
@@ -84,7 +84,7 @@ export function Anleitungen() {
                       showArrow
                       className="hover:text-foreground"
                     >
-                      Python 3.12
+                      Python 3.13
                     </Link>{" "}
                     – falls noch nicht vorhanden – und erstelle eine virtuelle
                     Umgebung.

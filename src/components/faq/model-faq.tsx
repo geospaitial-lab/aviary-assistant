@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -36,10 +36,6 @@ export function ModelFaq() {
             Die Ausführung der Modelle erfolgt sequentiell – es sind keine
             zusätzlichen Ressourcen nötig, die Laufzeit verlängert sich
             lediglich.
-            <br />
-            Gemeinsame Berechnungen werden dabei sogar geteilt. Daher ist die
-            Gesamtdauer kürzer, als wenn du zwei Pipelines mit je einem Modell
-            starten würdest.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

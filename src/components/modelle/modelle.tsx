@@ -17,7 +17,7 @@
 
 export function Modelle() {
   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || ""
-  const imageSrc = `${basePath}/images/sursentia.webp`
+  const imageSrc = `${basePath}/images/sursentia_v2.webp`
 
   return (
     <div className="@container">
@@ -51,8 +51,11 @@ export function Modelle() {
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Landcover</p>
           <p className="text-sm text-muted-foreground mb-4">
-            Erkennt Gebäude, Gründächer, versiegelte Flächen, nicht versiegelte
-            Flächen und Gewässer.
+            Erkennt verschiedene Arten von Gebäuden (Flach-, Schräg-, Gründach),
+            versiegelten Flächen (Verkehrsfläche, Gleis, Pool, sonstige
+            versiegelte Fläche) und nicht versiegelten Flächen (Vegetation,
+            Agrarfläche, nicht versiegelter Weg, Gewässer, sonstige nicht
+            versiegelte Fläche).
           </p>
           <p className="text-lg font-semibold mb-2">Sursentia Solar</p>
           <p className="text-sm text-muted-foreground mb-4">
