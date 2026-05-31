@@ -1,7 +1,7 @@
 "use client"
 
 /*
- * Copyright (C) 2025 Marius Maryniak
+ * Copyright (C) 2025-2026 Marius Maryniak
  *
  * This file is part of aviary-assistant.
  *
@@ -78,6 +78,15 @@ export function ResumeAlert({ onReset }: ResumeAlertProps) {
   ]
 
   React.useEffect(() => {
+    const VERSION = "2"
+    const currentVersion = localStorage.getItem("assistant-version")
+
+    if (currentVersion !== VERSION) {
+      handleReset()
+      localStorage.setItem("assistant-version", VERSION)
+      return
+    }
+
     const hasExistingSession = storeKeys.some((key) => {
       if (key === "assistant-storage") {
         return false
